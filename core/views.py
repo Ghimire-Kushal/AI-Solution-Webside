@@ -90,7 +90,19 @@ def chat_api(request):
             idx = int(hashlib.md5(user_message.encode()).hexdigest(), 16) % len(demo_replies)
             return JsonResponse({'response': demo_replies[idx], 'mode': 'demo'})
 
-        from google import genai as google_genai
+        try:
+            from google import genai as google_genai
+        except ImportError:
+            return JsonResponse({
+                'response': (
+                    "Hi! I'm Aria, AI-Solutions' virtual assistant. "
+                    "Our services include AI Virtual Assistants, Workflow Automation, Data Analytics, "
+                    "AI Security Monitoring, and Custom AI Development. "
+                    "To chat with me live, please ensure the server is running inside the Python virtual environment. "
+                    "Contact us at hello@ai-solutions.com for assistance."
+                ),
+                'mode': 'demo'
+            })
 
         client = google_genai.Client(api_key=settings.GEMINI_API_KEY)
 
@@ -108,11 +120,27 @@ def chat_api(request):
             f"User message: {user_message}"
         )
 
-        response = client.models.generate_content(
-            model='gemini-2.0-flash',
-            contents=system_context,
-        )
-        return JsonResponse({'response': response.text, 'mode': 'live'})
+        # Try models in order — each has its own free-tier quota bucket
+        for model_name in ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite']:
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=system_context,
+                )
+                return JsonResponse({'response': response.text, 'mode': 'live'})
+            except Exception as model_err:
+                err_str = str(model_err)
+                if '429' in err_str or 'RESOURCE_EXHAUSTED' in err_str or 'quota' in err_str.lower():
+                    continue  # try next model
+                raise  # re-raise non-quota errors
+
+        # All models quota-exhausted
+        return JsonResponse({
+            'response': (
+                "I'm a little busy right now! Please send your message again in a moment, "
+                "or reach us directly at hello@ai-solutions.com — we'd love to help."
+            )
+        })
 
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
