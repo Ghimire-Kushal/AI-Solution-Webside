@@ -1,0 +1,86 @@
+{% load static %}
+<footer class="main-footer">
+  <div class="container">
+    <div class="row g-5">
+
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-brand">
+          <a href="{% url 'home' %}" class="d-inline-block mb-3">
+            <img src="{% static 'images/logo.svg' %}" alt="AI-Solutions" height="45">
+          </a>
+          <p>
+            Empowering digital workplaces with intelligent AI technologies.
+            Innovate smarter. Support better. Empower your team.
+          </p>
+          <div class="social-links">
+            <a href="{{ settings.linkedin_url|default:'#' }}" class="social-link" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="{{ settings.twitter_url|default:'#' }}" class="social-link" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="{{ settings.facebook_url|default:'#' }}" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="{{ settings.github_url|default:'#' }}" class="social-link" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-6 col-6">
+        <h6 class="footer-heading">Company</h6>
+        <ul class="footer-links">
+          <li><a href="{% url 'home' %}"><i class="bi bi-chevron-right"></i>Home</a></li>
+          <li><a href="{% url 'about' %}"><i class="bi bi-chevron-right"></i>About Us</a></li>
+          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>Portfolio</a></li>
+          <li><a href="{% url 'blog' %}"><i class="bi bi-chevron-right"></i>Blog</a></li>
+          <li><a href="{% url 'events' %}"><i class="bi bi-chevron-right"></i>Events</a></li>
+          <li><a href="{% url 'feedback' %}"><i class="bi bi-chevron-right"></i>Reviews</a></li>
+          <li><a href="{% url 'contact' %}"><i class="bi bi-chevron-right"></i>Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-6">
+        <h6 class="footer-heading">Solutions</h6>
+        <ul class="footer-links">
+          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>HealthSync AI</a></li>
+          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>RetailMind</a></li>
+          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>EduNova</a></li>
+          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>FleetPilot AI</a></li>
+          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>SecureVision</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h6 class="footer-heading">Contact</h6>
+        <div class="footer-contact-item">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>{{ settings.address|default:"Kathmandu, Nepal" }}</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-envelope-fill"></i>
+          <span>{{ settings.email|default:"hello@ai-solutions.com" }}</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-telephone-fill"></i>
+          <span>{{ settings.phone|default:"+977 98XXXXXXXX" }}</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-clock-fill"></i>
+          <span>Sun–Fri, 9:00 AM – 6:00 PM</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p>&copy; {% now "Y" %} {{ settings.site_name|default:"AI-Solutions" }}. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p>
+            <a href="#" class="text-muted me-3" style="font-size:.78rem;">Privacy Policy</a>
+            <a href="#" class="text-muted" style="font-size:.78rem;">Terms of Service</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

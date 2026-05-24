@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Portfolio | AI-Solutions{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Portfolio</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Service Portfolio</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Our AI <span class="gradient-text">Solutions Portfolio</span></h1>
+    <p class="section-subtitle mx-auto">Five enterprise AI implementations across healthcare, retail, education, logistics, and security — each solving a unique set of real-world challenges.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+
+    {% for service in portfolio %}
+    <div class="row g-5 align-items-center mb-5 {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %}">
+
+      <!-- Icon Panel -->
+      <div class="col-lg-4 fade-up">
+        <div style="background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-1);"></div>
+          <div style="width:80px;height:80px;border-radius:20px;background:rgba(46,134,222,0.1);border:1px solid rgba(46,134,222,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:2rem;">
+            <i class="bi {{ service.icon }}" style="color:#89C2FF;"></i>
+          </div>
+          <span class="portfolio-tag">{{ service.get_category_display }}</span>
+          {% if service.client_name %}
+          <p style="font-size:.85rem;color:var(--text-muted);margin:0.5rem 0 0;">
+            <i class="bi bi-building" style="color:var(--primary);"></i> {{ service.client_name }}
+          </p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Content Panel -->
+      <div class="col-lg-8 fade-up" style="transition-delay:.1s;">
+        <div class="section-badge">{{ service.get_category_display }}</div>
+        <h2 style="font-size:1.75rem;font-weight:800;color:#fff;margin-bottom:.75rem;">{{ service.title }}</h2>
+        <p style="font-size:.95rem;color:var(--text-muted);line-height:1.85;margin-bottom:1.5rem;">{{ service.description }}</p>
+
+        <h6 style="font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#556677;margin-bottom:.75rem;">Key Features</h6>
+        <ul class="feature-list">
+          {% for feature in service.features %}
+          <li>{{ feature }}</li>
+          {% endfor %}
+        </ul>
+
+        <a href="{% url 'contact' %}" class="btn-primary-custom mt-3" style="display:inline-flex;">
+          <i class="bi bi-envelope"></i> Request This Solution
+        </a>
+      </div>
+
+    </div>
+
+    {% if not forloop.last %}
+    <hr style="border-color:var(--dark-border);margin:3rem 0;">
+    {% endif %}
+    {% empty %}
+    <div class="text-center py-5">
+      <p style="color:var(--text-muted);">Portfolio projects will appear here once added by an admin.</p>
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container position-relative text-center fade-up">
+    <div class="section-badge">Custom Solutions</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">Don't See Your Industry?</h2>
+    <p class="section-subtitle mx-auto">We build custom AI solutions for any sector. Tell us your challenges and we will design the right solution.</p>
+    <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
+      <i class="bi bi-chat-dots-fill"></i> Discuss Your Project
+    </a>
+  </div>
+</section>
+
+{% endblock %}

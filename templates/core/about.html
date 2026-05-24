@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block title %}About Us | AI-Solutions{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">About</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Who We Are</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Built to Innovate.<br>Driven to <span class="gradient-text">Empower.</span></h1>
+    <p class="section-subtitle mx-auto">AI-Solutions is a forward-thinking startup based in Kathmandu, Nepal, with global ambitions. We make AI practical, affordable, and impactful for real businesses.</p>
+  </div>
+</div>
+
+<!-- ════ Mission & Vision ════ -->
+<section>
+  <div class="container">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-md-4 fade-up">
+        <div class="value-card h-100">
+          <div class="value-icon mx-auto" style="background:rgba(46,134,222,0.1);border:1px solid rgba(46,134,222,0.2);">💡</div>
+          <h5>Our Mission</h5>
+          <p style="font-size:.88rem;color:var(--text-muted);line-height:1.8;">
+            To empower organisations across every industry with AI technologies that are intelligent, accessible, and genuinely transformative — improving how people work every single day.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-up" style="transition-delay:.1s;">
+        <div class="value-card h-100" style="border-color:rgba(46,134,222,0.25);">
+          <div class="value-icon mx-auto" style="background:rgba(137,194,255,0.08);border:1px solid rgba(137,194,255,0.2);">🌏</div>
+          <h5>Our Vision</h5>
+          <p style="font-size:.88rem;color:var(--text-muted);line-height:1.8;">
+            To become a globally recognised AI solutions company — starting in Nepal, expanding to Sunderland, UK, and serving enterprises across continents with smart, human-centred AI.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-up" style="transition-delay:.2s;">
+        <div class="value-card h-100">
+          <div class="value-icon mx-auto" style="background:rgba(27,79,114,0.2);border:1px solid rgba(46,134,222,0.2);">🤝</div>
+          <h5>Our Promise</h5>
+          <p style="font-size:.88rem;color:var(--text-muted);line-height:1.8;">
+            Every client gets dedicated support, transparent communication, and solutions that are built around their specific needs — not generic templates. We succeed when you succeed.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ Tagline ════ -->
+<section class="why-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9 text-center fade-up">
+        <div class="section-badge">Our Tagline</div>
+        <h2 class="section-title" style="font-size:clamp(2rem,5vw,3.5rem);">
+          <span class="gradient-text">Innovate.</span>
+          <span style="color:#fff;"> Support.</span>
+          <span class="gradient-text"> Empower.</span>
+        </h2>
+        <p class="section-subtitle mx-auto">
+          These three words define how we approach every project. We bring innovative ideas, unwavering support,
+          and a genuine commitment to empowering your team through AI.
+        </p>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+      <div class="col-md-4 fade-up">
+        <div class="service-card text-center">
+          <div class="service-icon mx-auto" style="font-size:1.8rem;">🚀</div>
+          <h5>Innovate</h5>
+          <p>We push boundaries with cutting-edge AI research and practical implementations that solve real business challenges in new ways.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-up" style="transition-delay:.1s;">
+        <div class="service-card text-center">
+          <div class="service-icon mx-auto" style="font-size:1.8rem;">🛟</div>
+          <h5>Support</h5>
+          <p>From day one through deployment and beyond — our team provides 24/7 technical support and a dedicated account manager for every client.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-up" style="transition-delay:.2s;">
+        <div class="service-card text-center">
+          <div class="service-icon mx-auto" style="font-size:1.8rem;">⚡</div>
+          <h5>Empower</h5>
+          <p>We hand teams the tools, training, and intelligence they need to make better decisions, faster — putting the power of AI directly in their hands.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ Team ════ -->
+<section>
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="section-badge">Our Team</div>
+      <h2 class="section-title">The People Behind AI-Solutions</h2>
+      <p class="section-subtitle mx-auto">A lean, skilled team of developers, AI engineers, and business strategists committed to delivering quality.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for member in "1234"|make_list %}
+      {% with members_data="Lead Developer,AI Engineer,QA Specialist,Expert Advisor" %}
+      {% with names="Pratik Rauniyar,Rishav Chudal,Team QA,Expert Support" %}
+      <div class="col-lg-3 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <div class="testimonial-card text-center">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.6rem;color:#fff;font-weight:800;">
+            {{ forloop.counter }}
+          </div>
+          <h6 style="font-size:.95rem;font-weight:700;margin-bottom:3px;">
+            {% if forloop.counter == 1 %}Pratik Rauniyar
+            {% elif forloop.counter == 2 %}Rishav Chudal
+            {% elif forloop.counter == 3 %}QA Specialist
+            {% else %}Expert Advisor{% endif %}
+          </h6>
+          <p style="font-size:.78rem;color:var(--secondary);margin-bottom:.75rem;">
+            {% if forloop.counter == 1 %}Lead Developer
+            {% elif forloop.counter == 2 %}Client / Project Lead
+            {% elif forloop.counter == 3 %}Quality Assurance
+            {% else %}Technical Expert{% endif %}
+          </p>
+          <p style="font-size:.83rem;color:var(--text-muted);margin:0;">Building intelligent, scalable solutions that deliver measurable business value.</p>
+        </div>
+      </div>
+      {% endwith %}{% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA ════ -->
+<section class="cta-section">
+  <div class="container position-relative text-center fade-up">
+    <div class="section-badge">Work With Us</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">
+      Have a Project in Mind?
+    </h2>
+    <p class="section-subtitle mx-auto">We would love to discuss how AI-Solutions can help transform your organisation.</p>
+    <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
+      <i class="bi bi-envelope-fill"></i> Get In Touch
+    </a>
+  </div>
+</section>
+
+{% endblock %}

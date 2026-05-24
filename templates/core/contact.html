@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us | AI-Solutions{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Contact</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Get In Touch</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Let's <span class="gradient-text">Start a Conversation</span></h1>
+    <p class="section-subtitle mx-auto">Whether you have a project idea, a question, or want to book a free consultation — we are here and ready to help.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} d-flex align-items-center gap-2 mb-4" role="alert" style="background:rgba({% if message.tags == 'error' %}239,68,68{% else %}34,197,94{% endif %},0.1);border:1px solid rgba({% if message.tags == 'error' %}239,68,68{% else %}34,197,94{% endif %},0.25);border-radius:12px;color:{% if message.tags == 'error' %}#ef4444{% else %}#22c55e{% endif %};">
+      <i class="bi bi-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}-fill"></i>
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="row g-5">
+
+      <!-- Left: Info -->
+      <div class="col-lg-4">
+        <div class="contact-info-card fade-up">
+          <h4 style="font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;color:#fff;">Contact Information</h4>
+
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+            <div>
+              <h6>Address</h6>
+              <p>{{ settings.address|default:"Kathmandu, Nepal" }}</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+            <div>
+              <h6>Email</h6>
+              <p>{{ settings.email|default:"hello@ai-solutions.com" }}</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+            <div>
+              <h6>Phone</h6>
+              <p>{{ settings.phone|default:"+977 98XXXXXXXX" }}</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="bi bi-clock-fill"></i></div>
+            <div>
+              <h6>Business Hours</h6>
+              <p>Sunday – Friday<br>9:00 AM – 6:00 PM (NST)</p>
+            </div>
+          </div>
+
+          <hr style="border-color:var(--dark-border);margin:1.5rem 0;">
+
+          <h6 style="font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:1rem;">Follow Us</h6>
+          <div class="social-links">
+            <a href="{{ settings.linkedin_url|default:'#' }}" class="social-link"><i class="bi bi-linkedin"></i></a>
+            <a href="{{ settings.twitter_url|default:'#' }}" class="social-link"><i class="bi bi-twitter-x"></i></a>
+            <a href="{{ settings.facebook_url|default:'#' }}" class="social-link"><i class="bi bi-facebook"></i></a>
+            <a href="{{ settings.github_url|default:'#' }}" class="social-link"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="col-lg-8 fade-up" style="transition-delay:.1s;">
+        <div class="contact-form-card">
+          <h4 style="font-size:1.1rem;font-weight:700;margin-bottom:.5rem;color:#fff;">Send Us a Message</h4>
+          <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1.75rem;">We will respond within 24 business hours.</p>
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name <span style="color:#ef4444;">*</span></label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                <div style="font-size:.78rem;color:#ef4444;margin-top:4px;">{{ form.name.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address <span style="color:#ef4444;">*</span></label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div style="font-size:.78rem;color:#ef4444;margin-top:4px;">{{ form.email.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone Number <span style="color:var(--text-muted);">(optional)</span></label>
+                {{ form.phone }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Subject <span style="color:#ef4444;">*</span></label>
+                {{ form.subject }}
+                {% if form.subject.errors %}
+                <div style="font-size:.78rem;color:#ef4444;margin-top:4px;">{{ form.subject.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message <span style="color:#ef4444;">*</span></label>
+                {{ form.message }}
+                {% if form.message.errors %}
+                <div style="font-size:.78rem;color:#ef4444;margin-top:4px;">{{ form.message.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-primary-custom w-100 justify-content-center">
+                  <i class="bi bi-send-fill"></i> Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

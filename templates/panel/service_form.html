@@ -1,0 +1,67 @@
+{% extends 'panel/base_panel.html' %}
+{% block title %}{{ action }} Service{% endblock %}
+{% block page_title %}{{ action }} Portfolio Service{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <a href="{% url 'panel_services' %}" style="color:var(--text-muted);font-size:.85rem;">
+    <i class="bi bi-arrow-left me-1"></i> Back to Services
+  </a>
+</div>
+
+<div class="panel-card" style="max-width:760px;">
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+  <h5 style="color:#fff;font-weight:700;margin-bottom:1.75rem;">{{ action }} Service / Portfolio Item</h5>
+
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-8">
+        <label class="form-label">Title *</label>{{ form.title }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Slug *</label>{{ form.slug }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Category</label>{{ form.category }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Client Name</label>{{ form.client_name }}
+      </div>
+      <div class="col-12">
+        <label class="form-label">Short Description *</label>{{ form.short_description }}
+      </div>
+      <div class="col-12">
+        <label class="form-label">Full Description *</label>{{ form.description }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Bootstrap Icon Class</label>{{ form.icon }}
+        <small style="color:#445566;font-size:.75rem;">e.g. bi-heart-pulse — find icons at <a href="https://icons.getbootstrap.com" target="_blank" style="color:var(--secondary);">icons.getbootstrap.com</a></small>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Display Order</label>{{ form.order }}
+      </div>
+      <div class="col-md-3 d-flex align-items-end">
+        <div class="form-check mb-2">
+          {{ form.is_featured }}
+          <label class="form-check-label" style="color:#c0d0e0;font-size:.9rem;">Featured</label>
+        </div>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Image (optional)</label>{{ form.image }}
+      </div>
+      <div class="col-12">
+        <div style="background:rgba(46,134,222,0.06);border:1px solid rgba(46,134,222,0.15);border-radius:10px;padding:1rem;">
+          <label class="form-label" style="color:var(--secondary);">Features (JSON Array)</label>
+          <textarea name="features" class="form-control" rows="5" style="font-family:monospace;font-size:.83rem;">{{ form.instance.features|default:'["Feature 1","Feature 2","Feature 3"]' }}</textarea>
+          <small style="color:#445566;font-size:.73rem;">Format: ["Feature 1", "Feature 2", "Feature 3"]</small>
+        </div>
+      </div>
+      <div class="col-12 mt-2">
+        <button type="submit" class="btn-primary-custom"><i class="bi bi-check-lg"></i> Save Service</button>
+        <a href="{% url 'panel_services' %}" class="btn-outline-custom ms-2">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

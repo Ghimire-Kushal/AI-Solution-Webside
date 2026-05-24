@@ -1,0 +1,53 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg main-navbar fixed-top" id="mainNavbar">
+  <div class="container">
+
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home' %}">
+      <img src="{% static 'images/logo.svg' %}" alt="AI-Solutions" height="40">
+    </a>
+
+    <button class="navbar-toggler border-0" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+             href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+             href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}"
+             href="{% url 'services' %}">Portfolio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'blog' %}active{% endif %}"
+             href="{% url 'blog' %}">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'events' %}active{% endif %}"
+             href="{% url 'events' %}">Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'feedback' %}active{% endif %}"
+             href="{% url 'feedback' %}">Reviews</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+             href="{% url 'contact' %}">Contact</a>
+        </li>
+      </ul>
+
+      <a href="#ai-assistant" class="btn btn-nav-cta ms-lg-3 mt-2 mt-lg-0">
+        <i class="bi bi-robot me-1"></i> Try AI Aria
+      </a>
+    </div>
+
+  </div>
+</nav>

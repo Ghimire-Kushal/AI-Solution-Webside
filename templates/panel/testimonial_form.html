@@ -1,0 +1,29 @@
+{% extends 'panel/base_panel.html' %}
+{% block title %}{{ action }} Testimonial{% endblock %}
+{% block page_title %}{{ action }} Testimonial{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'panel_testimonials' %}" style="color:var(--text-muted);font-size:.85rem;"><i class="bi bi-arrow-left me-1"></i> Back to Testimonials</a></div>
+<div class="panel-card" style="max-width:640px;position:relative;">
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+  <h5 style="color:#fff;font-weight:700;margin-bottom:1.75rem;">{{ action }} Client Testimonial</h5>
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6"><label class="form-label">Client Name *</label>{{ form.name }}</div>
+      <div class="col-md-6"><label class="form-label">Role / Title</label>{{ form.role }}</div>
+      <div class="col-md-6"><label class="form-label">Company *</label>{{ form.company }}</div>
+      <div class="col-md-3"><label class="form-label">Rating (1–5) *</label>{{ form.rating }}</div>
+      <div class="col-md-3"><label class="form-label">Project Name</label>{{ form.project_name }}</div>
+      <div class="col-12"><label class="form-label">Testimonial Content *</label>{{ form.content }}</div>
+      <div class="col-md-8"><label class="form-label">Photo (optional)</label>{{ form.photo }}</div>
+      <div class="col-md-4 d-flex align-items-end">
+        <div class="form-check mb-2">{{ form.is_active }}<label class="form-check-label" style="color:#c0d0e0;font-size:.9rem;"> Show Publicly</label></div>
+      </div>
+      <div class="col-12 mt-2">
+        <button type="submit" class="btn-primary-custom"><i class="bi bi-check-lg"></i> Save Testimonial</button>
+        <a href="{% url 'panel_testimonials' %}" class="btn-outline-custom ms-2">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}Client Reviews | AI-Solutions{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Reviews</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Client Feedback</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Customer <span class="gradient-text">Ratings &amp; Reviews</span></h1>
+    <p class="section-subtitle mx-auto">Honest feedback from the enterprises that trusted AI-Solutions to transform their workflows with intelligent AI.</p>
+
+    <!-- Overall Rating Summary -->
+    <div class="d-flex justify-content-center gap-5 flex-wrap mt-4">
+      <div class="text-center">
+        <div style="font-size:3rem;font-weight:900;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">4.8</div>
+        <div class="star-rating mb-1">★★★★★</div>
+        <div style="font-size:.8rem;color:var(--text-muted);">Average Rating</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size:3rem;font-weight:900;color:#89C2FF;">{{ testimonials.count }}</div>
+        <div style="font-size:.8rem;color:var(--text-muted);margin-top:.5rem;">Client Reviews</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size:3rem;font-weight:900;color:#22c55e;">100%</div>
+        <div style="font-size:.8rem;color:var(--text-muted);margin-top:.5rem;">Would Recommend</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="row g-4">
+      {% for t in testimonials %}
+      <div class="col-lg-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <div class="testimonial-card h-100">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="star-rating" style="font-size:1rem;">
+              {% for i in "12345" %}
+                {% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}
+              {% endfor %}
+            </div>
+            <div class="rating-badge">
+              <i class="bi bi-star-fill"></i> {{ t.rating }} / 5
+            </div>
+          </div>
+
+          <blockquote style="font-size:.95rem;color:#c0d0e0;line-height:1.85;font-style:italic;margin-bottom:1.5rem;border-left:3px solid var(--primary);padding-left:1rem;">
+            "{{ t.content }}"
+          </blockquote>
+
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+              <div style="width:48px;height:48px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem;flex-shrink:0;">
+                {{ t.name|first }}
+              </div>
+              <div>
+                <div style="font-weight:700;color:#fff;font-size:.95rem;">{{ t.name }}</div>
+                <div style="font-size:.8rem;color:var(--text-muted);">{{ t.role }}{% if t.role and t.company %}, {% endif %}{{ t.company }}</div>
+              </div>
+            </div>
+            {% if t.project_name %}
+            <span style="background:rgba(46,134,222,0.1);color:var(--secondary);padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;border:1px solid rgba(46,134,222,0.2);">
+              {{ t.project_name }}
+            </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-chat-quote" style="font-size:3rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>
+        <p style="color:var(--text-muted);">Client reviews will appear here.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container position-relative text-center fade-up">
+    <div class="section-badge">Join Our Clients</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">Ready to Be Our Next Success Story?</h2>
+    <p class="section-subtitle mx-auto">Start with a free consultation. No commitment required.</p>
+    <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
+      <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
+    </a>
+  </div>
+</section>
+
+{% endblock %}

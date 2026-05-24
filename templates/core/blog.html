@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Blog & Gallery | AI-Solutions{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Blog & Gallery</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Insights & Media</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Blog &amp; <span class="gradient-text">Gallery</span></h1>
+    <p class="section-subtitle mx-auto">AI insights, case study articles, and a visual gallery of our work and events.</p>
+
+    <!-- Tab Toggle -->
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <button class="btn btn-primary-custom" id="btn-blog" onclick="showTab('blog')">
+        <i class="bi bi-newspaper"></i> Blog Articles
+      </button>
+      <button class="btn btn-outline-custom" id="btn-gallery" onclick="showTab('gallery')">
+        <i class="bi bi-images"></i> Photo Gallery
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Section -->
+<section id="tab-blog">
+  <div class="container">
+    <div class="row g-4">
+      {% for post in posts %}
+      <div class="col-lg-4 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <div class="blog-card h-100">
+          {% if post.image %}
+          <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-card-img">
+          {% else %}
+          <div class="blog-card-img"><i class="bi bi-newspaper"></i></div>
+          {% endif %}
+          <div class="blog-card-body">
+            <span class="blog-category">{{ post.category|default:"AI Technology" }}</span>
+            <h5>{{ post.title }}</h5>
+            <p>{{ post.excerpt }}</p>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="blog-meta">
+                <i class="bi bi-person-fill"></i> {{ post.author }} &nbsp;·&nbsp;
+                <i class="bi bi-calendar3"></i> {{ post.published_at|date:"M d, Y" }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-newspaper" style="font-size:3rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>
+        <p style="color:var(--text-muted);">Blog posts will appear here once published by an admin.</p>
+        {% if request.user.is_staff %}
+        <a href="{% url 'panel_blog_add' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">Add First Post</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Gallery Section -->
+<section id="tab-gallery" style="display:none;">
+  <div class="container">
+    <div class="row g-3">
+      {% for img in gallery %}
+      <div class="col-lg-3 col-md-4 col-6 fade-up">
+        <div class="gallery-item">
+          <img src="{{ img.image.url }}" alt="{{ img.title }}">
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-images" style="font-size:3rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>
+        <p style="color:var(--text-muted);">Gallery images will appear here once uploaded by an admin.</p>
+        {% if request.user.is_staff %}
+        <a href="{% url 'panel_gallery' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">Upload Images</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function showTab(tab) {
+  document.getElementById('tab-blog').style.display    = tab === 'blog'    ? 'block' : 'none';
+  document.getElementById('tab-gallery').style.display = tab === 'gallery' ? 'block' : 'none';
+
+  document.getElementById('btn-blog').className    = tab === 'blog'    ? 'btn btn-primary-custom' : 'btn btn-outline-custom';
+  document.getElementById('btn-gallery').className = tab === 'gallery' ? 'btn btn-primary-custom' : 'btn btn-outline-custom';
+}
+</script>
+{% endblock %}

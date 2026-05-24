@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}AI-Solutions | Innovate · Support · Empower{% endblock %}
+{% block content %}
+
+<!-- ════════ HERO ════════ -->
+<section class="hero-section">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-6">
+        <div class="hero-badge"><span class="badge-dot"></span>AI-Powered Workplace Solutions</div>
+        <h1 class="hero-title">
+          Innovate Your Workplace with
+          <span class="gradient-text">Intelligent AI</span>
+        </h1>
+        <p class="hero-subtitle">
+          AI-Solutions delivers smart virtual assistants, workflow automation, and
+          data analytics — helping your team work smarter, not harder.
+        </p>
+        <div class="d-flex flex-wrap gap-3 mb-4">
+          <a href="{% url 'services' %}" class="btn-primary-custom">
+            <i class="bi bi-lightning-charge-fill"></i> View Portfolio
+          </a>
+          <a href="{% url 'about' %}" class="btn-outline-custom">
+            <i class="bi bi-play-circle"></i> Learn More
+          </a>
+        </div>
+        <p style="font-size:.82rem;color:#556677;">
+          Trusted by <strong style="color:#89C2FF;">500+</strong> companies ·
+          Delivered <strong style="color:#89C2FF;">5</strong> enterprise AI projects ·
+          <strong style="color:#89C2FF;">4.8/5</strong> avg client rating
+        </p>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="hero-visual position-relative">
+          <div class="stat-float-card stat-float-card-1">
+            <div style="width:34px;height:34px;border-radius:8px;background:rgba(46,134,222,0.15);display:flex;align-items:center;justify-content:center;">
+              <i class="bi bi-graph-up-arrow" style="color:#2E86DE;"></i>
+            </div>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9rem;">98.7%</div>
+              <div style="color:#8899aa;font-size:.72rem;">Uptime SLA</div>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="d-flex align-items-center gap-2">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1B4F72,#2E86DE);display:flex;align-items:center;justify-content:center;">
+                  <i class="bi bi-robot text-white"></i>
+                </div>
+                <div>
+                  <div style="font-weight:700;font-size:.85rem;color:#fff;">Aria — AI Assistant</div>
+                  <div style="font-size:.72rem;color:#22c55e;"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i> Online</div>
+                </div>
+              </div>
+              <span style="background:rgba(34,197,94,0.1);color:#22c55e;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;">Live</span>
+            </div>
+
+            <div class="ai-chat-bubble">👋 Hello! I'm Aria, AI-Solutions' virtual assistant. How can I help transform your workplace today?</div>
+            <div class="ai-chat-bubble user">Can you tell me about your healthcare AI solution?</div>
+            <div class="ai-chat-bubble">🏥 HealthSync AI automates appointment scheduling, predicts patient risks, and syncs records in real-time. Horizon Care saw a <strong>35% reduction</strong> in waiting times after deployment!</div>
+            <div class="d-flex align-items-center gap-2 mt-2">
+              <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1B4F72,#2E86DE);display:flex;align-items:center;justify-content:center;">
+                <i class="bi bi-robot text-white" style="font-size:.7rem;"></i>
+              </div>
+              <div class="typing-dots"><span></span><span></span><span></span></div>
+            </div>
+            <div class="d-flex gap-2 mt-3 pt-2 border-top" style="border-color:rgba(255,255,255,0.06)!important;">
+              <input type="text" class="form-control" placeholder="Ask Aria anything..." style="border-radius:10px;font-size:.85rem;" disabled>
+              <button class="btn" style="background:linear-gradient(135deg,#1B4F72,#2E86DE);border-radius:10px;padding:0 14px;">
+                <i class="bi bi-send-fill text-white"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="stat-float-card stat-float-card-2">
+            <div style="width:34px;height:34px;border-radius:8px;background:rgba(251,176,64,0.12);display:flex;align-items:center;justify-content:center;">
+              <i class="bi bi-star-fill" style="color:#FBB040;"></i>
+            </div>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9rem;">4.8 / 5</div>
+              <div style="color:#8899aa;font-size:.72rem;">Client Rating</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════ STATS BAR ════════ -->
+<div class="stats-section">
+  <div class="container">
+    <div class="row align-items-center text-center g-4">
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <span class="stat-number" data-target="500">500+</span>
+          <span class="stat-label">Companies Served</span>
+        </div>
+      </div>
+      <div class="col-md-auto d-none d-md-block"><div class="stat-divider"></div></div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <span class="stat-number" data-target="5">5</span>
+          <span class="stat-label">Enterprise Solutions</span>
+        </div>
+      </div>
+      <div class="col-md-auto d-none d-md-block"><div class="stat-divider"></div></div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <span class="stat-number" data-target="99" data-suffix="%">99%</span>
+          <span class="stat-label">AI Uptime SLA</span>
+        </div>
+      </div>
+      <div class="col-md-auto d-none d-md-block"><div class="stat-divider"></div></div>
+      <div class="col-6 col-md">
+        <div class="stat-item">
+          <span class="stat-number" data-target="48" data-suffix="h">48h</span>
+          <span class="stat-label">Avg. Support Response</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SERVICES PREVIEW ════════ -->
+<section id="services">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-badge">Our Solutions</div>
+      <h2 class="section-title">AI-Powered Solutions for<br>Every Industry</h2>
+      <p class="section-subtitle">From healthcare to logistics — we deliver tailored AI implementations that solve real business problems.</p>
+    </div>
+
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-lg-4 col-md-6 fade-up" style="transition-delay: {{ forloop.counter0 }}00ms;">
+        <div class="service-card">
+          <div class="service-icon"><i class="bi {{ service.icon }}"></i></div>
+          <h5>{{ service.title }}</h5>
+          <p>{{ service.short_description }}</p>
+          <a href="{% url 'services' %}" class="learn-more">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted">No services yet.</div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{% url 'services' %}" class="btn-primary-custom">
+        <i class="bi bi-grid-3x3-gap"></i> View Full Portfolio
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ WHY AI-SOLUTIONS ════════ -->
+<section class="why-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+
+      <div class="col-lg-6 fade-up">
+        <div style="background:var(--dark);border:1px solid var(--dark-border);border-radius:var(--radius-lg);padding:2.25rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);"></div>
+          <div class="section-badge mb-3">Our Results</div>
+          <h3 style="font-size:1.5rem;margin-bottom:1.5rem;">Measurable Impact.<br>Real Business Value.</h3>
+          <div class="row g-3">
+            <div class="col-6">
+              <div style="background:rgba(46,134,222,0.08);border:1px solid rgba(46,134,222,0.15);border-radius:12px;padding:1.25rem;text-align:center;">
+                <div style="font-size:1.75rem;font-weight:800;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">3x</div>
+                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">Faster Decisions</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div style="background:rgba(27,79,114,0.15);border:1px solid rgba(46,134,222,0.15);border-radius:12px;padding:1.25rem;text-align:center;">
+                <div style="font-size:1.75rem;font-weight:800;color:#89C2FF;">40%</div>
+                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">Cost Reduction</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:1.25rem;text-align:center;">
+                <div style="font-size:1.75rem;font-weight:800;color:#22c55e;">24/7</div>
+                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">AI Availability</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div style="background:rgba(251,176,64,0.06);border:1px solid rgba(251,176,64,0.12);border-radius:12px;padding:1.25rem;text-align:center;">
+                <div style="font-size:1.75rem;font-weight:800;color:#FBB040;">35%</div>
+                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">Waiting Time Down</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 fade-up" style="transition-delay:.15s;">
+        <div class="section-badge">Why Choose Us</div>
+        <h2 class="section-title">Designed for Real<br>Business Adoption</h2>
+        <p style="color:var(--text-muted);margin-bottom:1.75rem;line-height:1.85;font-size:.95rem;">
+          We do not just implement AI — we integrate it into your existing workflows thoughtfully,
+          ensuring your team actually uses and benefits from it.
+        </p>
+        <div class="feature-item">
+          <div class="feature-icon-wrap"><i class="bi bi-lightning-fill" style="color:#2E86DE;"></i></div>
+          <div>
+            <h6>Fast Deployment</h6>
+            <p>Go live in weeks, not months. Our pre-built modules accelerate AI rollout with zero disruption.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-wrap"><i class="bi bi-shield-check-fill" style="color:#22c55e;"></i></div>
+          <div>
+            <h6>OWASP-Compliant Security</h6>
+            <p>All data encrypted. Role-based access, audit logging, and full GDPR-readiness included.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-wrap"><i class="bi bi-puzzle-fill" style="color:#89C2FF;"></i></div>
+          <div>
+            <h6>Seamless Integrations</h6>
+            <p>Connects with Slack, Microsoft Teams, Salesforce, Google Workspace, and 100+ tools.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-wrap"><i class="bi bi-headset" style="color:#FBB040;"></i></div>
+          <div>
+            <h6>Dedicated Support</h6>
+            <p>Dedicated account manager and 24/7 technical support included in every plan.</p>
+          </div>
+        </div>
+        <a href="{% url 'about' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
+          Meet the Team <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════ AI ASSISTANT ════════ -->
+<section id="ai-assistant">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center fade-up">
+        <div class="section-badge">Live Demo</div>
+        <h2 class="section-title">Meet Aria — Your AI Workplace Assistant</h2>
+        <p class="section-subtitle">Powered by Google Gemini AI. Ask Aria about our services, request a demo, or get instant answers about AI for your business.</p>
+      </div>
+    </div>
+    <div class="row justify-content-center fade-up" style="transition-delay:.1s;">
+      <div class="col-lg-7">
+        <div class="hero-card" style="animation:none;">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center gap-3">
+              <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1B4F72,#2E86DE);display:flex;align-items:center;justify-content:center;">
+                <i class="bi bi-robot text-white" style="font-size:1.2rem;"></i>
+              </div>
+              <div>
+                <div style="font-weight:700;color:#fff;">Aria — AI Assistant</div>
+                <div style="font-size:.78rem;color:#22c55e;"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i> Online &amp; Ready</div>
+              </div>
+            </div>
+            <span style="font-size:.72rem;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:4px 12px;border-radius:20px;border:1px solid var(--dark-border);">
+              Powered by Gemini AI
+            </span>
+          </div>
+
+          <div id="chat-messages" style="min-height:180px;max-height:320px;overflow-y:auto;margin-bottom:1rem;">
+            <div class="ai-chat-bubble">
+              Hi! 👋 I'm Aria, AI-Solutions' virtual assistant. I can tell you about our services, portfolio projects, or how AI can transform your business. What would you like to know?
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <input type="text" id="chat-input" class="form-control" placeholder="Type your question here..." style="border-radius:12px;">
+            <button id="chat-send" class="btn px-3" style="background:linear-gradient(135deg,#1B4F72,#2E86DE);border-radius:12px;min-width:48px;">
+              <i class="bi bi-send-fill text-white"></i>
+            </button>
+          </div>
+          <p class="text-center mt-3 mb-0" style="font-size:.75rem;color:var(--text-muted);">
+            Add your Gemini API key to <code>.env</code> for live AI responses.
+            <a href="{% url 'contact' %}" style="color:var(--primary);">Request a demo →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ TESTIMONIALS ════════ -->
+<section class="why-section">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-badge">Client Reviews</div>
+      <h2 class="section-title">What Our Clients Say</h2>
+      <p class="section-subtitle">Real feedback from real enterprises that transformed their operations with AI-Solutions.</p>
+    </div>
+
+    <div class="row g-4">
+      {% for t in testimonials %}
+      <div class="col-lg-4 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <div class="testimonial-card">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="testimonial-quote">"</div>
+            <div class="rating-badge">
+              <i class="bi bi-star-fill"></i> {{ t.rating }}
+            </div>
+          </div>
+          <p>{{ t.content }}</p>
+          <div class="d-flex align-items-center gap-3">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0;">
+              {{ t.name|first }}
+            </div>
+            <div>
+              <div class="author-name">{{ t.name }}</div>
+              <div class="author-meta">{{ t.role }}{% if t.role %}, {% endif %}{{ t.company }}</div>
+              {% if t.project_name %}
+              <div style="font-size:.73rem;color:var(--secondary);margin-top:2px;">{{ t.project_name }}</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{% url 'feedback' %}" class="btn-outline-custom">
+        <i class="bi bi-chat-quote"></i> View All Reviews
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CTA ════════ -->
+<section class="cta-section">
+  <div class="container position-relative">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 text-center fade-up">
+        <div class="section-badge">Get Started</div>
+        <h2 class="section-title" style="font-size:clamp(2rem,4vw,3rem);">
+          Ready to Transform Your<br>Workplace with AI?
+        </h2>
+        <p class="section-subtitle mx-auto">
+          Join 500+ companies already saving time and money with AI-Solutions. Book your free consultation today.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+          <a href="{% url 'contact' %}" class="btn-primary-custom">
+            <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
+          </a>
+          <a href="{% url 'services' %}" class="btn-outline-custom">View Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const chatInput = document.getElementById('chat-input');
+const chatSend  = document.getElementById('chat-send');
+const chatMsgs  = document.getElementById('chat-messages');
+
+function addMsg(text, isUser=false) {
+  const d = document.createElement('div');
+  d.className = 'ai-chat-bubble' + (isUser ? ' user' : '');
+  d.textContent = text;
+  chatMsgs.appendChild(d);
+  chatMsgs.scrollTop = chatMsgs.scrollHeight;
+}
+
+async function sendMsg() {
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+  addMsg(msg, true);
+  chatInput.value = '';
+
+  try {
+    const res = await fetch("{% url 'chat_api' %}", {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-CSRFToken':'{{ csrf_token }}'},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+    addMsg(data.response || 'Sorry, I had trouble with that. Please try again.');
+  } catch {
+    addMsg('Connection issue. Please try again or email us at hello@ai-solutions.com');
+  }
+}
+
+chatSend.addEventListener('click', sendMsg);
+chatInput.addEventListener('keydown', e => { if(e.key==='Enter') sendMsg(); });
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'panel/base_panel.html' %}
+{% block title %}Portfolio Services{% endblock %}
+{% block page_title %}Portfolio / Services{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h5 style="color:#fff;font-weight:700;margin:0;">Services Portfolio</h5>
+    <p style="font-size:.82rem;color:var(--text-muted);margin:0;">{{ services.count }} service(s) total</p>
+  </div>
+  <a href="{% url 'panel_service_add' %}" class="btn-primary-custom" style="display:inline-flex;">
+    <i class="bi bi-plus-lg"></i> Add Service
+  </a>
+</div>
+
+<div class="panel-card">
+  <div class="table-responsive">
+    <table class="panel-table">
+      <thead>
+        <tr><th>Title</th><th>Category</th><th>Client</th><th>Featured</th><th>Order</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for s in services %}
+        <tr>
+          <td style="color:#fff;font-weight:500;">{{ s.title }}</td>
+          <td>{{ s.get_category_display }}</td>
+          <td>{{ s.client_name|default:"—" }}</td>
+          <td>{% if s.is_featured %}<span class="badge-published">Yes</span>{% else %}<span class="badge-read">No</span>{% endif %}</td>
+          <td>{{ s.order }}</td>
+          <td>
+            <a href="{% url 'panel_service_edit' s.pk %}" class="btn-panel-sm btn-panel-edit"><i class="bi bi-pencil"></i> Edit</a>
+            <form method="post" action="{% url 'panel_service_delete' s.pk %}" class="d-inline" onsubmit="return confirm('Delete {{ s.title }}?')">
+              {% csrf_token %}
+              <button type="submit" class="btn-panel-sm btn-panel-delete"><i class="bi bi-trash"></i> Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center" style="color:var(--text-muted);padding:2rem;">No services yet. <a href="{% url 'panel_service_add' %}" style="color:var(--secondary);">Add one →</a></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
