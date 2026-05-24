@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 
+from django.db.models import Count
 from core.models import Service, Testimonial, BlogPost, GalleryImage, Event, ContactMessage, SiteSettings
 from .forms import (ServiceForm, TestimonialForm, BlogPostForm,
                     GalleryImageForm, EventForm, SiteSettingsForm, CustomPasswordChangeForm)
@@ -68,11 +69,28 @@ def dashboard(request):
         chart_labels.append(day.strftime('%b %d'))
         chart_data.append(count)
 
+    # Blog posts by category for donut chart
+    cat_qs = (
+        BlogPost.objects
+        .values('category')
+        .annotate(count=Count('id'))
+        .order_by('-count')
+    )
+    pie_labels = [c['category'] or 'Uncategorised' for c in cat_qs]
+    pie_data   = [c['count'] for c in cat_qs]
+    pie_colors = [
+        '#2E86DE','#a855f7','#22c55e','#f97316',
+        '#ef4444','#22d3ee','#FBB040','#64748b',
+    ][:len(pie_labels)]
+
     return render(request, 'panel/dashboard.html', {
         'stats': stats,
         'recent_contacts': recent_contacts,
         'chart_labels': chart_labels,
         'chart_data': chart_data,
+        'pie_labels': pie_labels,
+        'pie_data': pie_data,
+        'pie_colors': pie_colors,
     })
 
 

@@ -50,6 +50,36 @@
   {% include 'partials/footer.html' %}
 
   <!-- ═══════════════════════════════════════════════════════
+       FLOATING ARIA CHAT WIDGET
+  ════════════════════════════════════════════════════════ -->
+  {% if not request.path|slice:":7" == "/panel/" %}
+  <div id="aria-float-panel" class="aria-float-panel">
+    <div class="aria-panel-header">
+      <div class="d-flex align-items-center gap-2">
+        <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1B4F72,#2E86DE);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;">
+          <i class="bi bi-robot"></i>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;color:#fff;">Aria — AI Assistant</div>
+          <div style="font-size:.7rem;color:#22c55e;"><i class="bi bi-circle-fill" style="font-size:.4rem;"></i> Online &amp; Ready</div>
+        </div>
+      </div>
+      <button class="aria-close" onclick="ariaToggle()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="aria-panel-messages" id="aria-float-msgs">
+      <div class="aria-msg bot">Hi! 👋 I'm Aria, AI-Solutions' virtual assistant. Ask me anything about our services, pricing, or portfolio!</div>
+    </div>
+    <div class="aria-panel-input">
+      <input type="text" id="aria-float-input" placeholder="Ask Aria anything…" autocomplete="off">
+      <button onclick="ariaSend()"><i class="bi bi-send-fill"></i></button>
+    </div>
+  </div>
+  <button class="aria-fab" id="aria-fab" onclick="ariaToggle()" title="Chat with Aria">
+    <i class="bi bi-robot" id="aria-fab-icon"></i>
+  </button>
+  {% endif %}
+
+  <!-- ═══════════════════════════════════════════════════════
        SCRIPTS
   ════════════════════════════════════════════════════════ -->
   <!-- Bootstrap 5 JS (includes Popper) -->
@@ -61,5 +91,61 @@
   <script src="{% static 'js/main.js' %}"></script>
 
   {% block extra_js %}{% endblock %}
+
+  <script>
+  // ── Floating Aria Chat Widget ──────────────────────────
+  (function(){
+    const panel = document.getElementById('aria-float-panel');
+    const fab   = document.getElementById('aria-fab');
+    const msgs  = document.getElementById('aria-float-msgs');
+    const input = document.getElementById('aria-float-input');
+    if (!panel) return;
+
+    window.ariaToggle = function() {
+      const open = panel.classList.toggle('open');
+      fab.classList.toggle('open', open);
+      document.getElementById('aria-fab-icon').className = open ? 'bi bi-x-lg' : 'bi bi-robot';
+      if (open) { input.focus(); msgs.scrollTop = msgs.scrollHeight; }
+    };
+
+    function addMsg(text, who) {
+      const d = document.createElement('div');
+      d.className = 'aria-msg ' + who;
+      d.textContent = text;
+      msgs.appendChild(d);
+      msgs.scrollTop = msgs.scrollHeight;
+      return d;
+    }
+
+    window.ariaSend = async function() {
+      const text = input.value.trim();
+      if (!text) return;
+      addMsg(text, 'user');
+      input.value = '';
+      const typing = addMsg('Aria is typing…', 'bot typing');
+
+      const csrfEl = document.querySelector('[name=csrfmiddlewaretoken]');
+      const csrf   = csrfEl ? csrfEl.value : '{{ csrf_token }}';
+
+      try {
+        const res  = await fetch("{% url 'chat_api' %}", {
+          method: 'POST',
+          headers: {'Content-Type':'application/json','X-CSRFToken':csrf},
+          body: JSON.stringify({message: text})
+        });
+        const data = await res.json();
+        typing.remove();
+        addMsg(data.response || 'Sorry, I had trouble with that. Please try again.', 'bot');
+      } catch {
+        typing.remove();
+        addMsg('Connection issue — please try again or email hello@ai-solutions.com', 'bot');
+      }
+    };
+
+    if (input) {
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') ariaSend(); });
+    }
+  })();
+  </script>
 </body>
 </html>

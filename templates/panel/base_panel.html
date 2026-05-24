@@ -84,6 +84,9 @@
           <i class="bi bi-person-circle" style="color:var(--secondary);"></i>
           {{ request.user.get_full_name|default:request.user.username }}
         </span>
+        <button class="tc-trigger-btn" onclick="tcOpen()" title="Theme Customizer">
+          <i class="bi bi-palette-fill"></i>
+        </button>
       </div>
     </div>
 
@@ -110,8 +113,232 @@
   </div>
 </div>
 
+<!-- ════ THEME CUSTOMIZER ════ -->
+<div class="tc-overlay" id="tc-overlay" onclick="tcClose()"></div>
+
+<div class="tc-panel" id="tc-panel">
+  <div class="tc-panel-head">
+    <div>
+      <h5><i class="bi bi-palette-fill me-2" style="color:var(--secondary);"></i>Theme Customizer</h5>
+      <p>Personalize your panel</p>
+    </div>
+    <button class="tc-close-btn" onclick="tcClose()"><i class="bi bi-x-lg"></i></button>
+  </div>
+
+  <div class="tc-body">
+
+    <!-- Accent Color -->
+    <span class="tc-section-label">Accent Color</span>
+    <div class="tc-color-grid">
+      <div class="tc-swatch active" data-accent="blue" onclick="tcAccent(this,'blue')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#1B4F72,#2E86DE);"></div>
+        <span>Blue</span>
+      </div>
+      <div class="tc-swatch" data-accent="green" onclick="tcAccent(this,'green')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#166534,#22c55e);"></div>
+        <span>Green</span>
+      </div>
+      <div class="tc-swatch" data-accent="red" onclick="tcAccent(this,'red')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#991b1b,#ef4444);"></div>
+        <span>Red</span>
+      </div>
+      <div class="tc-swatch" data-accent="purple" onclick="tcAccent(this,'purple')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#6b21a8,#a855f7);"></div>
+        <span>Purple</span>
+      </div>
+      <div class="tc-swatch" data-accent="dark" onclick="tcAccent(this,'dark')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#1e293b,#475569);"></div>
+        <span>Dark</span>
+      </div>
+      <div class="tc-swatch" data-accent="orange" onclick="tcAccent(this,'orange')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#9a3412,#f97316);"></div>
+        <span>Orange</span>
+      </div>
+      <div class="tc-swatch" data-accent="glass" onclick="tcAccent(this,'glass')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#0e7490,#22d3ee);"></div>
+        <span>Glass</span>
+      </div>
+      <div class="tc-swatch" data-accent="minimal" onclick="tcAccent(this,'minimal')">
+        <div class="tc-swatch-dot" style="background:linear-gradient(135deg,#334155,#64748b);"></div>
+        <span>Minimal</span>
+      </div>
+    </div>
+
+    <!-- Appearance -->
+    <span class="tc-section-label">Appearance</span>
+    <div class="tc-option-group" id="tc-appearance">
+      <button class="tc-option-btn" data-val="light" onclick="tcAppearance(this,'light')">
+        <i class="bi bi-sun-fill"></i>Light
+      </button>
+      <button class="tc-option-btn active" data-val="dark" onclick="tcAppearance(this,'dark')">
+        <i class="bi bi-moon-fill"></i>Dark
+      </button>
+      <button class="tc-option-btn" data-val="system" onclick="tcAppearance(this,'system')">
+        <i class="bi bi-display"></i>System
+      </button>
+    </div>
+
+    <!-- Component Shape -->
+    <span class="tc-section-label">Component Shape</span>
+    <div class="tc-option-group" id="tc-shape">
+      <button class="tc-option-btn active" data-val="rounded" onclick="tcShape(this,'rounded')">
+        <i class="bi bi-square-rounded"></i>Rounded
+      </button>
+      <button class="tc-option-btn" data-val="square" onclick="tcShape(this,'square')">
+        <i class="bi bi-square"></i>Square
+      </button>
+    </div>
+
+    <!-- Layout Density -->
+    <span class="tc-section-label">Layout Density</span>
+    <div class="tc-option-group" id="tc-density">
+      <button class="tc-option-btn active" data-val="normal" onclick="tcDensity(this,'normal')">
+        <i class="bi bi-layout-three-columns"></i>Normal
+      </button>
+      <button class="tc-option-btn" data-val="compact" onclick="tcDensity(this,'compact')">
+        <i class="bi bi-layout-sidebar-inset"></i>Compact
+      </button>
+    </div>
+
+    <!-- Sidebar -->
+    <span class="tc-section-label">Sidebar</span>
+    <div class="tc-option-group" id="tc-sidebar">
+      <button class="tc-option-btn active" data-val="expanded" onclick="tcSidebar(this,'expanded')">
+        <i class="bi bi-layout-sidebar"></i>Expanded
+      </button>
+      <button class="tc-option-btn" data-val="collapsed" onclick="tcSidebar(this,'collapsed')">
+        <i class="bi bi-layout-sidebar-inset-reverse"></i>Collapsed
+      </button>
+    </div>
+
+    <!-- Animations toggle -->
+    <div class="tc-toggle-row">
+      <span>Animations</span>
+      <label class="tc-toggle">
+        <input type="checkbox" id="tc-anim-toggle" checked onchange="tcAnimations(this)">
+        <span class="tc-slider"></span>
+      </label>
+    </div>
+
+    <button class="tc-reset-btn" onclick="tcReset()">
+      <i class="bi bi-arrow-counterclockwise"></i> Reset to Defaults
+    </button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 {% block extra_js %}{% endblock %}
+
+<script>
+(function(){
+  const LS = 'ai_panel_theme';
+  const DEFAULTS = { accent:'blue', appearance:'dark', shape:'rounded', density:'normal', sidebar:'expanded', animations:true };
+
+  function save(k,v){ const d=getPrefs(); d[k]=v; localStorage.setItem(LS,JSON.stringify(d)); }
+  function getPrefs(){ try{ return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(LS)||'{}')); }catch(e){return Object.assign({},DEFAULTS);} }
+
+  function applyAll(p){
+    const body = document.body;
+    const wrapper = document.querySelector('.panel-wrapper');
+
+    /* accent */
+    body.dataset.accent = p.accent === 'blue' ? '' : p.accent;
+    if(p.accent === 'blue') delete body.dataset.accent;
+    else body.dataset.accent = p.accent;
+
+    /* appearance */
+    if(p.appearance === 'system'){
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      body.dataset.theme = prefersDark ? 'dark' : 'light';
+    } else {
+      body.dataset.theme = p.appearance;
+    }
+    if(p.appearance === 'dark') delete body.dataset.theme;
+
+    /* shape */
+    if(p.shape === 'square') body.dataset.shape = 'square';
+    else delete body.dataset.shape;
+
+    /* density */
+    if(p.density === 'compact') body.dataset.density = 'compact';
+    else delete body.dataset.density;
+
+    /* sidebar */
+    if(wrapper){ wrapper.dataset.sidebar = p.sidebar === 'collapsed' ? 'collapsed' : ''; }
+
+    /* animations */
+    if(!p.animations) body.dataset.animations = 'off';
+    else delete body.dataset.animations;
+  }
+
+  function syncUI(p){
+    /* accent swatches */
+    document.querySelectorAll('.tc-swatch').forEach(s => s.classList.toggle('active', s.dataset.accent === p.accent));
+
+    /* option groups */
+    ['appearance','shape','density','sidebar'].forEach(grp => {
+      const key = grp === 'appearance' ? 'appearance' : grp;
+      document.querySelectorAll(`#tc-${grp} .tc-option-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === p[key]));
+    });
+
+    /* animations toggle */
+    const tog = document.getElementById('tc-anim-toggle');
+    if(tog) tog.checked = p.animations;
+  }
+
+  /* ─── Open / Close ─── */
+  window.tcOpen = function(){
+    document.getElementById('tc-panel').classList.add('open');
+    document.getElementById('tc-overlay').classList.add('open');
+  };
+  window.tcClose = function(){
+    document.getElementById('tc-panel').classList.remove('open');
+    document.getElementById('tc-overlay').classList.remove('open');
+  };
+
+  /* ─── Actions ─── */
+  window.tcAccent = function(el, val){
+    save('accent', val);
+    const p = getPrefs();
+    applyAll(p); syncUI(p);
+  };
+  window.tcAppearance = function(el, val){
+    save('appearance', val);
+    const p = getPrefs();
+    applyAll(p); syncUI(p);
+  };
+  window.tcShape = function(el, val){
+    save('shape', val);
+    const p = getPrefs();
+    applyAll(p); syncUI(p);
+  };
+  window.tcDensity = function(el, val){
+    save('density', val);
+    const p = getPrefs();
+    applyAll(p); syncUI(p);
+  };
+  window.tcSidebar = function(el, val){
+    save('sidebar', val);
+    const p = getPrefs();
+    applyAll(p); syncUI(p);
+  };
+  window.tcAnimations = function(cb){
+    save('animations', cb.checked);
+    const p = getPrefs();
+    applyAll(p); syncUI(p);
+  };
+  window.tcReset = function(){
+    localStorage.removeItem(LS);
+    applyAll(DEFAULTS); syncUI(DEFAULTS);
+  };
+
+  /* ─── Init on load ─── */
+  document.addEventListener('DOMContentLoaded', function(){
+    const p = getPrefs();
+    applyAll(p); syncUI(p);
+  });
+})();
+</script>
 </body>
 </html>

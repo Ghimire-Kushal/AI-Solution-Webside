@@ -33,22 +33,41 @@
       {% for post in posts %}
       <div class="col-lg-4 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
         <a href="{% url 'blog_detail' post.slug %}" style="text-decoration:none;display:block;height:100%;">
-        <div class="blog-card h-100" style="transition:transform .2s,box-shadow .2s;cursor:pointer;">
+        <div class="blog-card h-100">
           {% if post.image %}
-          <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-card-img">
+          <div class="blog-card-img-wrap">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+          </div>
           {% else %}
-          <div class="blog-card-img"><i class="bi bi-newspaper"></i></div>
+          <div class="blog-card-banner
+            {% if post.category == 'Case Study' %}cat-case
+            {% elif post.category == 'Business Insights' %}cat-biz
+            {% elif post.category == 'AI Ethics' %}cat-ethics
+            {% elif post.category == 'Technical Deep Dive' %}cat-tech
+            {% elif post.category == 'Company News' %}cat-news
+            {% elif post.category == 'AI Security' %}cat-sec
+            {% else %}cat-ai{% endif %}">
+            <i class="bi
+              {% if post.category == 'Case Study' %}bi-bar-chart-fill
+              {% elif post.category == 'Business Insights' %}bi-graph-up-arrow
+              {% elif post.category == 'AI Ethics' %}bi-shield-check
+              {% elif post.category == 'Technical Deep Dive' %}bi-code-slash
+              {% elif post.category == 'Company News' %}bi-newspaper
+              {% elif post.category == 'AI Security' %}bi-lock-fill
+              {% else %}bi-robot{% endif %} banner-icon"></i>
+            <span class="banner-label">{{ post.category|default:"AI"|truncatechars:12 }}</span>
+          </div>
           {% endif %}
           <div class="blog-card-body">
             <span class="blog-category">{{ post.category|default:"AI Technology" }}</span>
             <h5>{{ post.title }}</h5>
-            <p>{{ post.excerpt }}</p>
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="blog-meta">
-                <i class="bi bi-person-fill"></i> {{ post.author }} &nbsp;·&nbsp;
-                <i class="bi bi-calendar3"></i> {{ post.published_at|date:"M d, Y" }}
-              </span>
-              <span style="font-size:.78rem;color:var(--secondary);font-weight:600;">Read →</span>
+            <p>{{ post.excerpt|truncatechars:100 }}</p>
+            <div class="d-flex align-items-center justify-content-between mt-auto">
+              <div>
+                <div class="blog-meta"><i class="bi bi-person-fill"></i> {{ post.author }}</div>
+                <div class="blog-meta mt-1"><i class="bi bi-calendar3"></i> {{ post.published_at|date:"M d, Y" }}</div>
+              </div>
+              <span style="font-size:.8rem;color:var(--secondary);font-weight:600;">Read →</span>
             </div>
           </div>
         </div>
