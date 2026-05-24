@@ -83,9 +83,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+WHITENOISE_USE_FINDERS = True
 
-# ─── CSRF & Trusted Origins (Vercel + custom domain) ──────────
+# ─── Sessions (cookie-based so Vercel read-only FS works) ─────
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
+# ─── CSRF & Trusted Origins ───────────────────────────────────
 CSRF_TRUSTED_ORIGINS = [
     'https://*.vercel.app',
     'http://127.0.0.1:8000',
