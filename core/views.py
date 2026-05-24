@@ -51,6 +51,13 @@ def blog(request):
     return render(request, 'core/blog.html', {'posts': posts, 'gallery': gallery})
 
 
+def blog_detail(request, slug):
+    from django.shortcuts import get_object_or_404
+    post = get_object_or_404(BlogPost, slug=slug, is_published=True)
+    recent = BlogPost.objects.filter(is_published=True).exclude(pk=post.pk)[:3]
+    return render(request, 'core/blog_detail.html', {'post': post, 'recent': recent})
+
+
 def events(request):
     all_events = Event.objects.all()
     upcoming = all_events.filter(is_completed=False)

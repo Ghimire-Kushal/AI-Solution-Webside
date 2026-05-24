@@ -32,7 +32,8 @@
     <div class="row g-4">
       {% for post in posts %}
       <div class="col-lg-4 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
-        <div class="blog-card h-100">
+        <a href="{% url 'blog_detail' post.slug %}" style="text-decoration:none;display:block;height:100%;">
+        <div class="blog-card h-100" style="transition:transform .2s,box-shadow .2s;cursor:pointer;">
           {% if post.image %}
           <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-card-img">
           {% else %}
@@ -47,9 +48,11 @@
                 <i class="bi bi-person-fill"></i> {{ post.author }} &nbsp;·&nbsp;
                 <i class="bi bi-calendar3"></i> {{ post.published_at|date:"M d, Y" }}
               </span>
+              <span style="font-size:.78rem;color:var(--secondary);font-weight:600;">Read →</span>
             </div>
           </div>
         </div>
+        </a>
       </div>
       {% empty %}
       <div class="col-12 text-center py-5">

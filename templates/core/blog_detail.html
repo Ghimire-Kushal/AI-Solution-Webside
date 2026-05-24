@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }} | AI-Solutions{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'blog' %}">Blog</a></li>
+        <li class="breadcrumb-item active">Article</li>
+      </ol>
+    </nav>
+    {% if post.category %}
+    <div class="section-badge">{{ post.category }}</div>
+    {% endif %}
+    <h1 class="section-title mt-2" style="font-size:clamp(1.6rem,3.5vw,2.6rem);max-width:800px;margin-left:auto;margin-right:auto;">
+      {{ post.title }}
+    </h1>
+    <p style="font-size:.85rem;color:var(--text-muted);margin-top:.75rem;">
+      <i class="bi bi-person-fill" style="color:var(--secondary);"></i> {{ post.author }}
+      &nbsp;&middot;&nbsp;
+      <i class="bi bi-calendar3" style="color:var(--secondary);"></i> {{ post.published_at|date:"F j, Y" }}
+    </p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center g-5">
+
+      <!-- Main Article -->
+      <div class="col-lg-8">
+
+        {% if post.image %}
+        <div class="mb-4 fade-up">
+          <img src="{{ post.image.url }}" alt="{{ post.title }}"
+               style="width:100%;border-radius:var(--radius-lg);object-fit:cover;max-height:420px;">
+        </div>
+        {% endif %}
+
+        <div class="panel-card fade-up" style="font-size:.97rem;line-height:2;color:#c0d0e0;">
+          {{ post.content|linebreaks }}
+        </div>
+
+        <div class="mt-4 fade-up">
+          <a href="{% url 'blog' %}" class="btn-outline-custom">
+            <i class="bi bi-arrow-left"></i> Back to Blog
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+
+        <!-- Author card -->
+        <div class="panel-card fade-up mb-4">
+          <h6 style="color:#fff;font-weight:700;margin-bottom:1rem;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;">About the Author</h6>
+          <div class="d-flex align-items-center gap-3">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;font-weight:800;flex-shrink:0;">
+              {{ post.author|first|upper }}
+            </div>
+            <div>
+              <div style="color:#fff;font-weight:600;font-size:.9rem;">{{ post.author }}</div>
+              <div style="color:var(--text-muted);font-size:.78rem;">AI-Solutions Team</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent posts -->
+        {% if recent %}
+        <div class="panel-card fade-up">
+          <h6 style="color:#fff;font-weight:700;margin-bottom:1rem;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;">More Articles</h6>
+          {% for r in recent %}
+          <a href="{% url 'blog_detail' r.slug %}"
+             style="display:block;padding:.75rem 0;border-bottom:1px solid var(--dark-border);text-decoration:none;color:inherit;">
+            {% if r.category %}
+            <span style="font-size:.7rem;color:var(--secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px;">{{ r.category }}</span><br>
+            {% endif %}
+            <span style="font-size:.88rem;color:#c0d0e0;font-weight:500;line-height:1.5;">{{ r.title }}</span>
+            <br>
+            <span style="font-size:.75rem;color:var(--text-muted);">{{ r.published_at|date:"M d, Y" }}</span>
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container position-relative text-center fade-up">
+    <div class="section-badge">Get Started</div>
+    <h2 class="section-title" style="font-size:clamp(1.6rem,3vw,2.4rem);">Ready to Transform Your Business with AI?</h2>
+    <p class="section-subtitle mx-auto">Let's discuss how AI-Solutions can bring these ideas to life for your organisation.</p>
+    <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
+      <i class="bi bi-envelope-fill"></i> Book a Free Consultation
+    </a>
+  </div>
+</section>
+
+{% endblock %}

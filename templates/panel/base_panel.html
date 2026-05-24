@@ -48,7 +48,11 @@
       <span class="panel-nav-section">Enquiries</span>
       <a href="{% url 'panel_contacts' %}" class="panel-nav-link {% if 'panel_contact' in request.resolver_match.url_name %}active{% endif %}">
         <i class="bi bi-envelope-fill"></i> Contact Messages
-        {% comment %}Unread badge would go here{% endcomment %}
+        {% with unread_count=unread_messages_count %}
+        {% if unread_count > 0 %}
+        <span style="margin-left:auto;background:#ef4444;color:#fff;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:10px;">{{ unread_count }}</span>
+        {% endif %}
+        {% endwith %}
       </a>
 
       <span class="panel-nav-section">Settings</span>
