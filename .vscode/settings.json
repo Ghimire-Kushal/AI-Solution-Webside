@@ -1,0 +1,31 @@
+{
+  "html.validate.scripts": false,
+  "html.validate.styles": false,
+  "css.validate": false,
+
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+
+  "files.associations": {
+    "*.html": "django-html"
+  },
+
+  "emmet.includeLanguages": {
+    "django-html": "html"
+  },
+
+  "html.customData": [],
+
+  "djlint.useVenv": false,
+  "djlint.enableLinting": false,
+
+  "css.lint.validProperties": [
+    "--stat-accent",
+    "--primary",
+    "--primary-dark",
+    "--secondary",
+    "--gradient-1",
+    "--gradient-2"
+  ]
+}
