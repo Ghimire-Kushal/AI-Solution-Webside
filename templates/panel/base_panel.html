@@ -80,6 +80,7 @@
     <div class="panel-topbar">
       <h6 style="font-size:.9rem;font-weight:700;color:#fff;margin:0;">{% block page_title %}Dashboard{% endblock %}</h6>
       <div class="d-flex align-items-center gap-3">
+        <span class="panel-topbar-date d-none d-sm-block" id="panel-clock"></span>
         <span style="font-size:.82rem;color:var(--text-muted);">
           <i class="bi bi-person-circle" style="color:var(--secondary);"></i>
           {{ request.user.get_full_name|default:request.user.username }}
@@ -337,6 +338,18 @@
   document.addEventListener('DOMContentLoaded', function(){
     const p = getPrefs();
     applyAll(p); syncUI(p);
+
+    /* Live clock */
+    const clockEl = document.getElementById('panel-clock');
+    if (clockEl) {
+      const tick = () => {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'})
+          + '  ·  ' + now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+      };
+      tick();
+      setInterval(tick, 30000);
+    }
   });
 })();
 </script>
