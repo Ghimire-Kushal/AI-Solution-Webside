@@ -1,0 +1,224 @@
+{% extends 'panel/base_panel.html' %}
+{% load static %}
+{% block title %}{{ action }} Service Offering{% endblock %}
+{% block page_title %}{{ action }} Service Offering{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <a href="{% url 'panel_service_offerings' %}" style="color:var(--text-muted);font-size:.85rem;">
+    <i class="bi bi-arrow-left me-1"></i> Back to Service Offerings
+  </a>
+  <a href="{% url 'our_services' %}" target="_blank" style="color:var(--secondary);font-size:.82rem;">
+    <i class="bi bi-eye me-1"></i> View Live Page
+  </a>
+</div>
+
+<div class="row g-4">
+  <!-- Form -->
+  <div class="col-lg-8">
+    <div class="panel-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+      <h5 style="color:#fff;font-weight:700;margin-bottom:1.5rem;">{{ action }} Service Offering</h5>
+
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Title *</label>{{ form.title }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Subtitle</label>{{ form.subtitle }}
+            <small style="color:#445566;font-size:.74rem;">One-line tagline shown under the title.</small>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Description *</label>{{ form.description }}
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Bootstrap Icon Class</label>{{ form.icon }}
+            <small style="color:#445566;font-size:.74rem;">e.g. <code style="color:#89C2FF;">bi-robot</code> · <a href="https://icons.getbootstrap.com" target="_blank" style="color:var(--secondary);">Browse icons</a></small>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Highlight Badge</label>{{ form.highlight }}
+            <small style="color:#445566;font-size:.74rem;">e.g. "Most Popular", "New"</small>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Display Order</label>{{ form.order }}
+          </div>
+
+          <!-- Image upload -->
+          <div class="col-12">
+            <label class="form-label">Service Image <small style="color:#445566;">(optional)</small></label>
+            <div style="border:1px solid var(--dark-border);border-radius:10px;padding:1rem;background:rgba(46,134,222,0.03);">
+              {% if obj and obj.image %}
+              <div style="margin-bottom:.75rem;">
+                <img src="{{ obj.image.url }}" alt="current"
+                     style="max-height:140px;border-radius:8px;border:1px solid var(--dark-border);object-fit:cover;">
+                <span style="display:block;font-size:.72rem;color:#445566;margin-top:.25rem;">Current image</span>
+              </div>
+              {% endif %}
+              <div id="new-img-preview" style="display:none;margin-bottom:.75rem;">
+                <img id="preview-img-el" src="" alt="preview"
+                     style="max-height:140px;border-radius:8px;border:1px solid var(--dark-border);object-fit:cover;">
+                <span style="display:block;font-size:.72rem;color:#445566;margin-top:.25rem;">New image</span>
+              </div>
+              {{ form.image }}
+            </div>
+          </div>
+
+          <div class="col-12 d-flex align-items-center gap-3">
+            <div class="form-check">
+              {{ form.is_active }}
+              <label class="form-check-label" style="color:#c0d0e0;">Active (visible on website)</label>
+            </div>
+          </div>
+
+          <!-- Features JSON -->
+          <div class="col-12">
+            <div style="background:rgba(46,134,222,0.06);border:1px solid rgba(46,134,222,0.15);border-radius:10px;padding:1rem;">
+              <label class="form-label" style="color:var(--secondary);">Features / Bullet Points (JSON Array)</label>
+              <textarea name="features" id="features-field" class="form-control" rows="5"
+                        style="font-family:monospace;font-size:.83rem;">{{ features_json }}</textarea>
+              <small style="color:#445566;font-size:.73rem;">Format: ["Feature 1", "Feature 2", "Feature 3"]</small>
+            </div>
+          </div>
+
+          {% if form.errors %}
+          <div class="col-12">
+            <div class="alert panel-alert panel-alert-error">
+              {% for field, errors in form.errors.items %}
+                {% for error in errors %}<i class="bi bi-exclamation-circle-fill"></i> <strong>{{ field }}:</strong> {{ error }}<br>{% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="col-12 mt-2">
+            <button type="submit" class="btn-primary-custom"><i class="bi bi-check-lg"></i> Save Offering</button>
+            <a href="{% url 'panel_service_offerings' %}" class="btn-outline-custom ms-2">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Live preview -->
+  <div class="col-lg-4">
+    <div class="panel-card" style="position:sticky;top:1rem;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+      <h6 style="color:#7788aa;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">Card Preview</h6>
+
+      <!-- Mock card -->
+      <div style="background:var(--dark-card);border:1px solid var(--dark-border);border-radius:12px;overflow:hidden;position:relative;">
+        <div style="height:4px;background:var(--gradient-1);"></div>
+        <!-- Icon band -->
+        <div style="padding:.9rem 1rem .7rem;display:flex;align-items:center;gap:.6rem;border-bottom:1px solid var(--dark-border);">
+          <div style="width:38px;height:38px;border-radius:10px;background:rgba(46,134,222,0.12);border:1px solid rgba(46,134,222,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i id="prev-icon" class="bi bi-robot" style="color:#89C2FF;font-size:1rem;"></i>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div id="prev-title" style="color:#fff;font-weight:700;font-size:.88rem;">Service Title</div>
+            <div id="prev-subtitle" style="color:#667788;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+          </div>
+          <span id="prev-badge" style="display:none;background:rgba(46,134,222,.2);color:#89C2FF;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:8px;"></span>
+        </div>
+        <div style="padding:.8rem 1rem;">
+          <p id="prev-desc" style="color:#8899aa;font-size:.78rem;line-height:1.5;margin:0 0 .7rem;"></p>
+          <div id="prev-features" style="display:flex;flex-wrap:wrap;gap:.3rem;"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem;padding:.6rem;background:rgba(46,134,222,.05);border:1px solid rgba(46,134,222,.1);border-radius:8px;">
+        <p style="font-size:.73rem;color:#445566;margin:0;text-align:center;">
+          <i class="bi bi-info-circle" style="color:#2E86DE;"></i>
+          Preview updates as you type
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function(){
+  function $id(id){ return document.getElementById(id); }
+
+  // Image preview
+  const imgInput = document.querySelector('input[name="image"]');
+  if(imgInput){
+    imgInput.addEventListener('change', function(){
+      const file = this.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        $id('preview-img-el').src = e.target.result;
+        $id('new-img-preview').style.display = '';
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Title
+  const titleIn = document.querySelector('input[name="title"]');
+  if(titleIn){
+    titleIn.addEventListener('input', () => { $id('prev-title').textContent = titleIn.value || 'Service Title'; });
+    if(titleIn.value) $id('prev-title').textContent = titleIn.value;
+  }
+
+  // Subtitle
+  const subIn = document.querySelector('input[name="subtitle"]');
+  if(subIn){
+    subIn.addEventListener('input', () => { $id('prev-subtitle').textContent = subIn.value; });
+    if(subIn.value) $id('prev-subtitle').textContent = subIn.value;
+  }
+
+  // Description
+  const descIn = document.querySelector('textarea[name="description"]');
+  if(descIn){
+    const update = () => {
+      const t = descIn.value.trim();
+      $id('prev-desc').textContent = t.length > 100 ? t.slice(0,100)+'…' : t;
+    };
+    descIn.addEventListener('input', update); update();
+  }
+
+  // Icon
+  const iconIn = document.querySelector('input[name="icon"]');
+  if(iconIn){
+    iconIn.addEventListener('input', () => { $id('prev-icon').className = 'bi ' + (iconIn.value || 'bi-robot'); });
+    if(iconIn.value) $id('prev-icon').className = 'bi ' + iconIn.value;
+  }
+
+  // Highlight badge
+  const badgeIn = document.querySelector('input[name="highlight"]');
+  if(badgeIn){
+    const updateBadge = () => {
+      const el = $id('prev-badge');
+      if(badgeIn.value.trim()){
+        el.textContent = badgeIn.value; el.style.display = '';
+      } else {
+        el.style.display = 'none';
+      }
+    };
+    badgeIn.addEventListener('input', updateBadge); updateBadge();
+  }
+
+  // Features
+  const featTA = $id('features-field');
+  if(featTA){
+    const updateFeats = () => {
+      const container = $id('prev-features');
+      try {
+        const arr = JSON.parse(featTA.value);
+        if(Array.isArray(arr) && arr.length){
+          container.innerHTML = arr.slice(0,4).map(f =>
+            `<span style="background:rgba(46,134,222,0.08);border:1px solid rgba(46,134,222,0.15);color:#89C2FF;font-size:.66rem;padding:1px 6px;border-radius:6px;">${f}</span>`
+          ).join('');
+        } else { container.innerHTML = ''; }
+      } catch(e) { container.innerHTML = '<span style="color:#ef4444;font-size:.7rem;">Invalid JSON</span>'; }
+    };
+    featTA.addEventListener('input', updateFeats); updateFeats();
+  }
+})();
+</script>
+{% endblock %}

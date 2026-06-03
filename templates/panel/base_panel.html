@@ -29,8 +29,11 @@
       </a>
 
       <span class="panel-nav-section">Content</span>
-      <a href="{% url 'panel_services' %}" class="panel-nav-link {% if 'panel_service' in request.resolver_match.url_name %}active{% endif %}">
-        <i class="bi bi-briefcase-fill"></i> Portfolio / Services
+      <a href="{% url 'panel_service_offerings' %}" class="panel-nav-link {% if 'panel_service_offering' in request.resolver_match.url_name %}active{% endif %}">
+        <i class="bi bi-robot"></i> Services
+      </a>
+      <a href="{% url 'panel_services' %}" class="panel-nav-link {% if request.resolver_match.url_name in 'panel_services,panel_service_add,panel_service_edit,panel_service_delete' and 'offering' not in request.resolver_match.url_name %}active{% endif %}">
+        <i class="bi bi-briefcase-fill"></i> Portfolio
       </a>
       <a href="{% url 'panel_blog' %}" class="panel-nav-link {% if 'panel_blog' in request.resolver_match.url_name %}active{% endif %}">
         <i class="bi bi-newspaper"></i> Blog Posts
