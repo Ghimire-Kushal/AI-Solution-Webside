@@ -6,7 +6,7 @@ from django.conf import settings
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Service, Testimonial, BlogPost, GalleryImage, Event
+from .models import Service, ServiceOffering, Testimonial, BlogPost, GalleryImage, Event
 from .forms import ContactForm
 
 
@@ -21,6 +21,17 @@ def home(request):
 
 def about(request):
     return render(request, 'core/about.html')
+
+
+def services_page(request):
+    offerings = ServiceOffering.objects.filter(is_active=True)
+    process_steps = [
+        {'icon': 'bi-search', 'title': 'Discovery', 'desc': 'We audit your processes and identify the highest-impact AI opportunities.'},
+        {'icon': 'bi-layout-text-window', 'title': 'Design', 'desc': 'A tailored solution blueprint with timelines, integrations, and ROI projections.'},
+        {'icon': 'bi-code-slash', 'title': 'Build & Train', 'desc': 'Rapid development, model training, and testing with your real data.'},
+        {'icon': 'bi-rocket-takeoff', 'title': 'Deploy & Support', 'desc': 'Live deployment plus ongoing monitoring, updates, and dedicated support.'},
+    ]
+    return render(request, 'core/services_page.html', {'offerings': offerings, 'process_steps': process_steps})
 
 
 def services(request):

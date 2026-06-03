@@ -2,6 +2,39 @@ from django.db import models
 from django.utils import timezone
 
 
+# ─── Service Offerings (what the company provides) ────────────
+class ServiceOffering(models.Model):
+    ICON_CHOICES = [
+        ('bi-robot',           'AI / Robot'),
+        ('bi-gear-wide-connected', 'Automation'),
+        ('bi-bar-chart-line',  'Analytics'),
+        ('bi-shield-check',    'Security'),
+        ('bi-chat-dots',       'Chatbot'),
+        ('bi-cpu',             'Custom AI'),
+        ('bi-cloud-upload',    'Cloud'),
+        ('bi-diagram-3',       'Integration'),
+    ]
+
+    title       = models.CharField(max_length=200)
+    subtitle    = models.CharField(max_length=300, blank=True)
+    description = models.TextField()
+    icon        = models.CharField(max_length=100, default='bi-robot')
+    image       = models.ImageField(upload_to='service_offerings/', blank=True, null=True)
+    features    = models.JSONField(default=list)
+    highlight   = models.CharField(max_length=100, blank=True, help_text='Short badge text, e.g. "Most Popular"')
+    is_active   = models.BooleanField(default=True)
+    order       = models.PositiveIntegerField(default=0)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', 'title']
+        verbose_name = 'Service Offering'
+        verbose_name_plural = 'Service Offerings'
+
+    def __str__(self):
+        return self.title
+
+
 # ─── Service / Portfolio ──────────────────────────────────────
 class Service(models.Model):
     CATEGORY_CHOICES = [
