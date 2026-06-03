@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628"/>
+      <stop offset="100%" style="stop-color:#0d2044"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E86DE"/>
+      <stop offset="100%" style="stop-color:#89C2FF"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#4ade80"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <!-- Grid lines -->
+  <g opacity="0.07" stroke="#2E86DE" stroke-width="1">
+    <line x1="0" y1="50" x2="800" y2="50"/><line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/><line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/><line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/><line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="0" y1="450" x2="800" y2="450"/>
+    <line x1="80" y1="0" x2="80" y2="500"/><line x1="160" y1="0" x2="160" y2="500"/>
+    <line x1="240" y1="0" x2="240" y2="500"/><line x1="320" y1="0" x2="320" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/><line x1="480" y1="0" x2="480" y2="500"/>
+    <line x1="560" y1="0" x2="560" y2="500"/><line x1="640" y1="0" x2="640" y2="500"/>
+    <line x1="720" y1="0" x2="720" y2="500"/>
+  </g>
+  <!-- Glowing orb -->
+  <circle cx="400" cy="250" r="180" fill="rgba(46,134,222,0.06)"/>
+  <circle cx="400" cy="250" r="120" fill="rgba(46,134,222,0.08)"/>
+  <!-- Heart pulse line -->
+  <polyline points="60,250 160,250 200,150 240,350 280,180 320,320 360,250 440,250 480,200 520,300 560,250 740,250"
+    fill="none" stroke="url(#green)" stroke-width="3" filter="url(#glow)" opacity="0.9"/>
+  <!-- Cross icon -->
+  <rect x="358" y="180" width="84" height="28" rx="6" fill="url(#accent)" opacity="0.9"/>
+  <rect x="386" y="152" width="28" height="84" rx="6" fill="url(#accent)" opacity="0.9"/>
+  <!-- AI nodes -->
+  <circle cx="150" cy="120" r="8" fill="#2E86DE" filter="url(#glow)"/>
+  <circle cx="280" cy="80" r="6" fill="#89C2FF" filter="url(#glow)"/>
+  <circle cx="520" cy="100" r="8" fill="#2E86DE" filter="url(#glow)"/>
+  <circle cx="650" cy="130" r="6" fill="#89C2FF" filter="url(#glow)"/>
+  <circle cx="680" cy="370" r="8" fill="#22c55e" filter="url(#glow)"/>
+  <circle cx="120" cy="390" r="6" fill="#22c55e" filter="url(#glow)"/>
+  <line x1="150" y1="120" x2="280" y2="80" stroke="#2E86DE" stroke-width="1" opacity="0.4"/>
+  <line x1="280" y1="80" x2="520" y2="100" stroke="#2E86DE" stroke-width="1" opacity="0.4"/>
+  <line x1="520" y1="100" x2="650" y2="130" stroke="#2E86DE" stroke-width="1" opacity="0.4"/>
+  <!-- Label -->
+  <text x="400" y="430" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle" opacity="0.9">AI Healthcare Solutions</text>
+  <text x="400" y="458" font-family="Arial,sans-serif" font-size="13" fill="#89C2FF" text-anchor="middle" opacity="0.7">Intelligent Diagnostics &amp; Patient Care</text>
+  <!-- Top badge -->
+  <rect x="30" y="24" width="130" height="28" rx="14" fill="rgba(46,134,222,0.2)" stroke="rgba(46,134,222,0.4)" stroke-width="1"/>
+  <text x="95" y="42" font-family="Arial,sans-serif" font-size="11" fill="#89C2FF" text-anchor="middle" font-weight="600">HEALTHCARE AI</text>
+</svg>
