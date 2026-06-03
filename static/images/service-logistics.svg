@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628"/>
+      <stop offset="100%" style="stop-color:#1a1208"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316"/>
+      <stop offset="100%" style="stop-color:#fb923c"/>
+    </linearGradient>
+    <linearGradient id="yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#eab308"/>
+      <stop offset="100%" style="stop-color:#facc15"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#f97316" stroke-width="1">
+    <line x1="0" y1="62" x2="800" y2="62"/><line x1="0" y1="125" x2="800" y2="125"/>
+    <line x1="0" y1="187" x2="800" y2="187"/><line x1="0" y1="250" x2="800" y2="250"/>
+    <line x1="0" y1="312" x2="800" y2="312"/><line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="100" y1="0" x2="100" y2="500"/><line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="300" y1="0" x2="300" y2="500"/><line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="500" y1="0" x2="500" y2="500"/><line x1="600" y1="0" x2="600" y2="500"/>
+    <line x1="700" y1="0" x2="700" y2="500"/>
+  </g>
+  <!-- Route network -->
+  <!-- City nodes -->
+  <circle cx="150" cy="180" r="12" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="320" cy="120" r="12" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="490" cy="160" r="12" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="640" cy="120" r="12" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="200" cy="320" r="12" fill="rgba(234,179,8,0.3)" stroke="#eab308" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="400" cy="280" r="16" fill="rgba(249,115,22,0.4)" stroke="#f97316" stroke-width="2.5" filter="url(#glow)"/>
+  <circle cx="580" cy="310" r="12" fill="rgba(234,179,8,0.3)" stroke="#eab308" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="700" cy="260" r="12" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="2" filter="url(#glow)"/>
+  <!-- Routes -->
+  <g stroke="#f97316" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M162,180 Q235,140 308,120"/>
+    <path d="M332,120 Q410,130 478,160"/>
+    <path d="M502,160 Q570,135 628,120"/>
+    <path d="M150,192 Q170,256 200,308"/>
+    <path d="M212,320 Q306,300 384,288"/>
+    <path d="M416,280 Q498,290 568,310"/>
+    <path d="M592,310 Q646,285 688,268"/>
+    <path d="M488,168 Q444,224 416,272"/>
+    <path d="M162,188 Q280,232 384,276"/>
+    <path d="M628,128 Q664,194 700,248"/>
+  </g>
+  <!-- Animated truck (static representation) -->
+  <g transform="translate(340,240)">
+    <rect x="-30" y="-15" width="60" height="30" rx="4" fill="rgba(249,115,22,0.2)" stroke="#f97316" stroke-width="1.5"/>
+    <rect x="20" y="-10" width="18" height="20" rx="3" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="1"/>
+    <circle cx="-18" cy="17" r="6" fill="#f97316" opacity="0.8"/>
+    <circle cx="16" cy="17" r="6" fill="#f97316" opacity="0.8"/>
+    <circle cx="30" cy="17" r="6" fill="#f97316" opacity="0.8"/>
+  </g>
+  <!-- Speed lines -->
+  <line x1="240" y1="235" x2="290" y2="235" stroke="#f97316" stroke-width="1.5" opacity="0.5"/>
+  <line x1="245" y1="248" x2="285" y2="248" stroke="#f97316" stroke-width="1" opacity="0.3"/>
+  <text x="400" y="430" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle" opacity="0.9">AI Logistics &amp; Transport</text>
+  <text x="400" y="458" font-family="Arial,sans-serif" font-size="13" fill="#fb923c" text-anchor="middle" opacity="0.7">Smart Route Optimization &amp; Fleet Management</text>
+  <rect x="30" y="24" width="120" height="28" rx="14" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.4)" stroke-width="1"/>
+  <text x="90" y="42" font-family="Arial,sans-serif" font-size="11" fill="#fb923c" text-anchor="middle" font-weight="600">LOGISTICS AI</text>
+</svg>

@@ -1,4 +1,5 @@
 {% extends 'panel/base_panel.html' %}
+{% load static %}
 {% block title %}{{ action }} Service{% endblock %}
 {% block page_title %}{{ action }} Portfolio Service{% endblock %}
 {% block content %}
@@ -9,59 +10,257 @@
   </a>
 </div>
 
-<div class="panel-card" style="max-width:760px;">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
-  <h5 style="color:#fff;font-weight:700;margin-bottom:1.75rem;">{{ action }} Service / Portfolio Item</h5>
+<div class="row g-4">
+  <!-- Main form -->
+  <div class="col-lg-8">
+    <div class="panel-card" style="max-width:100%;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+      <h5 style="color:#fff;font-weight:700;margin-bottom:1.75rem;">{{ action }} Service / Portfolio Item</h5>
 
-  <form method="post" enctype="multipart/form-data" novalidate>
-    {% csrf_token %}
-    <div class="row g-3">
-      <div class="col-md-8">
-        <label class="form-label">Title *</label>{{ form.title }}
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Slug *</label>{{ form.slug }}
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Category</label>{{ form.category }}
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Client Name</label>{{ form.client_name }}
-      </div>
-      <div class="col-12">
-        <label class="form-label">Short Description *</label>{{ form.short_description }}
-      </div>
-      <div class="col-12">
-        <label class="form-label">Full Description *</label>{{ form.description }}
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Bootstrap Icon Class</label>{{ form.icon }}
-        <small style="color:#445566;font-size:.75rem;">e.g. bi-heart-pulse — find icons at <a href="https://icons.getbootstrap.com" target="_blank" style="color:var(--secondary);">icons.getbootstrap.com</a></small>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Display Order</label>{{ form.order }}
-      </div>
-      <div class="col-md-3 d-flex align-items-end">
-        <div class="form-check mb-2">
-          {{ form.is_featured }}
-          <label class="form-check-label" style="color:#c0d0e0;font-size:.9rem;">Featured</label>
+      <form method="post" enctype="multipart/form-data" novalidate id="service-form">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-8">
+            <label class="form-label">Title *</label>{{ form.title }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Slug *</label>{{ form.slug }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Category</label>{{ form.category }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Client Name</label>{{ form.client_name }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Short Description *</label>{{ form.short_description }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Full Description *</label>{{ form.description }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Bootstrap Icon Class</label>{{ form.icon }}
+            <small style="color:#445566;font-size:.75rem;">e.g. <code style="color:#89C2FF;">bi-heart-pulse</code> — find icons at <a href="https://icons.getbootstrap.com" target="_blank" style="color:var(--secondary);">icons.getbootstrap.com</a></small>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Display Order</label>{{ form.order }}
+          </div>
+          <div class="col-md-3 d-flex align-items-end">
+            <div class="form-check mb-2">
+              {{ form.is_featured }}
+              <label class="form-check-label" style="color:#c0d0e0;font-size:.9rem;">Featured</label>
+            </div>
+          </div>
+
+          <!-- Image upload with preview -->
+          <div class="col-12">
+            <label class="form-label">Service Image</label>
+            <div style="border:1px solid var(--dark-border);border-radius:10px;padding:1rem;background:rgba(46,134,222,0.03);">
+              <!-- Current/preview image -->
+              <div id="img-preview-wrap" style="margin-bottom:.75rem;{% if not obj or not obj.image %}display:none;{% endif %}">
+                <div style="position:relative;display:inline-block;">
+                  {% if obj and obj.image %}
+                  <img id="img-preview" src="{{ obj.image.url }}" alt="Current image"
+                       style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--dark-border);object-fit:cover;">
+                  {% else %}
+                  <img id="img-preview" src="" alt="Preview"
+                       style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--dark-border);object-fit:cover;display:none;">
+                  {% endif %}
+                  <span style="position:absolute;top:6px;left:6px;background:rgba(0,0,0,0.6);color:#c0d0e0;font-size:.7rem;padding:2px 7px;border-radius:10px;">
+                    {% if obj and obj.image %}current{% else %}new{% endif %}
+                  </span>
+                </div>
+              </div>
+              {{ form.image }}
+              <small style="color:#445566;font-size:.75rem;display:block;margin-top:.4rem;">
+                Upload a custom image, or leave blank to use the default category illustration.
+              </small>
+            </div>
+          </div>
+
+          <!-- Default category illustrations -->
+          <div class="col-12">
+            <label class="form-label" style="color:#7788aa;">Default Category Images <small style="color:#445566;">(used when no image uploaded)</small></label>
+            <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+              {% for cat_key, cat_label, cat_img in category_images %}
+              <div style="text-align:center;cursor:pointer;" title="{{ cat_label }}">
+                <img src="{% static cat_img %}" alt="{{ cat_label }}"
+                     style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1px solid var(--dark-border);opacity:.7;">
+                <div style="font-size:.65rem;color:#556677;margin-top:3px;">{{ cat_label }}</div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Features JSON -->
+          <div class="col-12">
+            <div style="background:rgba(46,134,222,0.06);border:1px solid rgba(46,134,222,0.15);border-radius:10px;padding:1rem;">
+              <label class="form-label" style="color:var(--secondary);">Features (JSON Array)</label>
+              <textarea name="features" id="features-field" class="form-control" rows="5"
+                        style="font-family:monospace;font-size:.83rem;">{{ features_json }}</textarea>
+              <small style="color:#445566;font-size:.73rem;">Format: ["Feature 1", "Feature 2", "Feature 3"]</small>
+            </div>
+          </div>
+
+          {% if form.errors %}
+          <div class="col-12">
+            <div class="alert panel-alert panel-alert-error">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              Please fix the errors below before saving.
+              {% for field, errors in form.errors.items %}
+                {% for error in errors %}<br><strong>{{ field }}:</strong> {{ error }}{% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="col-12 mt-2">
+            <button type="submit" class="btn-primary-custom"><i class="bi bi-check-lg"></i> Save Service</button>
+            <a href="{% url 'panel_services' %}" class="btn-outline-custom ms-2">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar preview -->
+  <div class="col-lg-4">
+    <div class="panel-card" style="position:sticky;top:1rem;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+      <h6 style="color:#7788aa;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">Live Preview</h6>
+
+      <!-- Category image preview -->
+      <div id="preview-img-container" style="border-radius:10px;overflow:hidden;height:130px;background:#0a1628;margin-bottom:1rem;position:relative;">
+        <img id="preview-cat-img" src="{% static 'images/service-other.svg' %}"
+             style="width:100%;height:100%;object-fit:cover;transition:opacity .3s;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,22,40,.8),transparent);"></div>
+        <div id="preview-icon-badge" style="position:absolute;bottom:8px;right:8px;width:32px;height:32px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(137,194,255,.3);display:flex;align-items:center;justify-content:center;">
+          <i id="preview-icon" class="bi bi-gear" style="color:#89C2FF;font-size:.9rem;"></i>
         </div>
       </div>
-      <div class="col-12">
-        <label class="form-label">Image (optional)</label>{{ form.image }}
+
+      <div style="background:rgba(46,134,222,0.05);border:1px solid var(--dark-border);border-radius:8px;padding:.9rem;">
+        <span id="preview-cat-badge" style="font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(46,134,222,.2);color:#89C2FF;">Category</span>
+        <h6 id="preview-title" style="color:#fff;font-weight:700;margin:.6rem 0 .3rem;font-size:.92rem;">Service Title</h6>
+        <p id="preview-desc" style="color:#8899aa;font-size:.78rem;line-height:1.5;margin:0;">Short description appears here…</p>
       </div>
-      <div class="col-12">
-        <div style="background:rgba(46,134,222,0.06);border:1px solid rgba(46,134,222,0.15);border-radius:10px;padding:1rem;">
-          <label class="form-label" style="color:var(--secondary);">Features (JSON Array)</label>
-          <textarea name="features" class="form-control" rows="5" style="font-family:monospace;font-size:.83rem;">{{ form.instance.features|default:'["Feature 1","Feature 2","Feature 3"]' }}</textarea>
-          <small style="color:#445566;font-size:.73rem;">Format: ["Feature 1", "Feature 2", "Feature 3"]</small>
-        </div>
-      </div>
-      <div class="col-12 mt-2">
-        <button type="submit" class="btn-primary-custom"><i class="bi bi-check-lg"></i> Save Service</button>
-        <a href="{% url 'panel_services' %}" class="btn-outline-custom ms-2">Cancel</a>
+
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--dark-border);">
+        <h6 style="color:#7788aa;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.6rem;">Features Preview</h6>
+        <ul id="preview-features" style="list-style:none;padding:0;margin:0;font-size:.8rem;color:#8899aa;">
+          <li style="color:#445566;font-style:italic;">Add features in JSON field…</li>
+        </ul>
       </div>
     </div>
-  </form>
+  </div>
 </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function(){
+  const catImages = {
+    healthcare: "{% static 'images/service-healthcare.svg' %}",
+    retail:     "{% static 'images/service-retail.svg' %}",
+    education:  "{% static 'images/service-education.svg' %}",
+    logistics:  "{% static 'images/service-logistics.svg' %}",
+    security:   "{% static 'images/service-security.svg' %}",
+    other:      "{% static 'images/service-other.svg' %}",
+  };
+
+  function $(id){ return document.getElementById(id); }
+
+  // Image upload preview
+  const imageInput = document.querySelector('input[name="image"]');
+  if(imageInput){
+    imageInput.addEventListener('change', function(){
+      const file = this.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const wrap = $('img-preview-wrap');
+        const img = $('img-preview');
+        img.src = e.target.result;
+        img.style.display = '';
+        img.previousElementSibling && (img.previousElementSibling.textContent = 'new');
+        wrap.style.display = '';
+        $('preview-cat-img').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Live title
+  const titleInput = document.querySelector('input[name="title"]');
+  if(titleInput){
+    titleInput.addEventListener('input', function(){
+      $('preview-title').textContent = this.value || 'Service Title';
+    });
+  }
+
+  // Live description
+  const descInput = document.querySelector('input[name="short_description"]');
+  if(descInput){
+    descInput.addEventListener('input', function(){
+      $('preview-desc').textContent = this.value || 'Short description appears here…';
+    });
+  }
+
+  // Live category → swap image
+  const catSelect = document.querySelector('select[name="category"]');
+  if(catSelect){
+    catSelect.addEventListener('change', function(){
+      const val = this.value;
+      const label = this.options[this.selectedIndex].text;
+      $('preview-cat-badge').textContent = label;
+      const imgEl = $('preview-cat-img');
+      // Only swap if user hasn't uploaded a custom image
+      if(!imageInput || !imageInput.files || !imageInput.files.length){
+        imgEl.src = catImages[val] || catImages.other;
+      }
+    });
+    // init
+    const val = catSelect.value;
+    $('preview-cat-img').src = catImages[val] || catImages.other;
+    $('preview-cat-badge').textContent = catSelect.options[catSelect.selectedIndex]?.text || 'Category';
+  }
+
+  // Live icon
+  const iconInput = document.querySelector('input[name="icon"]');
+  if(iconInput){
+    iconInput.addEventListener('input', function(){
+      const iconEl = $('preview-icon');
+      iconEl.className = 'bi ' + (this.value || 'bi-gear');
+    });
+  }
+
+  // Live features preview
+  const featuresTA = $('features-field');
+  if(featuresTA){
+    function updateFeatures(){
+      try{
+        const arr = JSON.parse(featuresTA.value);
+        const ul = $('preview-features');
+        if(Array.isArray(arr) && arr.length){
+          ul.innerHTML = arr.map(f =>
+            `<li style="display:flex;align-items:flex-start;gap:.4rem;padding:.2rem 0;"><span style="color:#2E86DE;margin-top:2px;">▸</span><span>${f}</span></li>`
+          ).join('');
+        } else {
+          ul.innerHTML = '<li style="color:#445566;font-style:italic;">No features…</li>';
+        }
+      } catch(e){
+        $('preview-features').innerHTML = '<li style="color:#ef4444;font-size:.75rem;">Invalid JSON…</li>';
+      }
+    }
+    featuresTA.addEventListener('input', updateFeatures);
+    updateFeatures();
+  }
+
+  // Init title + desc from existing values
+  if(titleInput && titleInput.value) $('preview-title').textContent = titleInput.value;
+  if(descInput && descInput.value) $('preview-desc').textContent = descInput.value;
+  if(iconInput && iconInput.value) $('preview-icon').className = 'bi ' + iconInput.value;
+})();
+</script>
 {% endblock %}

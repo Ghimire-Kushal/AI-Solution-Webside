@@ -1,9 +1,19 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
+
+CATEGORY_IMAGES = [
+    ('healthcare', 'Healthcare',          'images/service-healthcare.svg'),
+    ('retail',     'Retail & Commerce',   'images/service-retail.svg'),
+    ('education',  'Education',           'images/service-education.svg'),
+    ('logistics',  'Logistics & Transport','images/service-logistics.svg'),
+    ('security',   'Security',            'images/service-security.svg'),
+    ('other',      'Custom / Other',      'images/service-other.svg'),
+]
 
 from django.db.models import Count
 from core.models import Service, Testimonial, BlogPost, GalleryImage, Event, ContactMessage, SiteSettings
@@ -103,22 +113,46 @@ def services_list(request):
 @staff_required
 def service_add(request):
     form = ServiceForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Service added successfully.')
-        return redirect('panel_services')
-    return render(request, 'panel/service_form.html', {'form': form, 'action': 'Add'})
+    features_json = '["Feature 1","Feature 2","Feature 3"]'
+    if request.method == 'POST':
+        features_json = request.POST.get('features', features_json)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            try:
+                obj.features = json.loads(request.POST.get('features', '[]'))
+            except (json.JSONDecodeError, ValueError):
+                obj.features = []
+            obj.save()
+            messages.success(request, 'Service added successfully.')
+            return redirect('panel_services')
+    return render(request, 'panel/service_form.html', {
+        'form': form, 'action': 'Add',
+        'features_json': features_json,
+        'category_images': CATEGORY_IMAGES,
+    })
 
 
 @staff_required
 def service_edit(request, pk):
     obj = get_object_or_404(Service, pk=pk)
     form = ServiceForm(request.POST or None, request.FILES or None, instance=obj)
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Service updated.')
-        return redirect('panel_services')
-    return render(request, 'panel/service_form.html', {'form': form, 'action': 'Edit', 'obj': obj})
+    features_json = json.dumps(obj.features) if obj.features else '[]'
+    if request.method == 'POST':
+        features_json = request.POST.get('features', features_json)
+        if form.is_valid():
+            svc = form.save(commit=False)
+            try:
+                svc.features = json.loads(request.POST.get('features', '[]'))
+            except (json.JSONDecodeError, ValueError):
+                svc.features = []
+            svc.save()
+            messages.success(request, 'Service updated.')
+            return redirect('panel_services')
+    return render(request, 'panel/service_form.html', {
+        'form': form, 'action': 'Edit', 'obj': obj,
+        'features_json': features_json,
+        'category_images': CATEGORY_IMAGES,
+    })
 
 
 @staff_required
