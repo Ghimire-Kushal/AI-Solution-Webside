@@ -1,0 +1,132 @@
+{% extends 'panel/base_panel.html' %}
+{% load static %}
+{% block title %}Service Offerings{% endblock %}
+{% block page_title %}Service Offerings{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h5 style="color:#fff;font-weight:700;margin:0;">Service Offerings</h5>
+    <p style="font-size:.82rem;color:var(--text-muted);margin:0;">
+      {{ offerings.count }} offering(s) · shown on the
+      <a href="{% url 'our_services' %}" target="_blank" style="color:var(--secondary);">Services page <i class="bi bi-box-arrow-up-right" style="font-size:.7rem;"></i></a>
+    </p>
+  </div>
+  <a href="{% url 'panel_service_offering_add' %}" class="btn-primary-custom" style="display:inline-flex;">
+    <i class="bi bi-plus-lg"></i> Add Offering
+  </a>
+</div>
+
+<!-- Cards -->
+<div class="row g-4 mb-4">
+  {% for o in offerings %}
+  <div class="col-xl-4 col-md-6">
+    <div class="panel-card" style="position:relative;padding:0;overflow:hidden;display:flex;flex-direction:column;height:100%;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-1);z-index:1;"></div>
+
+      <!-- Header band -->
+      <div style="padding:1.1rem 1.25rem .8rem;display:flex;align-items:center;gap:.75rem;border-bottom:1px solid var(--dark-border);">
+        <div style="width:44px;height:44px;flex-shrink:0;border-radius:12px;background:rgba(46,134,222,0.12);border:1px solid rgba(46,134,222,0.25);display:flex;align-items:center;justify-content:center;">
+          <i class="bi {{ o.icon }}" style="color:#89C2FF;font-size:1.15rem;"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <h6 style="color:#fff;font-weight:700;margin:0;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ o.title }}</h6>
+          {% if o.subtitle %}
+          <p style="font-size:.73rem;color:#667788;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ o.subtitle }}</p>
+          {% endif %}
+        </div>
+        {% if o.highlight %}
+        <span style="background:rgba(46,134,222,.2);color:#89C2FF;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap;">{{ o.highlight }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Body -->
+      <div style="padding:.9rem 1.25rem;flex:1;display:flex;flex-direction:column;gap:.5rem;">
+        <p style="font-size:.82rem;color:#8899aa;margin:0;line-height:1.55;flex:1;">
+          {{ o.description|truncatechars:110 }}
+        </p>
+
+        <!-- Features chips -->
+        {% if o.features %}
+        <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.25rem;">
+          {% for f in o.features|slice:":3" %}
+          <span style="background:rgba(46,134,222,0.08);border:1px solid rgba(46,134,222,0.15);color:#89C2FF;font-size:.68rem;padding:2px 7px;border-radius:8px;">{{ f }}</span>
+          {% endfor %}
+          {% if o.features|length > 3 %}
+          <span style="color:#445566;font-size:.68rem;padding:2px 4px;">+{{ o.features|length|add:"-3" }} more</span>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:.5rem;border-top:1px solid var(--dark-border);margin-top:.25rem;">
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            {% if o.is_active %}
+            <span class="badge-published">Active</span>
+            {% else %}
+            <span class="badge-read">Inactive</span>
+            {% endif %}
+            <span style="font-size:.72rem;color:#445566;">Order #{{ o.order }}</span>
+          </div>
+          <div style="display:flex;gap:.4rem;">
+            <a href="{% url 'panel_service_offering_edit' o.pk %}" class="btn-panel-sm btn-panel-edit"><i class="bi bi-pencil"></i> Edit</a>
+            <form method="post" action="{% url 'panel_service_offering_delete' o.pk %}" class="d-inline"
+                  onsubmit="return confirm('Delete {{ o.title }}?')">
+              {% csrf_token %}
+              <button type="submit" class="btn-panel-sm btn-panel-delete"><i class="bi bi-trash"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <div class="panel-card text-center py-5">
+      <i class="bi bi-robot" style="font-size:2.5rem;color:#2E86DE;opacity:.4;"></i>
+      <p style="color:var(--text-muted);margin-top:1rem;">No service offerings yet.
+        <a href="{% url 'panel_service_offering_add' %}" style="color:var(--secondary);">Add your first one →</a>
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Quick table -->
+{% if offerings.count > 0 %}
+<div class="panel-card">
+  <div style="padding:.75rem 1rem;border-bottom:1px solid var(--dark-border);display:flex;align-items:center;gap:.5rem;">
+    <i class="bi bi-table" style="color:var(--secondary);font-size:.85rem;"></i>
+    <span style="font-size:.82rem;font-weight:600;color:#c0d0e0;">Quick Overview</span>
+  </div>
+  <div class="table-responsive">
+    <table class="panel-table">
+      <thead>
+        <tr><th>Title</th><th>Highlight</th><th>Features</th><th>Status</th><th>Order</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for o in offerings %}
+        <tr>
+          <td style="color:#fff;font-weight:500;">
+            <i class="bi {{ o.icon }}" style="color:#89C2FF;margin-right:.4rem;"></i>{{ o.title }}
+          </td>
+          <td>{{ o.highlight|default:"—" }}</td>
+          <td>{{ o.features|length }} item(s)</td>
+          <td>{% if o.is_active %}<span class="badge-published">Active</span>{% else %}<span class="badge-read">Inactive</span>{% endif %}</td>
+          <td>{{ o.order }}</td>
+          <td>
+            <a href="{% url 'panel_service_offering_edit' o.pk %}" class="btn-panel-sm btn-panel-edit"><i class="bi bi-pencil"></i> Edit</a>
+            <form method="post" action="{% url 'panel_service_offering_delete' o.pk %}" class="d-inline"
+                  onsubmit="return confirm('Delete {{ o.title }}?')">
+              {% csrf_token %}
+              <button type="submit" class="btn-panel-sm btn-panel-delete"><i class="bi bi-trash"></i> Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
