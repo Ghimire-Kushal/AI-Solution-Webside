@@ -16,8 +16,8 @@ CATEGORY_IMAGES = [
 ]
 
 from django.db.models import Count
-from core.models import Service, Testimonial, BlogPost, GalleryImage, Event, ContactMessage, SiteSettings
-from .forms import (ServiceForm, TestimonialForm, BlogPostForm,
+from core.models import Service, ServiceOffering, Testimonial, BlogPost, GalleryImage, Event, ContactMessage, SiteSettings
+from .forms import (ServiceForm, ServiceOfferingForm, TestimonialForm, BlogPostForm,
                     GalleryImageForm, EventForm, SiteSettingsForm, CustomPasswordChangeForm)
 
 
@@ -104,7 +104,65 @@ def dashboard(request):
     })
 
 
-# ─── Services ─────────────────────────────────────────────────
+# ─── Service Offerings ────────────────────────────────────────
+@staff_required
+def service_offerings_list(request):
+    return render(request, 'panel/service_offerings_list.html', {
+        'offerings': ServiceOffering.objects.all()
+    })
+
+
+@staff_required
+def service_offering_add(request):
+    form = ServiceOfferingForm(request.POST or None, request.FILES or None)
+    features_json = '["Feature 1","Feature 2","Feature 3"]'
+    if request.method == 'POST':
+        features_json = request.POST.get('features', features_json)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            try:
+                obj.features = json.loads(request.POST.get('features', '[]'))
+            except (json.JSONDecodeError, ValueError):
+                obj.features = []
+            obj.save()
+            messages.success(request, 'Service offering added.')
+            return redirect('panel_service_offerings')
+    return render(request, 'panel/service_offering_form.html', {
+        'form': form, 'action': 'Add', 'features_json': features_json,
+    })
+
+
+@staff_required
+def service_offering_edit(request, pk):
+    obj = get_object_or_404(ServiceOffering, pk=pk)
+    form = ServiceOfferingForm(request.POST or None, request.FILES or None, instance=obj)
+    features_json = json.dumps(obj.features) if obj.features else '[]'
+    if request.method == 'POST':
+        features_json = request.POST.get('features', features_json)
+        if form.is_valid():
+            svc = form.save(commit=False)
+            try:
+                svc.features = json.loads(request.POST.get('features', '[]'))
+            except (json.JSONDecodeError, ValueError):
+                svc.features = []
+            svc.save()
+            messages.success(request, 'Service offering updated.')
+            return redirect('panel_service_offerings')
+    return render(request, 'panel/service_offering_form.html', {
+        'form': form, 'action': 'Edit', 'obj': obj, 'features_json': features_json,
+    })
+
+
+@staff_required
+def service_offering_delete(request, pk):
+    obj = get_object_or_404(ServiceOffering, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, 'Service offering deleted.')
+    return redirect('panel_service_offerings')
+
+
+# ─── Services / Portfolio ──────────────────────────────────────
 @staff_required
 def services_list(request):
     return render(request, 'panel/services_list.html', {'services': Service.objects.all()})

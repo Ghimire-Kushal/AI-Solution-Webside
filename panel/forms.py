@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
-from core.models import Service, Testimonial, BlogPost, GalleryImage, Event, SiteSettings
+from core.models import Service, ServiceOffering, Testimonial, BlogPost, GalleryImage, Event, SiteSettings
 
 
 class ServiceForm(forms.ModelForm):
@@ -19,6 +19,22 @@ class ServiceForm(forms.ModelForm):
             'image': forms.FileInput(attrs={'class': 'form-control'}),
             'is_featured': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'order': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
+class ServiceOfferingForm(forms.ModelForm):
+    class Meta:
+        model = ServiceOffering
+        fields = ['title', 'subtitle', 'description', 'icon', 'image', 'highlight', 'is_active', 'order']
+        widgets = {
+            'title':       forms.TextInput(attrs={'class': 'form-control'}),
+            'subtitle':    forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'icon':        forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'bi-robot'}),
+            'image':       forms.FileInput(attrs={'class': 'form-control'}),
+            'highlight':   forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Most Popular'}),
+            'is_active':   forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'order':       forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 

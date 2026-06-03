@@ -9,6 +9,12 @@ urlpatterns = [
     # Dashboard
     path('dashboard/', views.dashboard, name='panel_dashboard'),
 
+    # Service Offerings
+    path('service-offerings/', views.service_offerings_list, name='panel_service_offerings'),
+    path('service-offerings/add/', views.service_offering_add, name='panel_service_offering_add'),
+    path('service-offerings/<int:pk>/edit/', views.service_offering_edit, name='panel_service_offering_edit'),
+    path('service-offerings/<int:pk>/delete/', views.service_offering_delete, name='panel_service_offering_delete'),
+
     # Services / Portfolio
     path('services/', views.services_list, name='panel_services'),
     path('services/add/', views.service_add, name='panel_service_add'),
