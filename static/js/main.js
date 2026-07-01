@@ -1,4 +1,4 @@
-/* AI-Solutions — Main JavaScript */
+/* AI-Solutions — Main JavaScriptt */
 
 document.addEventListener('DOMContentLoaded', function () {
 
