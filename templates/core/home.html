@@ -1,222 +1,289 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}AI-Solutions | Innovate · Support · Empower{% endblock %}
+
 {% block content %}
 
-<!-- ════════ HERO ════════ -->
-<section class="hero-section">
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
-  <div class="container position-relative">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 text-center">
-        <div class="hero-badge justify-content-center"><span class="badge-dot"></span>AI-Powered Workplace Solutions</div>
-        <h1 class="hero-title">
-          Innovate Your Workplace with
-          <span class="gradient-text">Intelligent AI</span>
+<!-- ═══════════════════════════════════════════════════════
+     HERO — split layout: copy left, real photo right
+════════════════════════════════════════════════════════ -->
+<section style="min-height:100vh;display:flex;align-items:center;background:var(--dark);padding:0;position:relative;overflow:hidden;">
+
+  <!-- Subtle grid overlay -->
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(46,134,222,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(46,134,222,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
+
+  <!-- Blue glow blobs -->
+  <div style="position:absolute;top:-120px;left:-120px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(46,134,222,0.12),transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:-80px;right:10%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(27,79,114,0.18),transparent 70%);pointer-events:none;"></div>
+
+  <div class="container position-relative" style="padding-top:100px;padding-bottom:80px;">
+    <div class="row align-items-center g-5">
+
+      <!-- LEFT: copy -->
+      <div class="col-lg-6 fade-up">
+        <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(46,134,222,0.08);border:1px solid rgba(46,134,222,0.2);border-radius:30px;padding:.35rem .9rem .35rem .5rem;margin-bottom:1.75rem;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s infinite;"></span>
+          <span style="font-size:.75rem;font-weight:600;color:#89C2FF;letter-spacing:.8px;text-transform:uppercase;">AI-Powered Workplace Solutions</span>
+        </div>
+
+        <h1 style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;color:#fff;line-height:1.12;margin-bottom:1.5rem;">
+          We Build AI That<br>
+          <span style="background:linear-gradient(135deg,#2E86DE,#89C2FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Actually Gets Used</span>
         </h1>
-        <p class="hero-subtitle mx-auto">
-          AI-Solutions delivers smart virtual assistants, workflow automation, and
-          data analytics — helping your team work smarter, not harder.
+
+        <p style="font-size:1.05rem;color:#8899AA;line-height:1.85;margin-bottom:2rem;max-width:480px;">
+          Most AI projects fail because they are built in a lab, not a workplace.
+          We build AI solutions your team will actually adopt — because we design them
+          around your real workflows, not hypothetical ones.
         </p>
-        <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center">
-          <a href="{% url 'services' %}" class="btn-primary-custom">
-            <i class="bi bi-lightning-charge-fill"></i> View Portfolio
+
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem;">
+          <a href="{% url 'contact' %}" class="btn-primary-custom" style="font-size:.95rem;padding:.85rem 2rem;">
+            <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
           </a>
-          <a href="{% url 'about' %}" class="btn-outline-custom">
-            <i class="bi bi-play-circle"></i> Learn More
+          <a href="{% url 'portfolio' %}" class="btn-outline-custom" style="font-size:.95rem;padding:.85rem 2rem;">
+            <i class="bi bi-folder2-open me-1"></i> See Our Work
           </a>
         </div>
-        <p style="font-size:.82rem;color:#556677;">
-          Trusted by <strong style="color:#89C2FF;">500+</strong> companies ·
-          Delivered <strong style="color:#89C2FF;">5</strong> enterprise AI projects ·
-          <strong style="color:#89C2FF;">4.8/5</strong> avg client rating
-        </p>
+
+        <!-- Social proof strip -->
+        <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;padding-top:1.5rem;border-top:1px solid rgba(46,134,222,0.12);">
+          <div>
+            <div style="font-size:1.5rem;font-weight:900;color:#fff;">50+</div>
+            <div style="font-size:.73rem;color:#667788;text-transform:uppercase;letter-spacing:.8px;">Projects</div>
+          </div>
+          <div style="width:1px;height:32px;background:rgba(46,134,222,0.2);"></div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:900;color:#fff;">6</div>
+            <div style="font-size:.73rem;color:#667788;text-transform:uppercase;letter-spacing:.8px;">Industries</div>
+          </div>
+          <div style="width:1px;height:32px;background:rgba(46,134,222,0.2);"></div>
+          <div>
+            <div style="display:flex;align-items:center;gap:.3rem;">
+              <span style="font-size:1.5rem;font-weight:900;color:#fff;">4.8</span>
+              <span style="color:#FBB040;font-size:1rem;">★</span>
+            </div>
+            <div style="font-size:.73rem;color:#667788;text-transform:uppercase;letter-spacing:.8px;">Avg. Rating</div>
+          </div>
+          <div style="width:1px;height:32px;background:rgba(46,134,222,0.2);"></div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:900;color:#22c55e;">24/7</div>
+            <div style="font-size:.73rem;color:#667788;text-transform:uppercase;letter-spacing:.8px;">Support</div>
+          </div>
+        </div>
       </div>
+
+      <!-- RIGHT: real photo with decorative frame -->
+      <div class="col-lg-6 fade-up" style="transition-delay:.2s;">
+        <div style="position:relative;">
+          <!-- Frame accent -->
+          <div style="position:absolute;top:-12px;right:-12px;width:100%;height:100%;border:2px solid rgba(46,134,222,0.25);border-radius:20px;z-index:0;"></div>
+          <div style="position:relative;border-radius:20px;overflow:hidden;z-index:1;box-shadow:0 30px 80px rgba(0,0,0,.6);">
+            <img src="{% static 'images/hero-main.jpg' %}" alt="Team working with AI technology"
+                 style="width:100%;height:480px;object-fit:cover;display:block;">
+            <!-- Dark gradient on bottom -->
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,15,28,.6) 0%,transparent 50%);"></div>
+            <!-- Live badge -->
+            <div style="position:absolute;bottom:1.25rem;left:1.25rem;background:rgba(6,15,28,.88);border:1px solid rgba(46,134,222,.3);border-radius:12px;padding:.6rem 1rem;backdrop-filter:blur(8px);display:flex;align-items:center;gap:.6rem;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;flex-shrink:0;"></span>
+              <span style="font-size:.78rem;color:#c0d0e0;font-weight:600;">AI systems running for 15+ clients right now</span>
+            </div>
+          </div>
+          <!-- Floating card — top right -->
+          <div style="position:absolute;top:-20px;right:-20px;background:rgba(10,24,40,.95);border:1px solid rgba(46,134,222,.25);border-radius:14px;padding:.9rem 1.1rem;backdrop-filter:blur(10px);z-index:2;min-width:145px;box-shadow:0 8px 30px rgba(0,0,0,.4);">
+            <div style="font-size:1.4rem;font-weight:900;color:#2E86DE;">99.9%</div>
+            <div style="font-size:.72rem;color:#8899aa;">Uptime SLA</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ════════ STATS BAR ════════ -->
-<div class="stats-section">
+<!-- ═══════════════════════════════════════════════════════
+     LOGOS / TRUST BAR
+════════════════════════════════════════════════════════ -->
+<div style="background:var(--dark-card);border-top:1px solid rgba(46,134,222,.08);border-bottom:1px solid rgba(46,134,222,.08);padding:1.75rem 0;">
   <div class="container">
-    <div class="row align-items-center text-center g-4">
-      <div class="col-6 col-md-3">
-        <div class="stat-item">
-          <span class="stat-number" data-target="500">500+</span>
-          <span class="stat-label">Companies Served</span>
-        </div>
-      </div>
-      <div class="col-md-auto d-none d-md-block"><div class="stat-divider"></div></div>
-      <div class="col-6 col-md-3">
-        <div class="stat-item">
-          <span class="stat-number" data-target="5">5</span>
-          <span class="stat-label">Enterprise Solutions</span>
-        </div>
-      </div>
-      <div class="col-md-auto d-none d-md-block"><div class="stat-divider"></div></div>
-      <div class="col-6 col-md-3">
-        <div class="stat-item">
-          <span class="stat-number" data-target="99" data-suffix="%">99%</span>
-          <span class="stat-label">AI Uptime SLA</span>
-        </div>
-      </div>
-      <div class="col-md-auto d-none d-md-block"><div class="stat-divider"></div></div>
-      <div class="col-6 col-md">
-        <div class="stat-item">
-          <span class="stat-number" data-target="48" data-suffix="h">48h</span>
-          <span class="stat-label">Avg. Support Response</span>
-        </div>
-      </div>
+    <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2.5rem 4rem;">
+      <span style="font-size:.72rem;color:#445566;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">Trusted by teams at</span>
+      <span style="font-size:.88rem;color:#445566;font-weight:700;letter-spacing:.5px;">Horizon Care</span>
+      <span style="font-size:.88rem;color:#445566;font-weight:700;letter-spacing:.5px;">UrbanStyle</span>
+      <span style="font-size:.88rem;color:#445566;font-weight:700;letter-spacing:.5px;">Nova College</span>
+      <span style="font-size:.88rem;color:#445566;font-weight:700;letter-spacing:.5px;">SwiftMove</span>
+      <span style="font-size:.88rem;color:#445566;font-weight:700;letter-spacing:.5px;">Nexa Corp</span>
+      <span style="font-size:.88rem;color:#445566;font-weight:700;letter-spacing:.5px;">TechBridge</span>
     </div>
   </div>
 </div>
 
-<!-- ════════ SERVICES PREVIEW ════════ -->
-<section id="services">
+<!-- ═══════════════════════════════════════════════════════
+     SERVICES PREVIEW
+════════════════════════════════════════════════════════ -->
+<section style="padding:90px 0;">
   <div class="container">
-    <div class="text-center">
-      <div class="section-badge">Our Solutions</div>
-      <h2 class="section-title">AI-Powered Solutions for<br>Every Industry</h2>
-      <p class="section-subtitle">From healthcare to logistics — we deliver tailored AI implementations that solve real business problems.</p>
+    <div class="row align-items-end mb-5">
+      <div class="col-lg-6 fade-up">
+        <div class="section-badge">What We Build</div>
+        <h2 class="section-title">AI that solves<br>specific problems</h2>
+        <p style="color:var(--text-muted);line-height:1.85;font-size:.95rem;max-width:440px;margin:0;">
+          We don't sell AI in the abstract. Every service we offer targets a concrete
+          business challenge — cost, speed, accuracy, or scale.
+        </p>
+      </div>
+      <div class="col-lg-6 fade-up d-flex justify-content-lg-end mt-3 mt-lg-0" style="transition-delay:.1s;">
+        <a href="{% url 'services' %}" class="btn-outline-custom">
+          See all 8 services <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
     </div>
 
     <div class="row g-4">
       {% for service in services %}
-      <div class="col-lg-4 col-md-6 fade-up" style="transition-delay: {{ forloop.counter0 }}00ms;">
-        <div class="service-card">
-          <div class="service-icon"><i class="bi {{ service.icon }}"></i></div>
-          <h5>{{ service.title }}</h5>
-          <p>{{ service.short_description }}</p>
-          <a href="{% url 'services' %}" class="learn-more">Learn More <i class="bi bi-arrow-right"></i></a>
-        </div>
+      <div class="col-lg-4 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <a href="{% url 'service_detail' service.slug %}" style="text-decoration:none;display:block;height:100%;">
+          <div style="background:var(--dark-card);border:1px solid rgba(46,134,222,.1);border-radius:16px;overflow:hidden;height:100%;transition:transform .25s,border-color .25s,box-shadow .25s;" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(46,134,222,.4)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(46,134,222,.1)';this.style.boxShadow=''">
+            {% if service.image %}
+            <div style="aspect-ratio:16/9;overflow:hidden;">
+              <img src="{{ service.image.url }}" alt="{{ service.title }}"
+                   style="width:100%;height:100%;object-fit:cover;transition:transform .5s;"
+                   onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform=''">
+            </div>
+            {% else %}
+            <div style="aspect-ratio:16/9;background:rgba(46,134,222,0.06);display:flex;align-items:center;justify-content:center;">
+              <i class="bi {{ service.icon }}" style="font-size:2.5rem;color:rgba(137,194,255,.4);"></i>
+            </div>
+            {% endif %}
+            <div style="padding:1.4rem;">
+              <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin-bottom:.5rem;">{{ service.get_category_display }}</div>
+              <h5 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem;">{{ service.title }}</h5>
+              <p style="font-size:.83rem;color:#667788;line-height:1.7;margin-bottom:.75rem;">{{ service.short_description|truncatechars:90 }}</p>
+              <span style="font-size:.78rem;color:#2E86DE;font-weight:600;">Learn more →</span>
+            </div>
+          </div>
+        </a>
       </div>
-      {% empty %}
-      <div class="col-12 text-center text-muted">No services yet.</div>
       {% endfor %}
-    </div>
-
-    <div class="text-center mt-5">
-      <a href="{% url 'services' %}" class="btn-primary-custom">
-        <i class="bi bi-grid-3x3-gap"></i> View Full Portfolio
-      </a>
     </div>
   </div>
 </section>
 
-<!-- ════════ WHY AI-SOLUTIONS ════════ -->
-<section class="why-section">
+<!-- ═══════════════════════════════════════════════════════
+     HOW WE'RE DIFFERENT — editorial 2-col
+════════════════════════════════════════════════════════ -->
+<section style="padding:90px 0;background:var(--dark-card);border-top:1px solid rgba(46,134,222,.08);border-bottom:1px solid rgba(46,134,222,.08);">
   <div class="container">
     <div class="row g-5 align-items-center">
 
-      <div class="col-lg-6 fade-up">
-        <div style="background:var(--dark);border:1px solid var(--dark-border);border-radius:var(--radius-lg);padding:2.25rem;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);"></div>
-          <div class="section-badge mb-3">Our Results</div>
-          <h3 style="font-size:1.5rem;margin-bottom:1.5rem;">Measurable Impact.<br>Real Business Value.</h3>
-          <div class="row g-3">
-            <div class="col-6">
-              <div style="background:rgba(46,134,222,0.08);border:1px solid rgba(46,134,222,0.15);border-radius:12px;padding:1.25rem;text-align:center;">
-                <div style="font-size:1.75rem;font-weight:800;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">3x</div>
-                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">Faster Decisions</div>
-              </div>
+      <div class="col-lg-5 fade-up">
+        <div style="position:relative;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5);">
+          <img src="{% static 'images/about-team.jpg' %}" alt="AI-Solutions team"
+               style="width:100%;height:400px;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(27,79,114,.35),transparent);"></div>
+          <!-- Metrics overlay -->
+          <div style="position:absolute;bottom:1rem;left:1rem;right:1rem;display:flex;gap:.75rem;">
+            <div style="flex:1;background:rgba(6,15,28,.88);border:1px solid rgba(46,134,222,.25);border-radius:12px;padding:.75rem;text-align:center;backdrop-filter:blur(8px);">
+              <div style="font-size:1.25rem;font-weight:800;color:#2E86DE;">40%</div>
+              <div style="font-size:.66rem;color:#8899aa;">Cost Saved</div>
             </div>
-            <div class="col-6">
-              <div style="background:rgba(27,79,114,0.15);border:1px solid rgba(46,134,222,0.15);border-radius:12px;padding:1.25rem;text-align:center;">
-                <div style="font-size:1.75rem;font-weight:800;color:#89C2FF;">40%</div>
-                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">Cost Reduction</div>
-              </div>
+            <div style="flex:1;background:rgba(6,15,28,.88);border:1px solid rgba(34,197,94,.2);border-radius:12px;padding:.75rem;text-align:center;backdrop-filter:blur(8px);">
+              <div style="font-size:1.25rem;font-weight:800;color:#22c55e;">3×</div>
+              <div style="font-size:.66rem;color:#8899aa;">Faster Ops</div>
             </div>
-            <div class="col-6">
-              <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:1.25rem;text-align:center;">
-                <div style="font-size:1.75rem;font-weight:800;color:#22c55e;">24/7</div>
-                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">AI Availability</div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div style="background:rgba(251,176,64,0.06);border:1px solid rgba(251,176,64,0.12);border-radius:12px;padding:1.25rem;text-align:center;">
-                <div style="font-size:1.75rem;font-weight:800;color:#FBB040;">35%</div>
-                <div style="font-size:.76rem;color:var(--text-muted);margin-top:4px;">Waiting Time Down</div>
-              </div>
+            <div style="flex:1;background:rgba(6,15,28,.88);border:1px solid rgba(251,176,64,.2);border-radius:12px;padding:.75rem;text-align:center;backdrop-filter:blur(8px);">
+              <div style="font-size:1.25rem;font-weight:800;color:#FBB040;">98%</div>
+              <div style="font-size:.66rem;color:#8899aa;">Satisfaction</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-6 fade-up" style="transition-delay:.15s;">
-        <div class="section-badge">Why Choose Us</div>
-        <h2 class="section-title">Designed for Real<br>Business Adoption</h2>
-        <p style="color:var(--text-muted);margin-bottom:1.75rem;line-height:1.85;font-size:.95rem;">
-          We do not just implement AI — we integrate it into your existing workflows thoughtfully,
-          ensuring your team actually uses and benefits from it.
+      <div class="col-lg-7 fade-up" style="transition-delay:.15s;">
+        <div class="section-badge">Why Teams Choose Us</div>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.4rem);">Honest about what AI<br>can and can't do</h2>
+        <p style="color:#8899aa;line-height:1.9;font-size:.97rem;margin-bottom:2rem;">
+          We've seen too many companies burned by AI vendors who overpromised.
+          We start every engagement with a frank scoping session — if AI won't move the needle for your problem,
+          we'll tell you that upfront. When it will, we build fast and stay until it's working.
         </p>
-        <div class="feature-item">
-          <div class="feature-icon-wrap"><i class="bi bi-lightning-fill" style="color:#2E86DE;"></i></div>
-          <div>
-            <h6>Fast Deployment</h6>
-            <p>Go live in weeks, not months. Our pre-built modules accelerate AI rollout with zero disruption.</p>
+
+        <div style="display:flex;flex-direction:column;gap:1.25rem;">
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(46,134,222,.1);border:1px solid rgba(46,134,222,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="bi bi-lightning-fill" style="color:#2E86DE;"></i>
+            </div>
+            <div>
+              <h6 style="font-weight:700;color:#fff;margin-bottom:.25rem;font-size:.95rem;">Deployed in weeks, not quarters</h6>
+              <p style="font-size:.85rem;color:#667788;margin:0;line-height:1.7;">Pre-built AI modules mean you see results fast. Most projects go live within 4–8 weeks of kickoff.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="bi bi-shield-check-fill" style="color:#22c55e;"></i>
+            </div>
+            <div>
+              <h6 style="font-weight:700;color:#fff;margin-bottom:.25rem;font-size:.95rem;">Your data stays yours</h6>
+              <p style="font-size:.85rem;color:#667788;margin:0;line-height:1.7;">Full data ownership, no third-party sharing, GDPR-compliant architecture on every build.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(251,176,64,.08);border:1px solid rgba(251,176,64,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="bi bi-people-fill" style="color:#FBB040;"></i>
+            </div>
+            <div>
+              <h6 style="font-weight:700;color:#fff;margin-bottom:.25rem;font-size:.95rem;">We train your team, not just your model</h6>
+              <p style="font-size:.85rem;color:#667788;margin:0;line-height:1.7;">Every deployment includes team onboarding and documentation — so adoption actually happens.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(137,194,255,.07);border:1px solid rgba(137,194,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="bi bi-headset" style="color:#89C2FF;"></i>
+            </div>
+            <div>
+              <h6 style="font-weight:700;color:#fff;margin-bottom:.25rem;font-size:.95rem;">One team from start to support</h6>
+              <p style="font-size:.85rem;color:#667788;margin:0;line-height:1.7;">No handoffs to a different support team after launch. The people who built it support it.</p>
+            </div>
           </div>
         </div>
-        <div class="feature-item">
-          <div class="feature-icon-wrap"><i class="bi bi-shield-check-fill" style="color:#22c55e;"></i></div>
-          <div>
-            <h6>OWASP-Compliant Security</h6>
-            <p>All data encrypted. Role-based access, audit logging, and full GDPR-readiness included.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon-wrap"><i class="bi bi-puzzle-fill" style="color:#89C2FF;"></i></div>
-          <div>
-            <h6>Seamless Integrations</h6>
-            <p>Connects with Slack, Microsoft Teams, Salesforce, Google Workspace, and 100+ tools.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon-wrap"><i class="bi bi-headset" style="color:#FBB040;"></i></div>
-          <div>
-            <h6>Dedicated Support</h6>
-            <p>Dedicated account manager and 24/7 technical support included in every plan.</p>
-          </div>
-        </div>
-        <a href="{% url 'about' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
-          Meet the Team <i class="bi bi-arrow-right ms-1"></i>
-        </a>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ════════ TESTIMONIALS ════════ -->
-<section class="why-section">
+<!-- ═══════════════════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════════════════ -->
+{% if testimonials %}
+<section style="padding:90px 0;">
   <div class="container">
-    <div class="text-center">
-      <div class="section-badge">Client Reviews</div>
-      <h2 class="section-title">What Our Clients Say</h2>
-      <p class="section-subtitle">Real feedback from real enterprises that transformed their operations with AI-Solutions.</p>
+    <div class="text-center mb-5 fade-up">
+      <div class="section-badge">Client Stories</div>
+      <h2 class="section-title">Don't take our word for it</h2>
+      <p style="color:#8899aa;font-size:.95rem;max-width:520px;margin:0 auto;">Here's what happens when AI actually fits the workflow.</p>
     </div>
 
     <div class="row g-4">
       {% for t in testimonials %}
       <div class="col-lg-4 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
-        <div class="testimonial-card">
-          <div class="d-flex justify-content-between align-items-start mb-3">
-            <div class="testimonial-quote">"</div>
-            <div class="rating-badge">
-              <i class="bi bi-star-fill"></i> {{ t.rating }}
-            </div>
+        <div style="background:var(--dark-card);border:1px solid rgba(46,134,222,.1);border-radius:16px;padding:1.75rem;height:100%;display:flex;flex-direction:column;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <span style="color:#FBB040;font-size:.95rem;">
+              {% for i in "12345" %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}
+            </span>
+            <span style="background:rgba(46,134,222,.08);color:#89C2FF;border:1px solid rgba(46,134,222,.15);border-radius:20px;font-size:.7rem;padding:2px 10px;font-weight:600;">{{ t.rating }}/5</span>
           </div>
-          <p>{{ t.content }}</p>
-          <div class="d-flex align-items-center gap-3">
-            <div style="width:40px;height:40px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0;">
-              {{ t.name|first }}
-            </div>
+          <blockquote style="font-size:.9rem;color:#b0c4d8;line-height:1.85;flex:1;margin:0 0 1.25rem;font-style:italic;">"{{ t.content }}"</blockquote>
+          <div style="display:flex;align-items:center;gap:.75rem;padding-top:1rem;border-top:1px solid rgba(46,134,222,.08);">
+            {% if t.photo %}
+            <img src="{{ t.photo.url }}" alt="{{ t.name }}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(46,134,222,.25);">
+            {% else %}
+            <div style="width:42px;height:42px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.95rem;flex-shrink:0;">{{ t.name|first }}</div>
+            {% endif %}
             <div>
-              <div class="author-name">{{ t.name }}</div>
-              <div class="author-meta">{{ t.role }}{% if t.role %}, {% endif %}{{ t.company }}</div>
-              {% if t.project_name %}
-              <div style="font-size:.73rem;color:var(--secondary);margin-top:2px;">{{ t.project_name }}</div>
-              {% endif %}
+              <div style="font-weight:700;color:#fff;font-size:.88rem;">{{ t.name }}</div>
+              <div style="font-size:.75rem;color:#556677;">{{ t.role }}{% if t.role and t.company %}, {% endif %}{{ t.company }}</div>
             </div>
           </div>
         </div>
@@ -224,35 +291,44 @@
       {% endfor %}
     </div>
 
-    <div class="text-center mt-5">
+    <div class="text-center mt-5 fade-up">
       <a href="{% url 'feedback' %}" class="btn-outline-custom">
-        <i class="bi bi-chat-quote"></i> View All Reviews
+        Read all reviews <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════════════════
+     CTA BAND
+════════════════════════════════════════════════════════ -->
+<section style="padding:80px 0;background:linear-gradient(135deg,#060f1c 0%,#0a1e38 50%,#060f1c 100%);position:relative;overflow:hidden;border-top:1px solid rgba(46,134,222,.12);">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(46,134,222,.1),transparent 70%);pointer-events:none;"></div>
+  <div class="container position-relative text-center fade-up">
+    <h2 style="font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:#fff;margin-bottom:1rem;">
+      Got a problem AI could solve?<br>
+      <span style="background:linear-gradient(135deg,#2E86DE,#89C2FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Let's talk for 30 minutes.</span>
+    </h2>
+    <p style="color:#667788;font-size:1rem;max-width:500px;margin:0 auto 2rem;">Free consultation. No pressure. We'll tell you honestly if we can help — and if we can, we'll show you exactly how.</p>
+    <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+      <a href="{% url 'contact' %}" class="btn-primary-custom" style="font-size:1rem;padding:.9rem 2.2rem;">
+        <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
+      </a>
+      <a href="{% url 'portfolio' %}" class="btn-outline-custom" style="font-size:1rem;padding:.9rem 2.2rem;">
+        <i class="bi bi-folder2-open me-1"></i> Browse Past Work
       </a>
     </div>
   </div>
 </section>
 
-<!-- ════════ CTA ════════ -->
-<section class="cta-section">
-  <div class="container position-relative">
-    <div class="row justify-content-center">
-      <div class="col-lg-7 text-center fade-up">
-        <div class="section-badge">Get Started</div>
-        <h2 class="section-title" style="font-size:clamp(2rem,4vw,3rem);">
-          Ready to Transform Your<br>Workplace with AI?
-        </h2>
-        <p class="section-subtitle mx-auto">
-          Join 500+ companies already saving time and money with AI-Solutions. Book your free consultation today.
-        </p>
-        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
-          <a href="{% url 'contact' %}" class="btn-primary-custom">
-            <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
-          </a>
-          <a href="{% url 'services' %}" class="btn-outline-custom">View Portfolio</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{% endblock %}
 
+{% block extra_css %}
+<style>
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+</style>
 {% endblock %}

@@ -9,7 +9,7 @@
   <title>{% block title %}AI-Solution | Intelligent Workplace Automation{% endblock %}</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo.svg' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/ai_solutions_logo.png' %}">
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -52,7 +52,7 @@
   <!-- ═══════════════════════════════════════════════════════
        FLOATING ARIA CHAT WIDGET
   ════════════════════════════════════════════════════════ -->
-  {% if not request.path|slice:":7" == "/panel/" %}
+  {% if not request.path|slice:":7" == "/admin/" %}
   <div id="aria-float-panel" class="aria-float-panel">
     <div class="aria-panel-header">
       <div class="d-flex align-items-center gap-2">
@@ -101,6 +101,9 @@
     const input = document.getElementById('aria-float-input');
     if (!panel) return;
 
+    // Conversation history for multi-turn context
+    const history = [];
+
     window.ariaToggle = function() {
       const open = panel.classList.toggle('open');
       fab.classList.toggle('open', open);
@@ -108,10 +111,40 @@
       if (open) { input.focus(); msgs.scrollTop = msgs.scrollHeight; }
     };
 
-    function addMsg(text, who) {
+    // Render plain text with basic markdown: **bold**, bullet lists
+    function renderText(text) {
+      const div = document.createElement('div');
+      const lines = text.split('\n');
+      lines.forEach((line, i) => {
+        const trimmed = line.trim();
+        if (!trimmed) { if (i > 0) div.appendChild(document.createElement('br')); return; }
+        let el;
+        if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+          el = document.createElement('div');
+          el.style.cssText = 'padding-left:1em;margin:.1rem 0;';
+          el.innerHTML = '&bull; ' + escHtml(trimmed.replace(/^[-•]\s*/, '')).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        } else {
+          el = document.createElement('p');
+          el.style.cssText = 'margin:.2rem 0;';
+          el.innerHTML = escHtml(trimmed).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        }
+        div.appendChild(el);
+      });
+      return div;
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function addMsg(text, who, asHtml) {
       const d = document.createElement('div');
       d.className = 'aria-msg ' + who;
-      d.textContent = text;
+      if (asHtml) {
+        d.appendChild(renderText(text));
+      } else {
+        d.textContent = text;
+      }
       msgs.appendChild(d);
       msgs.scrollTop = msgs.scrollHeight;
       return d;
@@ -131,11 +164,15 @@
         const res  = await fetch("{% url 'chat_api' %}", {
           method: 'POST',
           headers: {'Content-Type':'application/json','X-CSRFToken':csrf},
-          body: JSON.stringify({message: text})
+          body: JSON.stringify({ message: text, history: history })
         });
         const data = await res.json();
         typing.remove();
-        addMsg(data.response || 'Sorry, I had trouble with that. Please try again.', 'bot');
+        const reply = data.response || 'Sorry, I had trouble with that. Please try again.';
+        addMsg(reply, 'bot', true);
+        // Update history for next turn
+        history.push({ role: 'user', content: text });
+        history.push({ role: 'assistant', content: reply });
       } catch {
         typing.remove();
         addMsg('Connection issue — please try again or email hello@ai-solutions.com', 'bot');

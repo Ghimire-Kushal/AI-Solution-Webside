@@ -78,7 +78,7 @@
         <i class="bi bi-newspaper" style="font-size:3rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>
         <p style="color:var(--text-muted);">Blog posts will appear here once published by an admin.</p>
         {% if request.user.is_staff %}
-        <a href="{% url 'panel_blog_add' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">Add First Post</a>
+        <a href="{% url 'admin:core_blogpost_add' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">Add First Post</a>
         {% endif %}
       </div>
       {% endfor %}
@@ -101,7 +101,7 @@
         <i class="bi bi-images" style="font-size:3rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>
         <p style="color:var(--text-muted);">Gallery images will appear here once uploaded by an admin.</p>
         {% if request.user.is_staff %}
-        <a href="{% url 'panel_gallery' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">Upload Images</a>
+        <a href="{% url 'admin:core_galleryimage_add' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">Upload Images</a>
         {% endif %}
       </div>
       {% endfor %}

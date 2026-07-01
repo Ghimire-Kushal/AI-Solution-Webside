@@ -46,6 +46,17 @@ class Service(models.Model):
         ('other', 'Other'),
     ]
 
+    TYPE_SERVICE   = 'service'
+    TYPE_PORTFOLIO = 'portfolio'
+    TYPE_CHOICES = [
+        (TYPE_SERVICE,   'Service Offering'),
+        (TYPE_PORTFOLIO, 'Portfolio Project'),
+    ]
+
+    record_type = models.CharField(
+        max_length=20, choices=TYPE_CHOICES, default=TYPE_SERVICE,
+        help_text='Service Offering = what we provide. Portfolio Project = past client work.'
+    )
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other')
@@ -66,6 +77,23 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# ─── Proxy models for split admin views ───────────────────────
+class ServiceOffering(Service):
+    """Proxy — shows only Service Offerings in admin."""
+    class Meta:
+        proxy = True
+        verbose_name = 'Service Offering'
+        verbose_name_plural = 'Service Offerings'
+
+
+class PortfolioProject(Service):
+    """Proxy — shows only Portfolio Projects in admin."""
+    class Meta:
+        proxy = True
+        verbose_name = 'Portfolio Project'
+        verbose_name_plural = 'Portfolio Projects'
 
 
 # ─── Customer Testimonials ────────────────────────────────────
@@ -157,8 +185,10 @@ class ContactMessage(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True)
-    subject = models.CharField(max_length=200)
-    message = models.TextField()
+    company = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    job_title = models.CharField(max_length=100, blank=True)
+    job_details = models.TextField(blank=True)
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -168,7 +198,7 @@ class ContactMessage(models.Model):
         verbose_name_plural = 'Contact Messages'
 
     def __str__(self):
-        return f"{self.name} — {self.subject}"
+        return f"{self.name} — {self.company}"
 
 
 # ─── Site Settings (singleton — only 1 row ever) ─────────────
@@ -176,9 +206,9 @@ class SiteSettings(models.Model):
     site_name = models.CharField(max_length=100, default='AI-Solutions')
     tagline = models.CharField(max_length=200, default='Innovate | Support | Empower')
     logo = models.ImageField(upload_to='settings/', blank=True, null=True)
-    email = models.EmailField(default='hello@ai-solutions.com')
-    phone = models.CharField(max_length=20, blank=True, default='+977 98XXXXXXXX')
-    address = models.TextField(blank=True, default='Kathmandu, Nepal')
+    email = models.EmailField(default='student.helpline@sunderland.ac.uk')
+    phone = models.CharField(max_length=20, blank=True, default='+44 191 515 3000')
+    address = models.TextField(blank=True, default='Chester Road, Sunderland, United Kingdom, SR1 3SD')
     time_zone = models.CharField(max_length=50, default='Asia/Kathmandu')
     facebook_url = models.URLField(blank=True)
     twitter_url = models.URLField(blank=True)

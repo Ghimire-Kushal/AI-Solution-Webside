@@ -3,7 +3,7 @@
   <div class="container">
 
     <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home' %}">
-      <img src="{% static 'images/logo.svg' %}" alt="AI-Solutions" height="40">
+      <img src="{% static 'images/ai_solutions_logo.png' %}" alt="AI-Solutions" height="40">
     </a>
 
     <button class="navbar-toggler border-0" type="button"
@@ -28,7 +28,11 @@
         </li>
         <li class="nav-item">
           <a class="nav-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}"
-             href="{% url 'services' %}">Portfolio</a>
+             href="{% url 'services' %}">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'portfolio' %}active{% endif %}"
+             href="{% url 'portfolio' %}">Portfolio</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if request.resolver_match.url_name == 'blog' %}active{% endif %}"
@@ -39,17 +43,18 @@
              href="{% url 'events' %}">Events</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
+             href="{% url 'gallery' %}">Gallery</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {% if request.resolver_match.url_name == 'feedback' %}active{% endif %}"
              href="{% url 'feedback' %}">Reviews</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
-             href="{% url 'contact' %}">Contact</a>
-        </li>
       </ul>
 
-      <a href="#ai-assistant" class="btn btn-nav-cta ms-lg-3 mt-2 mt-lg-0">
-        <i class="bi bi-robot me-1"></i> Try AI Aria
+      <a href="{% url 'contact' %}"
+         class="btn-nav-cta ms-lg-3 mt-2 mt-lg-0 {% if request.resolver_match.url_name == 'contact' %}btn-nav-cta-active{% endif %}">
+        <i class="bi bi-envelope-fill me-1"></i> Contact Us
       </a>
     </div>
 

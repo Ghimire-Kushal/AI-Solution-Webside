@@ -1,148 +1,223 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}About Us | AI-Solutions{% endblock %}
+
 {% block content %}
 
-<div class="page-hero">
-  <div class="container position-relative">
-    <nav aria-label="breadcrumb" class="mb-3">
-      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+<!-- ════ HERO — full-width image with overlay copy ════ -->
+<section style="position:relative;min-height:520px;display:flex;align-items:center;overflow:hidden;padding:0;">
+  <img src="{% static 'images/about-office.jpg' %}" alt="AI-Solutions office"
+       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+  <!-- Heavy gradient so text is always readable -->
+  <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(6,15,28,.95) 45%,rgba(6,15,28,.5) 100%);"></div>
+  <!-- Grid texture -->
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(46,134,222,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,134,222,0.05) 1px,transparent 1px);background-size:60px 60px;opacity:.5;pointer-events:none;"></div>
+
+  <div class="container position-relative" style="padding-top:120px;padding-bottom:80px;">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb" style="font-size:.8rem;">
         <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-        <li class="breadcrumb-item active">About</li>
+        <li class="breadcrumb-item active" style="color:#8899aa;">About</li>
       </ol>
     </nav>
-    <div class="section-badge">Who We Are</div>
-    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Built to Innovate.<br>Driven to <span class="gradient-text">Empower.</span></h1>
-    <p class="section-subtitle mx-auto">AI-Solutions is a forward-thinking startup based in Kathmandu, Nepal, with global ambitions. We make AI practical, affordable, and impactful for real businesses.</p>
-  </div>
-</div>
-
-<!-- ════ Mission & Vision ════ -->
-<section>
-  <div class="container">
-    <div class="row g-4 align-items-stretch">
-      <div class="col-md-4 fade-up">
-        <div class="value-card h-100">
-          <div class="value-icon mx-auto" style="background:rgba(46,134,222,0.1);border:1px solid rgba(46,134,222,0.2);">💡</div>
-          <h5>Our Mission</h5>
-          <p style="font-size:.88rem;color:var(--text-muted);line-height:1.8;">
-            To empower organisations across every industry with AI technologies that are intelligent, accessible, and genuinely transformative — improving how people work every single day.
-          </p>
+    <div style="max-width:580px;">
+      <div class="section-badge" style="margin-bottom:1rem;">Based in Kathmandu · Serving globally</div>
+      <h1 style="font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:1.25rem;">
+        We Started Because<br>AI Was Hard to Trust.
+      </h1>
+      <p style="font-size:1.05rem;color:#8899aa;line-height:1.85;margin-bottom:2rem;">
+        Too many AI vendors sold dreams. We were frustrated watching businesses adopt AI
+        that nobody used. So we built an AI company that prioritises honest outcomes,
+        practical deployment, and real business value over flashy demos.
+      </p>
+      <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:2rem;font-weight:900;color:#2E86DE;">2022</div>
+          <div style="font-size:.75rem;color:#556677;text-transform:uppercase;letter-spacing:.8px;">Founded</div>
         </div>
-      </div>
-      <div class="col-md-4 fade-up" style="transition-delay:.1s;">
-        <div class="value-card h-100" style="border-color:rgba(46,134,222,0.25);">
-          <div class="value-icon mx-auto" style="background:rgba(137,194,255,0.08);border:1px solid rgba(137,194,255,0.2);">🌏</div>
-          <h5>Our Vision</h5>
-          <p style="font-size:.88rem;color:var(--text-muted);line-height:1.8;">
-            To become a globally recognised AI solutions company — starting in Nepal, expanding to Sunderland, UK, and serving enterprises across continents with smart, human-centred AI.
-          </p>
+        <div>
+          <div style="font-size:2rem;font-weight:900;color:#22c55e;">50+</div>
+          <div style="font-size:.75rem;color:#556677;text-transform:uppercase;letter-spacing:.8px;">Projects Delivered</div>
         </div>
-      </div>
-      <div class="col-md-4 fade-up" style="transition-delay:.2s;">
-        <div class="value-card h-100">
-          <div class="value-icon mx-auto" style="background:rgba(27,79,114,0.2);border:1px solid rgba(46,134,222,0.2);">🤝</div>
-          <h5>Our Promise</h5>
-          <p style="font-size:.88rem;color:var(--text-muted);line-height:1.8;">
-            Every client gets dedicated support, transparent communication, and solutions that are built around their specific needs — not generic templates. We succeed when you succeed.
-          </p>
+        <div>
+          <div style="font-size:2rem;font-weight:900;color:#FBB040;">2</div>
+          <div style="font-size:.75rem;color:#556677;text-transform:uppercase;letter-spacing:.8px;">Countries</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ Tagline ════ -->
-<section class="why-section">
+<!-- ════ OUR STORY ════ -->
+<section style="padding:90px 0;">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-9 text-center fade-up">
-        <div class="section-badge">Our Tagline</div>
-        <h2 class="section-title" style="font-size:clamp(2rem,5vw,3.5rem);">
-          <span class="gradient-text">Innovate.</span>
-          <span style="color:#fff;"> Support.</span>
-          <span class="gradient-text"> Empower.</span>
-        </h2>
-        <p class="section-subtitle mx-auto">
-          These three words define how we approach every project. We bring innovative ideas, unwavering support,
-          and a genuine commitment to empowering your team through AI.
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6 fade-up">
+        <div class="section-badge">Our Story</div>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.4rem);">Started small.<br>Built things that work.</h2>
+        <p style="color:#8899aa;line-height:1.9;font-size:.97rem;margin-bottom:1.25rem;">
+          AI-Solutions was founded in Kathmandu by Pratik Rauniyar with a single conviction:
+          AI is only as good as its adoption. A brilliant model that sits unused is worth nothing.
         </p>
+        <p style="color:#8899aa;line-height:1.9;font-size:.97rem;margin-bottom:1.25rem;">
+          Our first project was a simple chatbot for a local healthcare clinic. It handled 60%
+          of patient enquiries automatically within the first month. That result — concrete, measurable,
+          experienced by real staff — is the kind of outcome we've been chasing ever since.
+        </p>
+        <p style="color:#8899aa;line-height:1.9;font-size:.97rem;margin-bottom:2rem;">
+          Today we work with organisations across Nepal and the UK, delivering AI solutions
+          in healthcare, retail, logistics, education, security, and finance. We're a small team
+          that moves fast and stays close to every client.
+        </p>
+        <a href="{% url 'portfolio' %}" class="btn-primary-custom">
+          <i class="bi bi-folder2-open me-1"></i> See What We've Built
+        </a>
       </div>
-    </div>
-
-    <div class="row g-4 mt-2">
-      <div class="col-md-4 fade-up">
-        <div class="service-card text-center">
-          <div class="service-icon mx-auto" style="font-size:1.8rem;">🚀</div>
-          <h5>Innovate</h5>
-          <p>We push boundaries with cutting-edge AI research and practical implementations that solve real business challenges in new ways.</p>
-        </div>
-      </div>
-      <div class="col-md-4 fade-up" style="transition-delay:.1s;">
-        <div class="service-card text-center">
-          <div class="service-icon mx-auto" style="font-size:1.8rem;">🛟</div>
-          <h5>Support</h5>
-          <p>From day one through deployment and beyond — our team provides 24/7 technical support and a dedicated account manager for every client.</p>
-        </div>
-      </div>
-      <div class="col-md-4 fade-up" style="transition-delay:.2s;">
-        <div class="service-card text-center">
-          <div class="service-icon mx-auto" style="font-size:1.8rem;">⚡</div>
-          <h5>Empower</h5>
-          <p>We hand teams the tools, training, and intelligence they need to make better decisions, faster — putting the power of AI directly in their hands.</p>
+      <div class="col-lg-6 fade-up" style="transition-delay:.15s;">
+        <div style="position:relative;">
+          <div style="border-radius:20px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5);">
+            <img src="{% static 'images/about-team.jpg' %}" alt="AI-Solutions team at work"
+                 style="width:100%;height:420px;object-fit:cover;display:block;">
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(6,15,28,.8));"></div>
+          </div>
+          <!-- Bottom caption card -->
+          <div style="position:absolute;bottom:1.25rem;left:1.25rem;right:1.25rem;background:rgba(6,15,28,.9);border:1px solid rgba(46,134,222,.2);border-radius:14px;padding:1rem 1.25rem;backdrop-filter:blur(10px);">
+            <div style="font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.2rem;">Kathmandu → Sunderland, UK</div>
+            <div style="font-size:.75rem;color:#667788;">Building AI for global businesses from our South Asian roots</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ Team ════ -->
-<section>
+<!-- ════ VALUES ════ -->
+<section style="padding:90px 0;background:var(--dark-card);border-top:1px solid rgba(46,134,222,.08);border-bottom:1px solid rgba(46,134,222,.08);">
   <div class="container">
-    <div class="text-center fade-up">
-      <div class="section-badge">Our Team</div>
-      <h2 class="section-title">The People Behind AI-Solutions</h2>
-      <p class="section-subtitle mx-auto">A lean, skilled team of developers, AI engineers, and business strategists committed to delivering quality.</p>
+    <div class="text-center mb-5 fade-up">
+      <div class="section-badge">What Drives Us</div>
+      <h2 class="section-title">Three words we actually mean</h2>
+      <p style="color:#8899aa;font-size:.95rem;max-width:480px;margin:0 auto;">They're on our logo for a reason — these aren't marketing words, they're operating principles.</p>
     </div>
-    <div class="row g-4 justify-content-center">
-      {% for member in "1234"|make_list %}
-      {% with members_data="Lead Developer,AI Engineer,QA Specialist,Expert Advisor" %}
-      {% with names="Pratik Rauniyar,Rishav Chudal,Team QA,Expert Support" %}
-      <div class="col-lg-3 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
-        <div class="testimonial-card text-center">
-          <div style="width:72px;height:72px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.6rem;color:#fff;font-weight:800;">
-            {{ forloop.counter }}
-          </div>
-          <h6 style="font-size:.95rem;font-weight:700;margin-bottom:3px;">
-            {% if forloop.counter == 1 %}Pratik Rauniyar
-            {% elif forloop.counter == 2 %}Rishav Chudal
-            {% elif forloop.counter == 3 %}QA Specialist
-            {% else %}Expert Advisor{% endif %}
-          </h6>
-          <p style="font-size:.78rem;color:var(--secondary);margin-bottom:.75rem;">
-            {% if forloop.counter == 1 %}Lead Developer
-            {% elif forloop.counter == 2 %}Client / Project Lead
-            {% elif forloop.counter == 3 %}Quality Assurance
-            {% else %}Technical Expert{% endif %}
+    <div class="row g-4">
+      <div class="col-md-4 fade-up">
+        <div style="background:var(--dark);border:1px solid rgba(46,134,222,.15);border-radius:16px;padding:2rem;height:100%;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2E86DE,#89C2FF);"></div>
+          <div style="font-size:2.5rem;margin-bottom:1.25rem;">🚀</div>
+          <h4 style="font-size:1.25rem;font-weight:800;color:#fff;margin-bottom:.75rem;">Innovate</h4>
+          <p style="font-size:.88rem;color:#8899aa;line-height:1.8;margin:0;">
+            We don't recycle last year's solutions. Every project starts with first-principles
+            thinking — what does this business actually need? Then we find the most effective way to build it.
           </p>
-          <p style="font-size:.83rem;color:var(--text-muted);margin:0;">Building intelligent, scalable solutions that deliver measurable business value.</p>
         </div>
       </div>
-      {% endwith %}{% endwith %}
+      <div class="col-md-4 fade-up" style="transition-delay:.1s;">
+        <div style="background:linear-gradient(135deg,rgba(46,134,222,.08),rgba(27,79,114,.12));border:1px solid rgba(46,134,222,.25);border-radius:16px;padding:2rem;height:100%;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#86efac);"></div>
+          <div style="font-size:2.5rem;margin-bottom:1.25rem;">🛡️</div>
+          <h4 style="font-size:1.25rem;font-weight:800;color:#fff;margin-bottom:.75rem;">Support</h4>
+          <p style="font-size:.88rem;color:#8899aa;line-height:1.8;margin:0;">
+            Post-launch is when most vendors disappear. We stay. The same engineers
+            who built your system are available for questions, updates, and monitoring — indefinitely.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-up" style="transition-delay:.2s;">
+        <div style="background:var(--dark);border:1px solid rgba(46,134,222,.15);border-radius:16px;padding:2rem;height:100%;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FBB040,#fde68a);"></div>
+          <div style="font-size:2.5rem;margin-bottom:1.25rem;">⚡</div>
+          <h4 style="font-size:1.25rem;font-weight:800;color:#fff;margin-bottom:.75rem;">Empower</h4>
+          <p style="font-size:.88rem;color:#8899aa;line-height:1.8;margin:0;">
+            The goal is never dependency on us. We build tools your team owns, understands,
+            and can extend. Full documentation, training, and handover are non-negotiable.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TEAM ════ -->
+<section style="padding:90px 0;">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-5 fade-up">
+        <div class="section-badge">The Team</div>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.4rem);">Small on headcount.<br>Not on capability.</h2>
+        <p style="color:#8899aa;line-height:1.9;font-size:.97rem;margin-bottom:1.5rem;">
+          We're a lean, senior team — which means no account managers playing telephone,
+          no junior developers shipping untested code. The people who scope your project
+          are the same people who build and support it.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:.75rem;">
+          <div style="display:flex;align-items:center;gap:.75rem;">
+            <i class="bi bi-check-circle-fill" style="color:#22c55e;font-size:1rem;flex-shrink:0;"></i>
+            <span style="font-size:.9rem;color:#c0d0e0;">Direct access to your engineer, always</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;">
+            <i class="bi bi-check-circle-fill" style="color:#22c55e;font-size:1rem;flex-shrink:0;"></i>
+            <span style="font-size:.9rem;color:#c0d0e0;">No outsourcing, no surprise subcontractors</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;">
+            <i class="bi bi-check-circle-fill" style="color:#22c55e;font-size:1rem;flex-shrink:0;"></i>
+            <span style="font-size:.9rem;color:#c0d0e0;">Weekly updates and full transparency</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7 fade-up" style="transition-delay:.1s;">
+        <div class="row g-3">
+          <!-- Team members -->
+          {% for member in team_members %}
+          <div class="col-sm-6">
+            <div style="background:var(--dark-card);border:1px solid rgba(46,134,222,.1);border-radius:16px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(46,134,222,.35)'" onmouseout="this.style.borderColor='rgba(46,134,222,.1)'">
+              <div style="width:52px;height:52px;border-radius:14px;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;font-weight:900;flex-shrink:0;">{{ member.initials }}</div>
+              <div>
+                <h6 style="font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.2rem;">{{ member.name }}</h6>
+                <div style="font-size:.75rem;color:#2E86DE;font-weight:600;margin-bottom:.5rem;">{{ member.role }}</div>
+                <p style="font-size:.78rem;color:#667788;margin:0;line-height:1.6;">{{ member.bio }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TECH STACK visual ════ -->
+<section style="padding:80px 0;background:var(--dark-card);border-top:1px solid rgba(46,134,222,.08);">
+  <div class="container">
+    <div class="text-center mb-5 fade-up">
+      <div class="section-badge">Technology</div>
+      <h2 class="section-title">What we build with</h2>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;" class="fade-up">
+      {% for tech in tech_stack %}
+      <div style="background:var(--dark);border:1px solid rgba(46,134,222,.12);border-radius:12px;padding:.65rem 1.25rem;display:flex;align-items:center;gap:.6rem;transition:border-color .2s,transform .2s;" onmouseover="this.style.borderColor='rgba(46,134,222,.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(46,134,222,.12)';this.style.transform=''">
+        <i class="{{ tech.icon }}" style="color:#89C2FF;font-size:1rem;"></i>
+        <span style="font-size:.85rem;color:#c0d0e0;font-weight:600;">{{ tech.name }}</span>
+      </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
 <!-- ════ CTA ════ -->
-<section class="cta-section">
+<section style="padding:90px 0;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#060f1c,#0a1e38,#060f1c);"></div>
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:350px;background:radial-gradient(ellipse,rgba(46,134,222,.1),transparent 70%);pointer-events:none;"></div>
   <div class="container position-relative text-center fade-up">
     <div class="section-badge">Work With Us</div>
-    <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">
-      Have a Project in Mind?
-    </h2>
-    <p class="section-subtitle mx-auto">We would love to discuss how AI-Solutions can help transform your organisation.</p>
-    <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
-      <i class="bi bi-envelope-fill"></i> Get In Touch
+    <h2 class="section-title" style="font-size:clamp(1.8rem,4vw,3rem);">Have a project in mind?</h2>
+    <p style="color:#8899aa;font-size:1rem;max-width:460px;margin:0 auto 2rem;line-height:1.85;">
+      We take on new projects selectively to make sure every client gets our full attention.
+      Reach out early — we'd love to hear what you're building.
+    </p>
+    <a href="{% url 'contact' %}" class="btn-primary-custom" style="font-size:.95rem;">
+      <i class="bi bi-envelope-fill me-1"></i> Start the Conversation
     </a>
   </div>
 </section>

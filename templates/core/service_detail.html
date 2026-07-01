@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ service.title }} | AI-Solutions{% endblock %}
+{% block content %}
+
+<!-- ════ HERO ════ -->
+<div class="page-hero" style="padding-bottom:0;">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'services' %}">Services</a></li>
+        <li class="breadcrumb-item active">{{ service.title }}</li>
+      </ol>
+    </nav>
+    <div class="section-badge">{{ service.get_category_display }}</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(1.8rem,4vw,2.8rem);">{{ service.title }}</h1>
+    {% if service.client_name %}
+    <p style="color:var(--secondary);font-size:.9rem;margin-top:.5rem;">
+      <i class="bi bi-building me-1"></i>Delivered for <strong>{{ service.client_name }}</strong>
+    </p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ════ MAIN CONTENT ════ -->
+<section style="padding:3rem 0 5rem;">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- LEFT: Image + quick facts -->
+      <div class="col-lg-5 fade-up">
+
+        {% if service.image %}
+        <div style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/10;border:1px solid var(--dark-border);position:relative;">
+          <img src="{{ service.image.url }}" alt="{{ service.title }}"
+               style="width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;bottom:.75rem;left:.75rem;">
+            <span style="background:rgba(6,15,28,.85);border:1px solid rgba(46,134,222,.3);color:#89C2FF;font-size:.73rem;font-weight:600;padding:.3rem .7rem;border-radius:20px;backdrop-filter:blur(4px);">
+              <i class="bi {{ service.icon }} me-1"></i>{{ service.get_category_display }}
+            </span>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Quick-facts card -->
+        <div class="panel-card mt-4" style="position:relative;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+          <h6 style="color:#fff;font-weight:700;margin-bottom:1rem;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;">Service Details</h6>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.7rem;">
+            <li style="display:flex;gap:.75rem;align-items:flex-start;">
+              <i class="bi bi-tag-fill" style="color:var(--primary);margin-top:2px;flex-shrink:0;"></i>
+              <span style="font-size:.87rem;color:var(--text-muted);">Category: <strong style="color:#c0d0e0;">{{ service.get_category_display }}</strong></span>
+            </li>
+            {% if service.client_name %}
+            <li style="display:flex;gap:.75rem;align-items:flex-start;">
+              <i class="bi bi-building" style="color:var(--primary);margin-top:2px;flex-shrink:0;"></i>
+              <span style="font-size:.87rem;color:var(--text-muted);">Client: <strong style="color:#c0d0e0;">{{ service.client_name }}</strong></span>
+            </li>
+            {% endif %}
+            <li style="display:flex;gap:.75rem;align-items:flex-start;">
+              <i class="bi bi-lightning-charge-fill" style="color:#FBB040;margin-top:2px;flex-shrink:0;"></i>
+              <span style="font-size:.87rem;color:var(--text-muted);">Features: <strong style="color:#c0d0e0;">{{ service.features|length }} key capabilities</strong></span>
+            </li>
+            {% if service.is_featured %}
+            <li style="display:flex;gap:.75rem;align-items:flex-start;">
+              <i class="bi bi-star-fill" style="color:#FBB040;margin-top:2px;flex-shrink:0;"></i>
+              <span style="font-size:.87rem;color:#FBB040;font-weight:600;">Featured Service</span>
+            </li>
+            {% endif %}
+          </ul>
+          <div class="mt-4 d-flex flex-column gap-2">
+            <a href="{% url 'contact' %}" class="btn-primary-custom justify-content-center">
+              <i class="bi bi-envelope-fill"></i> Request This Service
+            </a>
+            <a href="{% url 'services' %}" class="btn-outline-custom justify-content-center">
+              <i class="bi bi-arrow-left me-1"></i> Back to Services
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Description + features -->
+      <div class="col-lg-7 fade-up" style="transition-delay:.1s;">
+
+        <h2 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:1rem;">About This Service</h2>
+        <p style="color:var(--text-muted);line-height:1.9;font-size:.97rem;margin-bottom:2rem;">{{ service.description }}</p>
+
+        <h3 style="font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#556677;margin-bottom:1rem;">Key Features & Capabilities</h3>
+        <div class="row g-3 mb-4">
+          {% for feature in service.features %}
+          <div class="col-md-6">
+            <div style="background:rgba(46,134,222,0.06);border:1px solid rgba(46,134,222,0.14);border-radius:10px;padding:.85rem 1rem;display:flex;align-items:flex-start;gap:.65rem;">
+              <i class="bi bi-check-circle-fill" style="color:#22c55e;font-size:1rem;flex-shrink:0;margin-top:2px;"></i>
+              <span style="font-size:.87rem;color:#c0d0e0;line-height:1.5;">{{ feature }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Why choose this service -->
+        <div style="background:rgba(46,134,222,0.05);border:1px solid rgba(46,134,222,0.15);border-radius:var(--radius-lg);padding:1.75rem;margin-bottom:2rem;">
+          <h3 style="font-size:1rem;font-weight:700;color:#89C2FF;margin-bottom:1rem;">
+            <i class="bi bi-shield-check me-2"></i>Why Choose AI-Solutions?
+          </h3>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <div class="feature-item" style="margin-bottom:0;">
+                <div class="feature-icon-wrap"><i class="bi bi-clock-fill" style="color:#2E86DE;"></i></div>
+                <div><h6 style="font-size:.85rem;">Fast Deployment</h6><p style="font-size:.78rem;">Go live in 2–4 weeks, not months.</p></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="feature-item" style="margin-bottom:0;">
+                <div class="feature-icon-wrap"><i class="bi bi-puzzle-fill" style="color:#89C2FF;"></i></div>
+                <div><h6 style="font-size:.85rem;">Seamless Integration</h6><p style="font-size:.78rem;">Connects with your existing tools.</p></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="feature-item" style="margin-bottom:0;">
+                <div class="feature-icon-wrap"><i class="bi bi-shield-fill-check" style="color:#22c55e;"></i></div>
+                <div><h6 style="font-size:.85rem;">Enterprise Security</h6><p style="font-size:.78rem;">OWASP-compliant, encrypted data.</p></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="feature-item" style="margin-bottom:0;">
+                <div class="feature-icon-wrap"><i class="bi bi-headset" style="color:#FBB040;"></i></div>
+                <div><h6 style="font-size:.85rem;">24/7 Support</h6><p style="font-size:.78rem;">Dedicated account manager included.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="{% url 'contact' %}" class="btn-primary-custom" style="display:inline-flex;">
+          <i class="bi bi-calendar-check-fill"></i> Book a Free Consultation
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ RELATED SERVICES ════ -->
+{% if related %}
+<section style="background:var(--dark-card);border-top:1px solid var(--dark-border);padding:4rem 0;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <div class="section-badge">Same Category</div>
+      <h2 class="section-title" style="font-size:1.75rem;">Related Services</h2>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for rel in related %}
+      <div class="col-lg-4 col-md-6 fade-up">
+        <div class="service-card" style="padding:0;overflow:hidden;">
+          {% if rel.image %}
+          <div style="aspect-ratio:16/9;overflow:hidden;">
+            <img src="{{ rel.image.url }}" alt="{{ rel.title }}" style="width:100%;height:100%;object-fit:cover;transition:transform .4s;">
+          </div>
+          {% endif %}
+          <div style="padding:1.4rem;">
+            <div class="service-icon" style="margin-bottom:.6rem;"><i class="bi {{ rel.icon }}"></i></div>
+            <h5 style="margin-bottom:.4rem;font-size:1rem;">{{ rel.title }}</h5>
+            <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:.9rem;">{{ rel.short_description }}</p>
+            <a href="{% url 'service_detail' rel.slug %}" class="learn-more">View Details <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ════ CTA ════ -->
+<section class="cta-section">
+  <div class="container text-center fade-up">
+    <div class="section-badge">Get Started</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.5rem);">Ready to Implement {{ service.title }}?</h2>
+    <p class="section-subtitle mx-auto">Talk to our team — free consultation, no commitment required.</p>
+    <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
+      <i class="bi bi-envelope-fill"></i> Contact Us Now
+    </a>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Client Reviews | AI-Solutions{% endblock %}
+{% block title %}Reviews & Testimonials | AI-Solutions{% endblock %}
 {% block content %}
 
+<!-- ════ HERO ════ -->
 <div class="page-hero">
   <div class="container position-relative">
     <nav aria-label="breadcrumb" class="mb-3">
@@ -11,10 +12,17 @@
       </ol>
     </nav>
     <div class="section-badge">Client Feedback</div>
-    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Customer <span class="gradient-text">Ratings &amp; Reviews</span></h1>
-    <p class="section-subtitle mx-auto">Honest feedback from the enterprises that trusted AI-Solutions to transform their workflows with intelligent AI.</p>
-
-    <!-- Overall Rating Summary -->
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">
+      Customer <span class="gradient-text">Ratings &amp; Reviews</span>
+    </h1>
+    <p class="section-subtitle mx-auto">
+      Honest feedback from enterprises that trusted AI-Solutions to transform their workflows.
+    </p>
+    <div class="d-flex justify-content-center mt-4">
+      <a href="#leave-review" class="btn-primary-custom">
+        <i class="bi bi-pencil-square me-1"></i> Leave a Review
+      </a>
+    </div>
     <div class="d-flex justify-content-center gap-5 flex-wrap mt-4">
       <div class="text-center">
         <div style="font-size:3rem;font-weight:900;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">4.8</div>
@@ -33,6 +41,7 @@
   </div>
 </div>
 
+<!-- ════ REVIEWS GRID ════ -->
 <section>
   <div class="container">
     <div class="row g-4">
@@ -41,24 +50,23 @@
         <div class="testimonial-card h-100">
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div class="star-rating" style="font-size:1rem;">
-              {% for i in "12345" %}
-                {% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}
-              {% endfor %}
+              {% for i in "12345" %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}
             </div>
-            <div class="rating-badge">
-              <i class="bi bi-star-fill"></i> {{ t.rating }} / 5
-            </div>
+            <div class="rating-badge"><i class="bi bi-star-fill"></i> {{ t.rating }} / 5</div>
           </div>
-
           <blockquote style="font-size:.95rem;color:#c0d0e0;line-height:1.85;font-style:italic;margin-bottom:1.5rem;border-left:3px solid var(--primary);padding-left:1rem;">
             "{{ t.content }}"
           </blockquote>
-
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center gap-3">
+              {% if t.photo %}
+              <img src="{{ t.photo.url }}" alt="{{ t.name }}"
+                   style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(46,134,222,0.35);">
+              {% else %}
               <div style="width:48px;height:48px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem;flex-shrink:0;">
                 {{ t.name|first }}
               </div>
+              {% endif %}
               <div>
                 <div style="font-weight:700;color:#fff;font-size:.95rem;">{{ t.name }}</div>
                 <div style="font-size:.8rem;color:var(--text-muted);">{{ t.role }}{% if t.role and t.company %}, {% endif %}{{ t.company }}</div>
@@ -82,6 +90,96 @@
   </div>
 </section>
 
+<!-- ════ SUBMIT REVIEW FORM ════ -->
+<section style="background:var(--dark-card);border-top:1px solid var(--dark-border);border-bottom:1px solid var(--dark-border);padding:5rem 0;" id="leave-review">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+
+        <div class="text-center mb-5 fade-up">
+          <div class="section-badge">Share Your Experience</div>
+          <h2 class="section-title" style="font-size:clamp(1.6rem,3vw,2.2rem);">Leave a <span class="gradient-text">Review</span></h2>
+          <p style="color:var(--text-muted);font-size:.93rem;">Worked with us? We'd love to hear about your experience. Your review helps others make informed decisions.</p>
+        </div>
+
+        {% if messages %}
+        {% for msg in messages %}
+        <div class="alert alert-{% if msg.tags == 'error' %}danger{% else %}success{% endif %} mb-4" style="border-radius:10px;background:rgba({% if msg.tags == 'error' %}239,68,68{% else %}34,197,94{% endif %},.1);border:1px solid rgba({% if msg.tags == 'error' %}239,68,68{% else %}34,197,94{% endif %},.25);color:{% if msg.tags == 'error' %}#f87171{% else %}#4ade80{% endif %};">
+          <i class="bi bi-{% if msg.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %} me-2"></i>{{ msg }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="panel-card fade-up" style="position:relative;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+
+          <form method="post" action="{% url 'feedback' %}#leave-review" novalidate>
+            {% csrf_token %}
+            <div class="row g-3">
+
+              <div class="col-md-6">
+                <label class="form-label">Your Name <span style="color:#ef4444;">*</span></label>
+                {{ form.name }}
+                {% if form.name.errors %}<div style="color:#f87171;font-size:.78rem;margin-top:.25rem;">{{ form.name.errors|first }}</div>{% endif %}
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Your Role / Title</label>
+                {{ form.role }}
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Company <span style="color:#ef4444;">*</span></label>
+                {{ form.company }}
+                {% if form.company.errors %}<div style="color:#f87171;font-size:.78rem;margin-top:.25rem;">{{ form.company.errors|first }}</div>{% endif %}
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Rating (1–5) <span style="color:#ef4444;">*</span></label>
+                {{ form.rating }}
+                {% if form.rating.errors %}<div style="color:#f87171;font-size:.78rem;margin-top:.25rem;">{{ form.rating.errors|first }}</div>{% endif %}
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Project / Service</label>
+                {{ form.project_name }}
+              </div>
+
+              <!-- Visual star picker -->
+              <div class="col-12">
+                <label class="form-label">Quick Star Rating</label>
+                <div class="star-picker" id="starPicker">
+                  {% for i in "12345" %}
+                  <i class="bi bi-star star-pick" data-val="{{ forloop.counter }}" style="font-size:1.8rem;cursor:pointer;color:#334455;transition:color .15s;"></i>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Your Review <span style="color:#ef4444;">*</span></label>
+                {{ form.content }}
+                {% if form.content.errors %}<div style="color:#f87171;font-size:.78rem;margin-top:.25rem;">{{ form.content.errors|first }}</div>{% endif %}
+              </div>
+
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn-primary-custom">
+                  <i class="bi bi-send-fill"></i> Submit Review
+                </button>
+                <p style="font-size:.75rem;color:#445566;margin-top:.75rem;">
+                  <i class="bi bi-shield-check me-1"></i>Your review will be visible after a quick moderation check (usually within 24 hours).
+                </p>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA ════ -->
 <section class="cta-section">
   <div class="container position-relative text-center fade-up">
     <div class="section-badge">Join Our Clients</div>
@@ -93,4 +191,33 @@
   </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function(){
+  const stars = document.querySelectorAll('.star-pick');
+  const ratingInput = document.querySelector('input[name="rating"]');
+
+  function paint(val) {
+    stars.forEach(s => {
+      s.classList.toggle('bi-star-fill', parseInt(s.dataset.val) <= val);
+      s.classList.toggle('bi-star',      parseInt(s.dataset.val) >  val);
+      s.style.color = parseInt(s.dataset.val) <= val ? '#FBB040' : '#334455';
+    });
+  }
+
+  stars.forEach(s => {
+    s.addEventListener('mouseenter', () => paint(parseInt(s.dataset.val)));
+    s.addEventListener('mouseleave', () => paint(parseFloat(ratingInput.value) || 0));
+    s.addEventListener('click', () => {
+      ratingInput.value = s.dataset.val;
+      paint(parseInt(s.dataset.val));
+    });
+  });
+
+  // Init from existing form value
+  if (ratingInput && ratingInput.value) paint(parseFloat(ratingInput.value));
+})();
+</script>
 {% endblock %}

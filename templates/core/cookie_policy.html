@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% block title %}Cookie Policy | AI-Solutions{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Cookie Policy</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Legal</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">
+      Cookie <span class="gradient-text">Policy</span>
+    </h1>
+    <p class="section-subtitle mx-auto">
+      Last updated: June 2026. This policy explains what cookies are, which ones we use, and how you can control them.
+    </p>
+  </div>
+</div>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="policy-doc">
+
+          <div class="policy-section">
+            <h2>1. What Are Cookies?</h2>
+            <p>Cookies are small text files placed on your device when you visit a website. They help websites remember your preferences and activity, making your experience more personalised and efficient. Cookies cannot run programs or deliver viruses to your device.</p>
+          </div>
+
+          <div class="policy-section">
+            <h2>2. Types of Cookies We Use</h2>
+
+            <div class="cookie-table-wrap">
+              <table class="cookie-table">
+                <thead>
+                  <tr>
+                    <th>Cookie Type</th>
+                    <th>Purpose</th>
+                    <th>Duration</th>
+                    <th>Essential?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="cookie-badge essential">Session</span></td>
+                    <td>Maintains your browsing session (e.g. CSRF protection for forms)</td>
+                    <td>Session (deleted on close)</td>
+                    <td><i class="bi bi-check-circle-fill" style="color:#22c55e;"></i> Yes</td>
+                  </tr>
+                  <tr>
+                    <td><span class="cookie-badge essential">CSRF Token</span></td>
+                    <td>Security cookie that prevents cross-site request forgery attacks on our contact form</td>
+                    <td>Session</td>
+                    <td><i class="bi bi-check-circle-fill" style="color:#22c55e;"></i> Yes</td>
+                  </tr>
+                  <tr>
+                    <td><span class="cookie-badge analytics">Analytics</span></td>
+                    <td>Anonymised tracking of page visits and user interactions to help us improve the site</td>
+                    <td>Up to 24 months</td>
+                    <td><i class="bi bi-x-circle-fill" style="color:#ef4444;"></i> No</td>
+                  </tr>
+                  <tr>
+                    <td><span class="cookie-badge third-party">Google Maps</span></td>
+                    <td>Set when you interact with embedded maps on our Contact page</td>
+                    <td>Up to 6 months</td>
+                    <td><i class="bi bi-x-circle-fill" style="color:#ef4444;"></i> No</td>
+                  </tr>
+                  <tr>
+                    <td><span class="cookie-badge third-party">CDN / Fonts</span></td>
+                    <td>Bootstrap and icon libraries loaded from jsDelivr CDN may set performance cookies</td>
+                    <td>Varies</td>
+                    <td><i class="bi bi-x-circle-fill" style="color:#ef4444;"></i> No</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="policy-section">
+            <h2>3. Essential Cookies</h2>
+            <p>Essential cookies are required for the website to function correctly. They enable core features such as form submission security (CSRF protection) and session management. You cannot opt out of essential cookies without affecting how the website works.</p>
+          </div>
+
+          <div class="policy-section">
+            <h2>4. Non-Essential Cookies</h2>
+            <p>Non-essential cookies (analytics, third-party) are only placed with your consent. You can accept or decline these using the cookie banner shown when you first visit our website. You can also change your preferences at any time (see Section 5).</p>
+          </div>
+
+          <div class="policy-section">
+            <h2>5. How to Control Cookies</h2>
+            <p>You can control and delete cookies in several ways:</p>
+            <ul>
+              <li><strong>Browser settings:</strong> Most browsers allow you to block or delete cookies. See your browser's help documentation:
+                <ul style="margin-top:.4rem;">
+                  <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+                  <li><a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+                  <li><a href="https://support.apple.com/en-gb/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Apple Safari</a></li>
+                  <li><a href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies" target="_blank" rel="noopener">Microsoft Edge</a></li>
+                </ul>
+              </li>
+              <li><strong>Opt-out tools:</strong> You can opt out of Google Analytics tracking via the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>.</li>
+              <li><strong>Contact us:</strong> Email <a href="mailto:student.helpline@sunderland.ac.uk">student.helpline@sunderland.ac.uk</a> to request that we delete your data.</li>
+            </ul>
+            <p>Blocking certain cookies may affect how parts of our website function (e.g. maps, contact form).</p>
+          </div>
+
+          <div class="policy-section">
+            <h2>6. Third-Party Cookies</h2>
+            <p>When you interact with Google Maps embeds on our Contact page, Google may set their own cookies. We have no control over these cookies. Please refer to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a> for details.</p>
+          </div>
+
+          <div class="policy-section">
+            <h2>7. Changes to This Policy</h2>
+            <p>We may update this Cookie Policy as our services or technology changes. The "last updated" date at the top reflects the most recent version. We recommend reviewing this page periodically.</p>
+          </div>
+
+          <div class="policy-section">
+            <h2>8. Contact Us</h2>
+            <p>Questions about our cookie use? Contact us at:</p>
+            <ul>
+              <li>Email: <a href="mailto:student.helpline@sunderland.ac.uk">student.helpline@sunderland.ac.uk</a></li>
+              <li>Address: Chester Road, Sunderland, UK, SR1 3SD</li>
+            </ul>
+          </div>
+
+          <div class="policy-nav-links">
+            <a href="{% url 'privacy_policy' %}" class="policy-link">
+              <i class="bi bi-shield-lock me-2"></i> View Privacy Policy
+            </a>
+            <a href="{% url 'contact' %}" class="policy-link">
+              <i class="bi bi-envelope me-2"></i> Contact Us
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.policy-doc {
+  background: var(--dark-card, #0a1828);
+  border: 1px solid rgba(46,134,222,.1);
+  border-radius: 20px;
+  padding: 3rem;
+}
+.policy-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(46,134,222,.07);
+}
+.policy-section:last-of-type { border-bottom: none; margin-bottom: 0; }
+.policy-section h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #89C2FF;
+  margin-bottom: 1rem;
+}
+.policy-section p, .policy-section li {
+  font-size: .9rem;
+  color: #8899AA;
+  line-height: 1.85;
+}
+.policy-section ul { padding-left: 1.25rem; margin: .5rem 0; }
+.policy-section li { margin-bottom: .4rem; }
+.policy-section a { color: #2E86DE; }
+.policy-section a:hover { color: #89C2FF; }
+.cookie-table-wrap { overflow-x: auto; margin: 1rem 0; }
+.cookie-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .85rem;
+}
+.cookie-table th {
+  background: rgba(46,134,222,.08);
+  color: #89C2FF;
+  padding: .7rem 1rem;
+  text-align: left;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(46,134,222,.15);
+}
+.cookie-table td {
+  padding: .75rem 1rem;
+  color: #8899AA;
+  border-bottom: 1px solid rgba(46,134,222,.06);
+  vertical-align: top;
+}
+.cookie-table tr:last-child td { border-bottom: none; }
+.cookie-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: .72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cookie-badge.essential   { background: rgba(34,197,94,.12); color: #22c55e; }
+.cookie-badge.analytics   { background: rgba(251,191,36,.1); color: #fbbf24; }
+.cookie-badge.third-party { background: rgba(99,102,241,.12); color: #818cf8; }
+.policy-nav-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(46,134,222,.1);
+}
+.policy-link {
+  display: inline-flex;
+  align-items: center;
+  padding: .6rem 1.2rem;
+  background: rgba(46,134,222,.1);
+  border: 1px solid rgba(46,134,222,.2);
+  border-radius: 10px;
+  font-size: .83rem;
+  font-weight: 600;
+  color: #89C2FF;
+  transition: all .2s;
+}
+.policy-link:hover { background: rgba(46,134,222,.2); color: #fff; }
+@media (max-width: 767px) {
+  .policy-doc { padding: 1.5rem; }
+  .policy-nav-links { flex-direction: column; }
+  .cookie-table th, .cookie-table td { padding: .5rem .7rem; }
+}
+</style>
+
+{% endblock %}

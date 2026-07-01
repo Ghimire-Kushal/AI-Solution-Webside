@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ project.title }} | Portfolio | AI-Solutions{% endblock %}
+{% block content %}
+
+<!-- ════ HERO ════ -->
+<div class="page-hero" style="padding-bottom:0;">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'portfolio' %}">Portfolio</a></li>
+        <li class="breadcrumb-item active">{{ project.title }}</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Case Study · {{ project.get_category_display }}</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(1.8rem,4vw,2.8rem);">{{ project.title }}</h1>
+    {% if project.client_name %}
+    <p style="color:var(--secondary);font-size:.9rem;margin-top:.5rem;">
+      <i class="bi bi-building me-1"></i>Client: <strong>{{ project.client_name }}</strong>
+    </p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ════ HERO IMAGE ════ -->
+{% if project.image %}
+<div style="width:100%;max-height:480px;overflow:hidden;position:relative;">
+  <img src="{{ project.image.url }}" alt="{{ project.title }}"
+       style="width:100%;height:100%;object-fit:cover;display:block;max-height:480px;">
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(6,15,28,1));"></div>
+</div>
+{% endif %}
+
+<!-- ════ MAIN CONTENT ════ -->
+<section style="padding:3.5rem 0 5rem;">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- LEFT: sidebar -->
+      <div class="col-lg-4 fade-up">
+
+        <!-- Project info card -->
+        <div class="panel-card" style="position:relative;margin-bottom:1.5rem;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1);border-radius:16px 16px 0 0;"></div>
+          <h6 style="color:#fff;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;">Project Info</h6>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.85rem;">
+            <li style="display:flex;gap:.75rem;">
+              <i class="bi bi-tag-fill" style="color:var(--primary);flex-shrink:0;margin-top:2px;"></i>
+              <div>
+                <div style="font-size:.72rem;color:#445566;text-transform:uppercase;letter-spacing:.8px;">Industry</div>
+                <div style="font-size:.9rem;color:#c0d0e0;font-weight:600;">{{ project.get_category_display }}</div>
+              </div>
+            </li>
+            {% if project.client_name %}
+            <li style="display:flex;gap:.75rem;">
+              <i class="bi bi-building" style="color:var(--primary);flex-shrink:0;margin-top:2px;"></i>
+              <div>
+                <div style="font-size:.72rem;color:#445566;text-transform:uppercase;letter-spacing:.8px;">Client</div>
+                <div style="font-size:.9rem;color:#c0d0e0;font-weight:600;">{{ project.client_name }}</div>
+              </div>
+            </li>
+            {% endif %}
+            <li style="display:flex;gap:.75rem;">
+              <i class="bi bi-code-square" style="color:var(--primary);flex-shrink:0;margin-top:2px;"></i>
+              <div>
+                <div style="font-size:.72rem;color:#445566;text-transform:uppercase;letter-spacing:.8px;">Solution Type</div>
+                <div style="font-size:.9rem;color:#c0d0e0;font-weight:600;">{{ project.title }}</div>
+              </div>
+            </li>
+            <li style="display:flex;gap:.75rem;">
+              <i class="bi bi-list-check" style="color:var(--primary);flex-shrink:0;margin-top:2px;"></i>
+              <div>
+                <div style="font-size:.72rem;color:#445566;text-transform:uppercase;letter-spacing:.8px;">Deliverables</div>
+                <div style="font-size:.9rem;color:#c0d0e0;font-weight:600;">{{ project.features|length }} core features</div>
+              </div>
+            </li>
+          </ul>
+          <div class="mt-4 d-flex flex-column gap-2">
+            <a href="{% url 'contact' %}" class="btn-primary-custom justify-content-center">
+              <i class="bi bi-chat-dots-fill"></i> Request Similar Project
+            </a>
+            <a href="{% url 'portfolio' %}" class="btn-outline-custom justify-content-center">
+              <i class="bi bi-arrow-left me-1"></i> All Portfolio
+            </a>
+          </div>
+        </div>
+
+        <!-- Tech stack / highlights -->
+        <div style="background:rgba(46,134,222,0.05);border:1px solid rgba(46,134,222,0.15);border-radius:var(--radius-lg);padding:1.4rem;">
+          <h6 style="color:#89C2FF;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.85rem;">
+            <i class="bi bi-trophy-fill me-2" style="color:#FBB040;"></i>Outcomes
+          </h6>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem;">
+            <li style="font-size:.83rem;color:var(--text-muted);display:flex;gap:.5rem;"><i class="bi bi-arrow-up-right-circle-fill" style="color:#22c55e;"></i>Improved operational efficiency</li>
+            <li style="font-size:.83rem;color:var(--text-muted);display:flex;gap:.5rem;"><i class="bi bi-arrow-up-right-circle-fill" style="color:#22c55e;"></i>Reduced manual workload</li>
+            <li style="font-size:.83rem;color:var(--text-muted);display:flex;gap:.5rem;"><i class="bi bi-arrow-up-right-circle-fill" style="color:#22c55e;"></i>24/7 AI-powered automation</li>
+            <li style="font-size:.83rem;color:var(--text-muted);display:flex;gap:.5rem;"><i class="bi bi-arrow-up-right-circle-fill" style="color:#22c55e;"></i>Scalable, cloud-ready platform</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RIGHT: case study content -->
+      <div class="col-lg-8 fade-up" style="transition-delay:.1s;">
+
+        <h2 style="font-size:1.45rem;font-weight:800;color:#fff;margin-bottom:1rem;">Project Overview</h2>
+        <p style="color:var(--text-muted);line-height:1.95;font-size:.97rem;margin-bottom:2rem;">{{ project.description }}</p>
+
+        <!-- Features grid -->
+        <h3 style="font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#556677;margin-bottom:1rem;">Key Deliverables</h3>
+        <div class="row g-3 mb-4">
+          {% for feature in project.features %}
+          <div class="col-md-6">
+            <div style="background:rgba(46,134,222,0.06);border:1px solid rgba(46,134,222,0.14);border-radius:10px;padding:.85rem 1rem;display:flex;align-items:flex-start;gap:.65rem;height:100%;">
+              <div style="width:24px;height:24px;border-radius:6px;background:rgba(46,134,222,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="bi bi-check2" style="color:#22c55e;font-size:.9rem;"></i>
+              </div>
+              <span style="font-size:.86rem;color:#c0d0e0;line-height:1.5;">{{ feature }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Client testimonials for this project -->
+        {% if testimonials %}
+        <div style="margin-top:2.5rem;">
+          <h3 style="font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#556677;margin-bottom:1rem;">Client Feedback</h3>
+          {% for t in testimonials %}
+          <div class="testimonial-card mb-3">
+            <blockquote style="font-size:.93rem;color:#c0d0e0;font-style:italic;border-left:3px solid var(--primary);padding-left:1rem;margin-bottom:1rem;">
+              "{{ t.content }}"
+            </blockquote>
+            <div class="d-flex align-items-center gap-3">
+              {% if t.photo %}
+              <img src="{{ t.photo.url }}" alt="{{ t.name }}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(46,134,222,.3);">
+              {% else %}
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">{{ t.name|first }}</div>
+              {% endif %}
+              <div>
+                <div style="font-weight:700;color:#fff;font-size:.9rem;">{{ t.name }}</div>
+                <div style="font-size:.78rem;color:var(--text-muted);">{{ t.role }}{% if t.role %}, {% endif %}{{ t.company }}</div>
+              </div>
+              <div class="ms-auto rating-badge"><i class="bi bi-star-fill"></i> {{ t.rating }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ RELATED PROJECTS ════ -->
+{% if related %}
+<section style="background:var(--dark-card);border-top:1px solid var(--dark-border);padding:4rem 0;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <div class="section-badge">Same Industry</div>
+      <h2 class="section-title" style="font-size:1.75rem;">Related Projects</h2>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for rel in related %}
+      <div class="col-lg-4 col-md-6 fade-up">
+        <div class="portfolio-card">
+          <div class="portfolio-card-img">
+            {% if rel.image %}
+            <img src="{{ rel.image.url }}" alt="{{ rel.title }}">
+            {% else %}
+            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><i class="bi {{ rel.icon }}" style="font-size:2.5rem;color:#89C2FF;opacity:.4;"></i></div>
+            {% endif %}
+            <div class="portfolio-card-overlay"><span class="portfolio-tag">{{ rel.get_category_display }}</span></div>
+          </div>
+          <div class="portfolio-card-body">
+            {% if rel.client_name %}<div style="font-size:.73rem;color:var(--secondary);font-weight:600;margin-bottom:.4rem;"><i class="bi bi-building me-1"></i>{{ rel.client_name }}</div>{% endif %}
+            <h5 style="color:#fff;font-size:1rem;font-weight:700;margin-bottom:.4rem;">{{ rel.title }}</h5>
+            <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:.85rem;">{{ rel.short_description }}</p>
+            <a href="{% url 'portfolio_detail' rel.slug %}" class="learn-more">View Case Study <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ════ CTA ════ -->
+<section class="cta-section">
+  <div class="container text-center fade-up">
+    <div class="section-badge">Start Your Project</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.5rem);">Want a Similar Solution?</h2>
+    <p class="section-subtitle mx-auto">Let's discuss your needs — free consultation, no commitment.</p>
+    <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
+      <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
+    </a>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.portfolio-card { background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-lg);overflow:hidden;height:100%;display:flex;flex-direction:column;transition:transform .25s,border-color .25s,box-shadow .25s; }
+.portfolio-card:hover { transform:translateY(-6px);border-color:rgba(46,134,222,.4);box-shadow:0 16px 40px rgba(0,0,0,.35); }
+.portfolio-card-img { position:relative;aspect-ratio:16/9;overflow:hidden;flex-shrink:0; }
+.portfolio-card-img img { width:100%;height:100%;object-fit:cover;transition:transform .4s; }
+.portfolio-card:hover .portfolio-card-img img { transform:scale(1.06); }
+.portfolio-card-overlay { position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(6,15,28,.75));display:flex;align-items:flex-end;padding:.75rem; }
+.portfolio-card-body { padding:1.4rem;display:flex;flex-direction:column;flex:1; }
+</style>
+{% endblock %}

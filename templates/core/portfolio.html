@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Portfolio | Past Solutions | AI-Solutions{% endblock %}
+{% block content %}
+
+<!-- ════ HERO ════ -->
+<div class="page-hero">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Portfolio</li>
+      </ol>
+    </nav>
+    <div class="section-badge">Past Client Work</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Our <span class="gradient-text">Portfolio</span></h1>
+    <p class="section-subtitle mx-auto">
+      Real AI solutions delivered for real clients. Browse our completed and in-progress projects
+      across healthcare, retail, education, logistics, security, and more.
+    </p>
+
+    <!-- Stats row -->
+    <div class="d-flex justify-content-center gap-5 flex-wrap mt-4">
+      <div class="text-center">
+        <div style="font-size:2.5rem;font-weight:900;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">{{ projects.count }}</div>
+        <div style="font-size:.8rem;color:var(--text-muted);">Completed Projects</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size:2.5rem;font-weight:900;color:#89C2FF;">6</div>
+        <div style="font-size:.8rem;color:var(--text-muted);">Industries Served</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size:2.5rem;font-weight:900;color:#22c55e;">500+</div>
+        <div style="font-size:.8rem;color:var(--text-muted);">End Users Impacted</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ FILTER BAR ════ -->
+<section style="padding:2rem 0 0;">
+  <div class="container">
+    <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
+      <a href="{% url 'portfolio' %}"
+         class="filter-pill {% if not active_category %}active{% endif %}">
+        All
+      </a>
+      {% for val, label in categories %}
+      <a href="{% url 'portfolio' %}?category={{ val }}"
+         class="filter-pill {% if active_category == val %}active{% endif %}">
+        {{ label }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════ PROJECT GRID ════ -->
+<section style="padding:1rem 0 4rem;">
+  <div class="container">
+    <div class="row g-4">
+      {% for project in projects %}
+      <div class="col-lg-4 col-md-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <div class="portfolio-card">
+
+          <!-- Image -->
+          <div class="portfolio-card-img">
+            {% if project.image %}
+            <img src="{{ project.image.url }}" alt="{{ project.title }}">
+            {% else %}
+            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(46,134,222,0.08);">
+              <i class="bi {{ project.icon }}" style="font-size:3rem;color:#89C2FF;opacity:.5;"></i>
+            </div>
+            {% endif %}
+            <!-- Category overlay -->
+            <div class="portfolio-card-overlay">
+              <span class="portfolio-tag">{{ project.get_category_display }}</span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="portfolio-card-body">
+            <!-- Client badge -->
+            {% if project.client_name %}
+            <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.6rem;">
+              <i class="bi bi-building" style="color:var(--primary);font-size:.78rem;"></i>
+              <span style="font-size:.75rem;color:var(--secondary);font-weight:600;text-transform:uppercase;letter-spacing:.6px;">{{ project.client_name }}</span>
+            </div>
+            {% endif %}
+
+            <h5 style="color:#fff;font-weight:700;margin-bottom:.5rem;font-size:1.05rem;">{{ project.title }}</h5>
+            <p style="font-size:.85rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">{{ project.short_description }}</p>
+
+            <!-- Feature pills -->
+            {% if project.features %}
+            <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem;">
+              {% for feat in project.features|slice:":3" %}
+              <span style="background:rgba(46,134,222,0.08);border:1px solid rgba(46,134,222,0.18);color:#89C2FF;font-size:.68rem;padding:.2rem .55rem;border-radius:20px;">{{ feat|truncatechars:28 }}</span>
+              {% endfor %}
+              {% if project.features|length > 3 %}
+              <span style="background:rgba(46,134,222,0.04);border:1px solid rgba(46,134,222,0.1);color:#556677;font-size:.68rem;padding:.2rem .55rem;border-radius:20px;">+{{ project.features|length|add:"-3" }} more</span>
+              {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="d-flex gap-2 flex-wrap mt-auto">
+              <a href="{% url 'portfolio_detail' project.slug %}" class="btn-primary-custom" style="font-size:.8rem;padding:.4rem 1rem;">
+                <i class="bi bi-arrow-right-circle me-1"></i> Case Study
+              </a>
+              <a href="{% url 'contact' %}?subject=Inquiry+about+{{ project.title|urlencode }}"
+                 class="btn-outline-custom" style="font-size:.8rem;padding:.4rem 1rem;">
+                <i class="bi bi-chat-dots me-1"></i> Discuss
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-folder2-open" style="font-size:3rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>
+        <p style="color:var(--text-muted);">No projects found in this category.</p>
+        <a href="{% url 'portfolio' %}" class="btn-outline-custom mt-2" style="display:inline-flex;">View All Projects</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════ FEATURED CASE STUDY ════ -->
+{% with projects|first as featured %}
+{% if featured %}
+<section style="background:var(--dark-card);border-top:1px solid var(--dark-border);border-bottom:1px solid var(--dark-border);padding:5rem 0;">
+  <div class="container">
+    <div class="text-center mb-5 fade-up">
+      <div class="section-badge">Spotlight</div>
+      <h2 class="section-title">Featured Case Study</h2>
+    </div>
+    <div class="row g-5 align-items-center fade-up">
+      <div class="col-lg-6">
+        <div style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/10;position:relative;border:1px solid var(--dark-border);">
+          {% if featured.image %}
+          <img src="{{ featured.image.url }}" alt="{{ featured.title }}"
+               style="width:100%;height:100%;object-fit:cover;">
+          {% endif %}
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(27,79,114,.4),transparent);"></div>
+          <div style="position:absolute;bottom:1rem;left:1rem;">
+            <span style="background:var(--gradient-1);color:#fff;font-size:.75rem;font-weight:700;padding:.35rem .85rem;border-radius:20px;">
+              <i class="bi bi-star-fill me-1"></i>Featured Project
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="section-badge">{{ featured.get_category_display }}</div>
+        <h3 style="font-size:1.85rem;font-weight:800;color:#fff;margin:.75rem 0 .5rem;">{{ featured.title }}</h3>
+        {% if featured.client_name %}
+        <p style="font-size:.85rem;color:var(--secondary);margin-bottom:1rem;">
+          <i class="bi bi-building me-1"></i>{{ featured.client_name }}
+        </p>
+        {% endif %}
+        <p style="color:var(--text-muted);line-height:1.85;margin-bottom:1.5rem;">{{ featured.description|truncatewords:60 }}</p>
+        <h6 style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#556677;margin-bottom:.75rem;">Key Deliverables</h6>
+        <ul class="feature-list">
+          {% for feat in featured.features %}
+          <li>{{ feat }}</li>
+          {% endfor %}
+        </ul>
+        <div class="d-flex gap-3 mt-4 flex-wrap">
+          <a href="{% url 'contact' %}" class="btn-primary-custom">
+            <i class="bi bi-envelope"></i> Request Similar Solution
+          </a>
+          <a href="{% url 'services' %}" class="btn-outline-custom">
+            <i class="bi bi-grid me-1"></i>All Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+
+<!-- ════ CTA ════ -->
+<section class="cta-section">
+  <div class="container position-relative text-center fade-up">
+    <div class="section-badge">Start Your Project</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">Ready to Be Our Next Success Story?</h2>
+    <p class="section-subtitle mx-auto">Tell us your challenge. We'll design and deliver the right AI solution.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+      <a href="{% url 'contact' %}" class="btn-primary-custom">
+        <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
+      </a>
+      <a href="{% url 'services' %}" class="btn-outline-custom">
+        <i class="bi bi-grid me-1"></i> Browse Services
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Filter pills ── */
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: .4rem 1.1rem;
+  border-radius: 30px;
+  font-size: .82rem;
+  font-weight: 600;
+  border: 1px solid var(--dark-border);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all .2s;
+}
+.filter-pill:hover { border-color: var(--primary); color: #89C2FF; }
+.filter-pill.active {
+  background: var(--gradient-1);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* ── Portfolio card ── */
+.portfolio-card {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.portfolio-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(46,134,222,.4);
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+}
+.portfolio-card-img {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.portfolio-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s;
+}
+.portfolio-card:hover .portfolio-card-img img { transform: scale(1.06); }
+.portfolio-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(6,15,28,.75));
+  display: flex;
+  align-items: flex-end;
+  padding: .75rem;
+}
+.portfolio-card-body {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+</style>
+{% endblock %}

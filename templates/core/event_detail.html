@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.title }} | AI-Solutions Events{% endblock %}
+{% block content %}
+
+<!-- ════ HERO ════ -->
+<div class="page-hero" style="padding-bottom:0;">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'events' %}">Events</a></li>
+        <li class="breadcrumb-item active">{{ event.title|truncatechars:40 }}</li>
+      </ol>
+    </nav>
+
+    {% if event.is_completed %}
+    <div class="section-badge" style="background:rgba(136,153,170,.12);border-color:rgba(136,153,170,.25);color:#8899aa;">
+      <i class="bi bi-check-circle-fill me-1"></i> Completed Event
+    </div>
+    {% else %}
+    <div class="section-badge" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.25);color:#22c55e;">
+      <i class="bi bi-clock-fill me-1"></i> Upcoming Event
+    </div>
+    {% endif %}
+
+    <h1 class="section-title mt-2" style="font-size:clamp(1.8rem,4vw,2.8rem);">{{ event.title }}</h1>
+
+    <!-- Meta row -->
+    <div class="d-flex flex-wrap justify-content-center gap-3 mt-3 mb-4">
+      <span class="event-meta-chip">
+        <i class="bi bi-calendar3"></i> {{ event.date|date:"l, F j, Y" }}
+      </span>
+      {% if event.location %}
+      <span class="event-meta-chip">
+        <i class="bi bi-geo-alt-fill"></i> {{ event.location }}
+      </span>
+      {% endif %}
+      <span class="event-meta-chip">
+        <i class="bi bi-clock"></i>
+        {% if event.is_completed %}Completed{% else %}Upcoming{% endif %}
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ════ CONTENT ════ -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- ── Main content ── -->
+      <div class="col-lg-8">
+
+        {% if event.image %}
+        <div class="event-detail-img-wrap mb-4">
+          <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-detail-img">
+          <div class="event-detail-img-overlay">
+            <div class="event-detail-date-badge">
+              <span class="day">{{ event.date|date:"d" }}</span>
+              <span class="month">{{ event.date|date:"M Y" }}</span>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Description -->
+        <div class="event-detail-card">
+          <h3 class="event-section-heading"><i class="bi bi-info-circle-fill me-2" style="color:#2E86DE;"></i>About This Event</h3>
+          <div class="event-body-text">
+            {{ event.description|linebreaks }}
+          </div>
+        </div>
+
+        <!-- What to Expect -->
+        <div class="event-detail-card mt-4">
+          <h3 class="event-section-heading"><i class="bi bi-stars me-2" style="color:#FBB040;"></i>What to Expect</h3>
+          <div class="row g-3 mt-1">
+            <div class="col-sm-6">
+              <div class="expect-item">
+                <div class="expect-icon" style="background:rgba(46,134,222,.12);color:#2E86DE;">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+                <div>
+                  <div class="expect-title">Networking</div>
+                  <div class="expect-desc">Connect with AI professionals and industry leaders</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="expect-item">
+                <div class="expect-icon" style="background:rgba(251,176,64,.1);color:#FBB040;">
+                  <i class="bi bi-lightbulb-fill"></i>
+                </div>
+                <div>
+                  <div class="expect-title">Insights</div>
+                  <div class="expect-desc">Expert talks and real-world AI case studies</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="expect-item">
+                <div class="expect-icon" style="background:rgba(168,85,247,.1);color:#a855f7;">
+                  <i class="bi bi-display-fill"></i>
+                </div>
+                <div>
+                  <div class="expect-title">Live Demo</div>
+                  <div class="expect-desc">Hands-on demonstrations of our AI solutions</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="expect-item">
+                <div class="expect-icon" style="background:rgba(34,197,94,.1);color:#22c55e;">
+                  <i class="bi bi-chat-dots-fill"></i>
+                </div>
+                <div>
+                  <div class="expect-title">Q&amp;A Sessions</div>
+                  <div class="expect-desc">Direct interaction with our technical team</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Sidebar ── -->
+      <div class="col-lg-4">
+
+        <!-- Event Details Card -->
+        <div class="event-sidebar-card mb-4">
+          <h5 class="sidebar-card-title"><i class="bi bi-calendar-event-fill me-2" style="color:#2E86DE;"></i>Event Details</h5>
+
+          <div class="sidebar-detail-row">
+            <i class="bi bi-calendar3" style="color:#2E86DE;"></i>
+            <div>
+              <div class="sidebar-detail-label">Date</div>
+              <div class="sidebar-detail-val">{{ event.date|date:"l, F j, Y" }}</div>
+            </div>
+          </div>
+
+          {% if event.location %}
+          <div class="sidebar-detail-row">
+            <i class="bi bi-geo-alt-fill" style="color:#22c55e;"></i>
+            <div>
+              <div class="sidebar-detail-label">Location</div>
+              <div class="sidebar-detail-val">{{ event.location }}</div>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="sidebar-detail-row">
+            <i class="bi bi-circle-fill" style="color:{% if event.is_completed %}#8899aa{% else %}#22c55e{% endif %};font-size:.55rem;margin-top:6px;"></i>
+            <div>
+              <div class="sidebar-detail-label">Status</div>
+              <div class="sidebar-detail-val" style="color:{% if event.is_completed %}#8899aa{% else %}#22c55e{% endif %};">
+                {% if event.is_completed %}Completed{% else %}Upcoming — Register Now{% endif %}
+              </div>
+            </div>
+          </div>
+
+          {% if not event.is_completed %}
+          <a href="{% url 'contact' %}" class="event-register-btn mt-3">
+            <i class="bi bi-pencil-square me-1"></i> Express Interest
+          </a>
+          {% endif %}
+        </div>
+
+        <!-- Organiser Card -->
+        <div class="event-sidebar-card mb-4">
+          <h5 class="sidebar-card-title"><i class="bi bi-building me-2" style="color:#FBB040;"></i>Organised By</h5>
+          <div class="d-flex align-items-center gap-3 mt-2">
+            <div style="width:44px;height:44px;border-radius:10px;background:rgba(46,134,222,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="bi bi-robot" style="color:#2E86DE;font-size:1.2rem;"></i>
+            </div>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9rem;">AI-Solutions</div>
+              <div style="font-size:.75rem;color:var(--text-muted);">Innovate · Support · Empower</div>
+            </div>
+          </div>
+          <div class="mt-3" style="font-size:.8rem;color:var(--text-muted);line-height:1.6;">
+            AI-Solutions is a UK-based technology company specialising in AI automation, custom AI development, and data analytics.
+          </div>
+        </div>
+
+        <!-- Share Card -->
+        <div class="event-sidebar-card">
+          <h5 class="sidebar-card-title"><i class="bi bi-share-fill me-2" style="color:#a855f7;"></i>Share Event</h5>
+          <div class="d-flex gap-2 mt-2 flex-wrap">
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" rel="noopener"
+               class="share-btn" style="background:rgba(10,102,194,.15);border-color:rgba(10,102,194,.3);color:#0a66c2;">
+              <i class="bi bi-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://twitter.com/intent/tweet?text={{ event.title|urlencode }}&url={{ request.build_absolute_uri }}" target="_blank" rel="noopener"
+               class="share-btn" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#e7e9ea;">
+              <i class="bi bi-twitter-x"></i> X
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" rel="noopener"
+               class="share-btn" style="background:rgba(24,119,242,.12);border-color:rgba(24,119,242,.3);color:#1877f2;">
+              <i class="bi bi-facebook"></i> Facebook
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Related Events ── -->
+    {% if related %}
+    <div class="mt-5">
+      <h3 style="font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:1.5rem;">
+        <i class="bi bi-calendar-week me-2" style="color:#2E86DE;"></i>Other Events
+      </h3>
+      <div class="row g-4">
+        {% for ev in related %}
+        <div class="col-md-4 fade-up">
+          <a href="{% url 'event_detail' ev.pk %}" class="related-event-card">
+            {% if ev.image %}
+            <div class="related-event-img">
+              <img src="{{ ev.image.url }}" alt="{{ ev.title }}">
+            </div>
+            {% else %}
+            <div class="related-event-img no-img">
+              <i class="bi bi-calendar-event" style="font-size:2rem;color:#334455;"></i>
+            </div>
+            {% endif %}
+            <div class="related-event-body">
+              <span class="related-event-status {% if ev.is_completed %}completed{% else %}upcoming{% endif %}">
+                {% if ev.is_completed %}Completed{% else %}Upcoming{% endif %}
+              </span>
+              <div class="related-event-title">{{ ev.title }}</div>
+              <div class="related-event-date"><i class="bi bi-calendar3 me-1"></i>{{ ev.date|date:"M d, Y" }}</div>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Back link -->
+    <div class="mt-5 pt-3" style="border-top:1px solid var(--dark-border);">
+      <a href="{% url 'events' %}" class="btn-outline-custom" style="display:inline-flex;">
+        <i class="bi bi-arrow-left me-1"></i> Back to All Events
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ── Meta chips ── */
+.event-meta-chip {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(46,134,222,.08); border: 1px solid rgba(46,134,222,.15);
+  border-radius: 20px; padding: .35rem .9rem;
+  font-size: .8rem; color: #89C2FF; font-weight: 500;
+}
+
+/* ── Hero image ── */
+.event-detail-img-wrap {
+  position: relative; border-radius: 18px; overflow: hidden;
+  aspect-ratio: 16/7; box-shadow: 0 20px 50px rgba(0,0,0,.4);
+}
+.event-detail-img { width:100%; height:100%; object-fit:cover; display:block; }
+.event-detail-img-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(6,15,28,.85));
+}
+.event-detail-date-badge {
+  position:absolute; bottom:1.25rem; left:1.25rem;
+  background: rgba(6,15,28,.88); border:1px solid rgba(46,134,222,.3);
+  border-radius:12px; padding:.6rem 1rem; text-align:center; backdrop-filter:blur(4px);
+}
+.event-detail-date-badge .day { display:block; font-size:1.8rem; font-weight:900; color:#fff; line-height:1; }
+.event-detail-date-badge .month { display:block; font-size:.7rem; color:#89C2FF; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+
+/* ── Content cards ── */
+.event-detail-card {
+  background: var(--dark-card); border:1px solid var(--dark-border);
+  border-radius:16px; padding:1.75rem;
+}
+.event-section-heading {
+  font-size:1rem; font-weight:700; color:#fff; margin-bottom:1rem;
+  padding-bottom:.75rem; border-bottom:1px solid var(--dark-border);
+}
+.event-body-text { font-size:.9rem; color:#8899aa; line-height:1.85; }
+.event-body-text p { margin-bottom:.85rem; }
+
+/* ── Expect items ── */
+.expect-item {
+  display:flex; gap:.85rem; align-items:flex-start;
+  background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05);
+  border-radius:12px; padding:.9rem 1rem;
+}
+.expect-icon {
+  width:38px; height:38px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; flex-shrink:0;
+}
+.expect-title { font-size:.83rem; font-weight:700; color:#dde8f0; margin-bottom:.2rem; }
+.expect-desc  { font-size:.75rem; color:#556677; line-height:1.5; }
+
+/* ── Sidebar card ── */
+.event-sidebar-card {
+  background: var(--dark-card); border:1px solid var(--dark-border);
+  border-radius:16px; padding:1.4rem;
+}
+.sidebar-card-title {
+  font-size:.9rem; font-weight:700; color:#fff; margin-bottom:1rem;
+  padding-bottom:.7rem; border-bottom:1px solid var(--dark-border);
+}
+.sidebar-detail-row {
+  display:flex; gap:.85rem; align-items:flex-start;
+  padding:.65rem 0; border-bottom:1px solid rgba(255,255,255,.04);
+}
+.sidebar-detail-row:last-of-type { border-bottom:none; }
+.sidebar-detail-row > i { font-size:.95rem; margin-top:3px; flex-shrink:0; }
+.sidebar-detail-label { font-size:.7rem; color:#556677; text-transform:uppercase; letter-spacing:.6px; margin-bottom:2px; }
+.sidebar-detail-val   { font-size:.85rem; color:#c0ccd8; font-weight:500; }
+
+/* ── Register button ── */
+.event-register-btn {
+  display:flex; align-items:center; justify-content:center;
+  gap:.4rem; padding:.75rem;
+  background:linear-gradient(135deg,#1B4F72,#2E86DE);
+  border-radius:10px; color:#fff; font-weight:600; font-size:.88rem;
+  text-decoration:none; transition:opacity .2s, transform .2s;
+  box-shadow:0 6px 20px rgba(46,134,222,.3);
+}
+.event-register-btn:hover { opacity:.9; transform:translateY(-2px); color:#fff; }
+
+/* ── Share buttons ── */
+.share-btn {
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.4rem .85rem; border-radius:8px;
+  font-size:.78rem; font-weight:600; text-decoration:none;
+  border:1px solid; transition:opacity .2s;
+}
+.share-btn:hover { opacity:.8; }
+
+/* ── Related events ── */
+.related-event-card {
+  display:flex; flex-direction:column;
+  background:var(--dark-card); border:1px solid var(--dark-border);
+  border-radius:14px; overflow:hidden; text-decoration:none;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+}
+.related-event-card:hover {
+  transform:translateY(-4px); border-color:rgba(46,134,222,.35);
+  box-shadow:0 10px 28px rgba(0,0,0,.3);
+}
+.related-event-img { aspect-ratio:16/9; overflow:hidden; }
+.related-event-img img { width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s; }
+.related-event-card:hover .related-event-img img { transform:scale(1.05); }
+.related-event-img.no-img { display:flex;align-items:center;justify-content:center;background:#111d2b; }
+.related-event-body { padding:.9rem 1rem; }
+.related-event-status {
+  display:inline-block; font-size:.65rem; font-weight:700;
+  padding:2px 9px; border-radius:20px; margin-bottom:.5rem;
+  text-transform:uppercase; letter-spacing:.5px;
+}
+.related-event-status.upcoming  { background:rgba(34,197,94,.12);color:#22c55e; }
+.related-event-status.completed { background:rgba(136,153,170,.1);color:#8899aa; }
+.related-event-title { font-size:.85rem;font-weight:700;color:#dde8f0;margin-bottom:.3rem;line-height:1.3; }
+.related-event-date  { font-size:.72rem;color:#556677; }
+</style>
+
+{% endblock %}

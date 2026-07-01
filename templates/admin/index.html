@@ -1,0 +1,589 @@
+{% extends 'admin/base_site.html' %}
+{% load i18n static %}
+
+{% block title %}Dashboard — AI-Solutions Admin{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+/* ── Base — force light colors over Jazzmin theme ── */
+.dash,
+.dash * { box-sizing: border-box; }
+.dash { font-family: 'Segoe UI', -apple-system, sans-serif; color: #1e293b !important; }
+.content-wrapper { background: #f1f5f9 !important; }
+
+/* ── Page header ── */
+.dash-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .75rem; margin-bottom: 1.75rem;
+}
+.dash-header h1 { font-size: 1.5rem; font-weight: 700; margin: 0; color: #0f172a !important; }
+.dash-header .sub { font-size: .78rem; color: #64748b !important; margin-top: 3px; }
+.live-badge {
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 20px; padding: .3rem .9rem;
+  font-size: .72rem; font-weight: 600; color: #16a34a !important;
+}
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: livepulse 2s infinite; }
+@keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── Section label ── */
+.dash-section-label {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: #475569 !important;
+  margin: 1.75rem 0 .85rem;
+  display: flex; align-items: center; gap: .6rem;
+}
+.dash-section-label::after { content:''; flex:1; height:1px; background:#cbd5e1; }
+
+/* ── Stat cards ── */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: .9rem; margin-bottom: .5rem;
+}
+@media(max-width:1100px){ .stat-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:600px){  .stat-grid{ grid-template-columns:1fr; } }
+
+.stat-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.2rem 1.3rem;
+  display: flex; align-items: center; gap: 1rem;
+  transition: transform .2s, box-shadow .2s;
+  position: relative; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: var(--accent, #2E86DE);
+}
+.stat-card:hover { transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,0,0,.09); }
+.stat-icon {
+  width: 46px; height: 46px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0;
+}
+.stat-val  { font-size: 1.7rem; font-weight: 800; color: #0f172a !important; line-height: 1; }
+.stat-lbl  { font-size: .73rem; color: #475569 !important; margin-top: 4px; }
+.stat-sub  { font-size: .68rem; margin-top: 6px; }
+.badge-pill {
+  display: inline-block; border-radius: 20px;
+  padding: 2px 10px; font-size: .66rem; font-weight: 700;
+}
+
+/* ── Chart cards ── */
+.chart-grid-2  { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+.chart-grid-big{ display:grid; grid-template-columns:2fr 1fr; gap:1rem; margin-bottom:1rem; }
+@media(max-width:1000px){ .chart-grid-2,.chart-grid-big { grid-template-columns:1fr; } }
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.3rem 1.4rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+.card-title {
+  font-size: .8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: #334155 !important; margin: 0;
+  display: flex; align-items: center; gap: .5rem;
+}
+.card-hint { font-size: .7rem; color: #64748b !important; }
+
+/* ── Donut legend ── */
+.donut-wrap { display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
+.donut-wrap canvas { max-width:160px; max-height:160px; flex-shrink:0; }
+.donut-legend { display:flex; flex-direction:column; gap:7px; flex:1; min-width:100px; }
+.legend-row { display:flex; align-items:center; gap:7px; font-size:.76rem; color:#334155 !important; }
+.legend-dot  { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.legend-val  { margin-left:auto; color:#64748b !important; font-size:.7rem; }
+
+/* ── Messages list ── */
+.msg-list { display:flex; flex-direction:column; gap:0; }
+.msg-row {
+  display:flex; align-items:flex-start; gap:.75rem;
+  padding:.7rem 0; border-bottom:1px solid #f1f5f9;
+  text-decoration:none; color:inherit; transition:background .15s;
+  border-radius: 6px; padding: .65rem .5rem;
+}
+.msg-row:last-child { border-bottom:none; }
+.msg-row:hover { background: #f8fafc; }
+.msg-avatar {
+  width:34px; height:34px; border-radius:50%;
+  background: linear-gradient(135deg,#1B4F72,#2E86DE);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-weight:700; font-size:.85rem; flex-shrink:0;
+}
+.msg-name { font-size:.82rem; font-weight:600; color:#1e293b !important; }
+.msg-subj { font-size:.73rem; color:#64748b !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px; }
+.msg-date { font-size:.67rem; color:#94a3b8 !important; margin-top:2px; }
+.unread-dot { width:7px; height:7px; border-radius:50%; background:#ef4444; flex-shrink:0; margin-top:6px; }
+
+/* ── Comparison table ── */
+.diff-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+.diff-table th { font-size:.68rem; text-transform:uppercase; letter-spacing:.8px; color:#475569 !important; padding:.5rem .7rem; border-bottom:2px solid #e2e8f0; text-align:left; }
+.diff-table td { padding:.6rem .7rem; border-bottom:1px solid #f1f5f9; color:#1e293b !important; vertical-align:middle; }
+.diff-table tr:last-child td { border-bottom:none; }
+.diff-table tr:hover td { background:#f8fafc; }
+.diff-tag {
+  display:inline-block; padding:2px 10px; border-radius:20px;
+  font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+}
+
+/* ── Quick actions ── */
+.qaction-grid { display:flex; flex-direction:column; gap:.5rem; }
+.qaction {
+  display:flex; align-items:center; gap:.7rem;
+  padding:.65rem .9rem; border-radius:10px;
+  font-size:.82rem; font-weight:600; text-decoration:none;
+  border:1px solid; transition:transform .15s, box-shadow .15s;
+}
+.qaction:hover { transform:translateX(3px); box-shadow:0 2px 8px rgba(0,0,0,.08); }
+
+/* ── Mini stat rows ── */
+.mini-stat-row {
+  display:flex; align-items:center; justify-content:space-between;
+  background:#f8fafc; border:1px solid #e2e8f0;
+  border-radius:10px; padding:.75rem 1rem; color:#1e293b !important;
+}
+.mini-stat-row span { color:#1e293b !important; }
+
+/* ── View all link ── */
+.view-all { font-size:.75rem; color:#2E86DE; text-decoration:none; font-weight:600; }
+.view-all:hover { color:#1B4F72; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dash">
+
+  <!-- ── Page header ── -->
+  <div class="dash-header">
+    <div>
+      <h1>Analytics Dashboard</h1>
+      <div class="sub">Overview of all AI-Solutions content and activity</div>
+    </div>
+    <div class="live-badge"><span class="live-dot"></span> Live Data</div>
+  </div>
+
+  <!-- ═══════════════════════════════ SECTION 1 — STATS ═══════════════════════════════ -->
+  <div class="dash-section-label"><i class="fas fa-chart-bar"></i> Overall Overview</div>
+  {% if dash_stats %}{% with s=dash_stats %}
+  <div class="stat-grid">
+
+    <div class="stat-card" style="--accent:#2E86DE;">
+      <div class="stat-icon" style="background:#eff6ff;">
+        <i class="fas fa-envelope" style="color:#2E86DE;"></i>
+      </div>
+      <div>
+        <div class="stat-val">{{ s.total_contacts }}</div>
+        <div class="stat-lbl">Contact Messages</div>
+        {% if s.unread_contacts %}
+        <div class="stat-sub"><span class="badge-pill" style="background:#fef2f2;color:#ef4444;">{{ s.unread_contacts }} unread</span></div>
+        {% else %}
+        <div class="stat-sub" style="color:#22c55e;font-size:.68rem;">All read ✓</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="stat-card" style="--accent:#f59e0b;">
+      <div class="stat-icon" style="background:#fffbeb;">
+        <i class="fas fa-newspaper" style="color:#f59e0b;"></i>
+      </div>
+      <div>
+        <div class="stat-val">{{ s.published_blog }}</div>
+        <div class="stat-lbl">Published Blog Posts</div>
+        <div class="stat-sub" style="color:#94a3b8;">{{ s.total_blog }} total</div>
+      </div>
+    </div>
+
+    <div class="stat-card" style="--accent:#8b5cf6;">
+      <div class="stat-icon" style="background:#f5f3ff;">
+        <i class="fas fa-calendar-alt" style="color:#8b5cf6;"></i>
+      </div>
+      <div>
+        <div class="stat-val">{{ s.upcoming_events }}</div>
+        <div class="stat-lbl">Upcoming Events</div>
+        <div class="stat-sub" style="color:#94a3b8;">{{ s.total_events }} total</div>
+      </div>
+    </div>
+
+    <div class="stat-card" style="--accent:#10b981;">
+      <div class="stat-icon" style="background:#ecfdf5;">
+        <i class="fas fa-star" style="color:#10b981;"></i>
+      </div>
+      <div>
+        <div class="stat-val">{{ s.active_testimonials }}</div>
+        <div class="stat-lbl">Active Reviews</div>
+        {% if s.pending_testimonials %}
+        <div class="stat-sub"><span class="badge-pill" style="background:#fffbeb;color:#f59e0b;">{{ s.pending_testimonials }} pending</span></div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>{% endwith %}{% endif %}
+
+  <!-- ═══════════════════════════════ SECTION 2 — SERVICES ═══════════════════════════════ -->
+  <div class="dash-section-label"><i class="fas fa-briefcase"></i> Services &amp; Portfolio</div>
+
+  <div class="chart-grid-2" style="margin-bottom:1rem;">
+
+    <div class="card" style="border-top:3px solid #2E86DE;">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-cogs" style="color:#2E86DE;"></i> Service Offerings</h3>
+        <a href="{% url 'admin:core_serviceoffering_changelist' %}" class="view-all">Manage →</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div style="text-align:center;min-width:64px;">
+          <div style="font-size:2.4rem;font-weight:900;color:#2E86DE;line-height:1;">{{ svc_offering_count }}</div>
+          <div style="font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;">Total</div>
+        </div>
+        <div style="flex:1;height:1px;background:#e2e8f0;"></div>
+        <div style="text-align:center;min-width:64px;">
+          <div style="font-size:2.4rem;font-weight:900;color:#10b981;line-height:1;">{{ svc_featured_count }}</div>
+          <div style="font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;">Featured</div>
+        </div>
+      </div>
+      <canvas id="svcOfferingBar" height="130"></canvas>
+    </div>
+
+    <div class="card" style="border-top:3px solid #10b981;">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-folder-open" style="color:#10b981;"></i> Client Portfolio</h3>
+        <a href="{% url 'admin:core_portfolioproject_changelist' %}" class="view-all">Manage →</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div style="text-align:center;min-width:64px;">
+          <div style="font-size:2.4rem;font-weight:900;color:#10b981;line-height:1;">{{ portfolio_count }}</div>
+          <div style="font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;">Projects</div>
+        </div>
+        <div style="flex:1;height:1px;background:#e2e8f0;"></div>
+        <div style="text-align:center;min-width:64px;">
+          <div style="font-size:2.4rem;font-weight:900;color:#f59e0b;line-height:1;">{{ portfolio_industry_count }}</div>
+          <div style="font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;">Industries</div>
+        </div>
+      </div>
+      <div class="donut-wrap">
+        <canvas id="portfolioDonut"></canvas>
+        <div class="donut-legend" id="portfolio-legend"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Comparison table -->
+  <div class="card" style="margin-bottom:1rem;">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fas fa-exchange-alt" style="color:#2E86DE;"></i> Services vs Portfolio — Side by Side</h3>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="diff-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Service Offerings</th>
+            <th>Portfolio Projects</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in category_comparison %}
+          <tr>
+            <td style="font-weight:600;color:#1e293b;">{{ row.label }}</td>
+            <td>
+              {% if row.offerings %}
+              <span class="diff-tag" style="background:#eff6ff;color:#2E86DE;">{{ row.offerings }} offering{{ row.offerings|pluralize }}</span>
+              {% else %}<span style="color:#cbd5e1;">—</span>{% endif %}
+            </td>
+            <td>
+              {% if row.portfolio %}
+              <span class="diff-tag" style="background:#ecfdf5;color:#10b981;">{{ row.portfolio }} project{{ row.portfolio|pluralize }}</span>
+              {% else %}<span style="color:#cbd5e1;">—</span>{% endif %}
+            </td>
+            <td style="font-weight:700;color:#0f172a;">{{ row.total }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SECTION 3 — ACTIVITY ═══════════════════════════════ -->
+  <div class="dash-section-label"><i class="fas fa-chart-line"></i> Activity &amp; Content</div>
+
+  <div class="chart-grid-big">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-inbox" style="color:#2E86DE;"></i> Contact Enquiries — Last 7 Days</h3>
+        <span class="card-hint">Daily count</span>
+      </div>
+      <canvas id="contactLine" height="130"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-star-half-alt" style="color:#f59e0b;"></i> Review Ratings</h3>
+        <span class="card-hint">Active only</span>
+      </div>
+      {% if rating_data %}
+      <canvas id="ratingBar" height="130"></canvas>
+      {% else %}
+      <div style="text-align:center;color:#cbd5e1;padding:3rem 0;font-size:.85rem;">No reviews yet</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="chart-grid-2">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-tags" style="color:#f59e0b;"></i> Blog Posts by Category</h3>
+        <a href="{% url 'admin:core_blogpost_changelist' %}" class="view-all">View all →</a>
+      </div>
+      {% if pie_data %}
+      <div class="donut-wrap">
+        <canvas id="blogDonut"></canvas>
+        <div class="donut-legend" id="blog-legend"></div>
+      </div>
+      {% else %}
+      <div style="text-align:center;color:#cbd5e1;padding:3rem 0;font-size:.85rem;">No blog posts yet</div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-images" style="color:#2E86DE;"></i> Media &amp; Events</h3>
+      </div>
+      {% if dash_stats %}{% with s=dash_stats %}
+      <div style="display:flex;flex-direction:column;gap:.6rem;">
+        <div class="mini-stat-row">
+          <div style="display:flex;align-items:center;gap:.6rem;">
+            <i class="fas fa-images" style="color:#2E86DE;width:16px;"></i>
+            <span style="font-size:.83rem;color:#475569;">Gallery Images</span>
+          </div>
+          <span style="font-size:1.2rem;font-weight:800;color:#2E86DE;">{{ s.total_gallery }}</span>
+        </div>
+        <div class="mini-stat-row">
+          <div style="display:flex;align-items:center;gap:.6rem;">
+            <i class="fas fa-calendar-check" style="color:#8b5cf6;width:16px;"></i>
+            <span style="font-size:.83rem;color:#475569;">Upcoming Events</span>
+          </div>
+          <span style="font-size:1.2rem;font-weight:800;color:#8b5cf6;">{{ s.upcoming_events }}</span>
+        </div>
+        <div class="mini-stat-row">
+          <div style="display:flex;align-items:center;gap:.6rem;">
+            <i class="fas fa-calendar-times" style="color:#94a3b8;width:16px;"></i>
+            <span style="font-size:.83rem;color:#475569;">Past Events</span>
+          </div>
+          <span style="font-size:1.2rem;font-weight:800;color:#94a3b8;">{{ s.total_events|add:"-"|add:s.upcoming_events }}</span>
+        </div>
+        <div class="mini-stat-row">
+          <div style="display:flex;align-items:center;gap:.6rem;">
+            <i class="fas fa-clock" style="color:#f59e0b;width:16px;"></i>
+            <span style="font-size:.83rem;color:#475569;">Pending Reviews</span>
+          </div>
+          <span style="font-size:1.2rem;font-weight:800;color:#f59e0b;">{{ s.pending_testimonials }}</span>
+        </div>
+      </div>
+      {% endwith %}{% endif %}
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SECTION 4 — MESSAGES ═══════════════════════════════ -->
+  <div class="dash-section-label"><i class="fas fa-inbox"></i> Recent Activity</div>
+
+  <div class="chart-grid-big">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-envelope-open-text" style="color:#2E86DE;"></i> Recent Messages</h3>
+        <a href="{% url 'admin:core_contactmessage_changelist' %}" class="view-all">View all →</a>
+      </div>
+      <div class="msg-list">
+        {% for msg in recent_contacts %}
+        <a href="{% url 'admin:core_contactmessage_change' msg.pk %}" class="msg-row">
+          <div class="msg-avatar">{{ msg.name|first|upper }}</div>
+          <div style="flex:1;min-width:0;">
+            <div class="msg-name">{{ msg.name }}</div>
+            <div class="msg-subj">{{ msg.subject|truncatechars:42 }}</div>
+            <div class="msg-date">{{ msg.created_at|date:"M d, Y · H:i" }}</div>
+          </div>
+          {% if not msg.is_read %}<div class="unread-dot"></div>{% endif %}
+        </a>
+        {% empty %}
+        <div style="text-align:center;color:#cbd5e1;padding:2rem 0;font-size:.85rem;">No messages yet.</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-bolt" style="color:#f59e0b;"></i> Quick Actions</h3>
+      </div>
+      <div class="qaction-grid">
+        <a href="{% url 'admin:core_serviceoffering_add' %}" class="qaction" style="background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8;">
+          <i class="fas fa-plus-circle" style="color:#2E86DE;width:16px;"></i> Add Service Offering
+        </a>
+        <a href="{% url 'admin:core_blogpost_add' %}" class="qaction" style="background:#fffbeb;border-color:#fde68a;color:#92400e;">
+          <i class="fas fa-plus-circle" style="color:#f59e0b;width:16px;"></i> Add Blog Post
+        </a>
+        <a href="{% url 'admin:core_event_add' %}" class="qaction" style="background:#f5f3ff;border-color:#ddd6fe;color:#5b21b6;">
+          <i class="fas fa-plus-circle" style="color:#8b5cf6;width:16px;"></i> Add Event
+        </a>
+        <a href="{% url 'admin:core_galleryimage_add' %}" class="qaction" style="background:#ecfdf5;border-color:#a7f3d0;color:#065f46;">
+          <i class="fas fa-upload" style="color:#10b981;width:16px;"></i> Upload Gallery Image
+        </a>
+        <a href="{% url 'admin:core_testimonial_changelist' %}" class="qaction" style="background:#fef2f2;border-color:#fecaca;color:#991b1b;">
+          <i class="fas fa-check-circle" style="color:#ef4444;width:16px;"></i>
+          Approve Reviews
+          {% if dash_stats.pending_testimonials %}
+          <span style="margin-left:auto;background:#ef4444;color:#fff;border-radius:20px;padding:0 8px;font-size:.68rem;">{{ dash_stats.pending_testimonials }}</span>
+          {% endif %}
+        </a>
+        <a href="/" target="_blank" class="qaction" style="background:#f8fafc;border-color:#e2e8f0;color:#64748b;">
+          <i class="fas fa-external-link-alt" style="color:#94a3b8;width:16px;"></i> View Live Site
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const TOOLTIP = {
+    backgroundColor: '#fff',
+    borderColor: '#e2e8f0',
+    borderWidth: 1,
+    titleColor: '#0f172a',
+    bodyColor: '#475569',
+    padding: 10,
+    cornerRadius: 8,
+    boxShadow: '0 4px 12px rgba(0,0,0,.1)',
+  };
+  const GRID = '#f1f5f9';
+  const TICK = '#94a3b8';
+
+  function donut(id, labels, data, colors, legendId) {
+    const ctx = document.getElementById(id);
+    if (!ctx || !data.length) return;
+    const total = data.reduce((a,b) => a+b, 0);
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data, backgroundColor: colors, borderColor: '#fff', borderWidth: 3, hoverOffset: 6 }] },
+      options: {
+        cutout: '70%', responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { ...TOOLTIP, callbacks: { label: c => ` ${c.parsed} (${Math.round(c.parsed/total*100)}%)` } }
+        }
+      }
+    });
+    if (!legendId) return;
+    const leg = document.getElementById(legendId);
+    if (!leg) return;
+    labels.forEach((lbl, i) => {
+      const pct = total ? Math.round(data[i]/total*100) : 0;
+      const row = document.createElement('div');
+      row.className = 'legend-row';
+      row.innerHTML = `<span class="legend-dot" style="background:${colors[i]}"></span>
+        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${lbl}">${lbl}</span>
+        <span class="legend-val">${data[i]} (${pct}%)</span>`;
+      leg.appendChild(row);
+    });
+  }
+
+  /* Contact line */
+  (function() {
+    const ctx = document.getElementById('contactLine');
+    if (!ctx) return;
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ chart_labels|safe }},
+        datasets: [{
+          label: 'Enquiries', data: {{ chart_data|safe }},
+          borderColor: '#2E86DE', backgroundColor: 'rgba(46,134,222,.08)',
+          borderWidth: 2.5, pointBackgroundColor: '#2E86DE',
+          pointBorderColor: '#fff', pointBorderWidth: 2,
+          pointRadius: 5, tension: 0.4, fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display:false }, tooltip: TOOLTIP },
+        scales: {
+          x: { grid: { color: GRID }, ticks: { color: TICK } },
+          y: { grid: { color: GRID }, ticks: { color: TICK, stepSize:1 }, beginAtZero:true }
+        }
+      }
+    });
+  })();
+
+  /* Service bar */
+  (function() {
+    const ctx = document.getElementById('svcOfferingBar');
+    if (!ctx) return;
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ svc_offering_labels|safe }},
+        datasets: [{ label:'Offerings', data: {{ svc_offering_data|safe }},
+          backgroundColor: 'rgba(46,134,222,.75)', borderColor:'#2E86DE',
+          borderWidth:1, borderRadius:6, borderSkipped:false }]
+      },
+      options: {
+        responsive:true,
+        plugins: { legend:{display:false}, tooltip:TOOLTIP },
+        scales: {
+          x: { grid:{display:false}, ticks:{color:TICK,font:{size:10}} },
+          y: { grid:{color:GRID}, ticks:{color:TICK,stepSize:1}, beginAtZero:true }
+        }
+      }
+    });
+  })();
+
+  donut('portfolioDonut', {{ portfolio_labels|safe }}, {{ portfolio_data|safe }}, {{ portfolio_colors|safe }}, 'portfolio-legend');
+
+  {% if pie_data %}
+  donut('blogDonut', {{ pie_labels|safe }}, {{ pie_data|safe }}, {{ pie_colors|safe }}, 'blog-legend');
+  {% endif %}
+
+  {% if rating_data %}
+  (function() {
+    const ctx = document.getElementById('ratingBar');
+    if (!ctx) return;
+    const rawLabels = {{ rating_labels|safe }};
+    const data = {{ rating_data|safe }};
+    const palette = ['#ef4444','#f97316','#f59e0b','#84cc16','#10b981'];
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: rawLabels.map(l => '★ '+l),
+        datasets: [{ data, backgroundColor: rawLabels.map((l,i) => palette[i]||'#2E86DE'), borderRadius:6, borderSkipped:false }]
+      },
+      options: {
+        responsive:true,
+        plugins: { legend:{display:false}, tooltip:{...TOOLTIP, callbacks:{title:t=>'Rating '+t[0].label}} },
+        scales: {
+          x: { grid:{display:false}, ticks:{color:'#f59e0b'} },
+          y: { grid:{color:GRID}, ticks:{color:TICK,stepSize:1}, beginAtZero:true }
+        }
+      }
+    });
+  })();
+  {% endif %}
+
+});
+</script>
+{% endblock %}

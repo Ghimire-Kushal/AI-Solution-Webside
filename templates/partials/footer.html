@@ -6,7 +6,7 @@
       <div class="col-lg-4 col-md-6">
         <div class="footer-brand">
           <a href="{% url 'home' %}" class="d-inline-block mb-3">
-            <img src="{% static 'images/logo.svg' %}" alt="AI-Solutions" height="45">
+            <img src="{% static 'images/ai_solutions_logo.png' %}" alt="AI-Solutions" height="45">
           </a>
           <p>
             Empowering digital workplaces with intelligent AI technologies.
@@ -26,22 +26,24 @@
         <ul class="footer-links">
           <li><a href="{% url 'home' %}"><i class="bi bi-chevron-right"></i>Home</a></li>
           <li><a href="{% url 'about' %}"><i class="bi bi-chevron-right"></i>About Us</a></li>
-          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>Portfolio</a></li>
+          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>Services</a></li>
+          <li><a href="{% url 'portfolio' %}"><i class="bi bi-chevron-right"></i>Portfolio</a></li>
           <li><a href="{% url 'blog' %}"><i class="bi bi-chevron-right"></i>Blog</a></li>
           <li><a href="{% url 'events' %}"><i class="bi bi-chevron-right"></i>Events</a></li>
+          <li><a href="{% url 'gallery' %}"><i class="bi bi-chevron-right"></i>Gallery</a></li>
           <li><a href="{% url 'feedback' %}"><i class="bi bi-chevron-right"></i>Reviews</a></li>
           <li><a href="{% url 'contact' %}"><i class="bi bi-chevron-right"></i>Contact</a></li>
         </ul>
       </div>
 
       <div class="col-lg-3 col-md-6 col-6">
-        <h6 class="footer-heading">Solutions</h6>
+        <h6 class="footer-heading">Portfolio</h6>
         <ul class="footer-links">
-          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>HealthSync AI</a></li>
-          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>RetailMind</a></li>
-          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>EduNova</a></li>
-          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>FleetPilot AI</a></li>
-          <li><a href="{% url 'services' %}"><i class="bi bi-chevron-right"></i>SecureVision</a></li>
+          <li><a href="{% url 'portfolio' %}?category=healthcare"><i class="bi bi-chevron-right"></i>Healthcare AI</a></li>
+          <li><a href="{% url 'portfolio' %}?category=retail"><i class="bi bi-chevron-right"></i>Retail & Commerce</a></li>
+          <li><a href="{% url 'portfolio' %}?category=education"><i class="bi bi-chevron-right"></i>Education</a></li>
+          <li><a href="{% url 'portfolio' %}?category=logistics"><i class="bi bi-chevron-right"></i>Logistics</a></li>
+          <li><a href="{% url 'portfolio' %}?category=security"><i class="bi bi-chevron-right"></i>Security</a></li>
         </ul>
       </div>
 
@@ -49,15 +51,15 @@
         <h6 class="footer-heading">Contact</h6>
         <div class="footer-contact-item">
           <i class="bi bi-geo-alt-fill"></i>
-          <span>{{ settings.address|default:"Kathmandu, Nepal" }}</span>
+          <span>{{ settings.address|default:"Chester Road, Sunderland, UK, SR1 3SD" }}</span>
         </div>
         <div class="footer-contact-item">
           <i class="bi bi-envelope-fill"></i>
-          <span>{{ settings.email|default:"hello@ai-solutions.com" }}</span>
+          <span>{{ settings.email|default:"student.helpline@sunderland.ac.uk" }}</span>
         </div>
         <div class="footer-contact-item">
           <i class="bi bi-telephone-fill"></i>
-          <span>{{ settings.phone|default:"+977 98XXXXXXXX" }}</span>
+          <span>{{ settings.phone|default:"+44 191 515 3000" }}</span>
         </div>
         <div class="footer-contact-item">
           <i class="bi bi-clock-fill"></i>
@@ -76,8 +78,8 @@
         </div>
         <div class="col-md-6 text-md-end">
           <p>
-            <a href="#" class="text-muted me-3" style="font-size:.78rem;">Privacy Policy</a>
-            <a href="#" class="text-muted" style="font-size:.78rem;">Terms of Service</a>
+            <a href="{% url 'privacy_policy' %}" class="text-muted me-3" style="font-size:.78rem;">Privacy Policy</a>
+            <a href="{% url 'cookie_policy' %}" class="text-muted" style="font-size:.78rem;">Cookie Policy</a>
           </p>
         </div>
       </div>

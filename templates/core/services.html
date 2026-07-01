@@ -1,25 +1,57 @@
 {% extends 'base.html' %}
 {% load static %}
+<<<<<<< HEAD
 {% block title %}Portfolio | AI-Solutions{% endblock %}
+=======
+{% block title %}Our Services | AI-Solutions{% endblock %}
+>>>>>>> e63a2c1 (fix bug)
 {% block content %}
 
+<!-- ════ HERO ════ -->
 <div class="page-hero">
   <div class="container position-relative">
     <nav aria-label="breadcrumb" class="mb-3">
       <ol class="breadcrumb justify-content-center" style="font-size:.82rem;">
         <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-        <li class="breadcrumb-item active">Portfolio</li>
+        <li class="breadcrumb-item active">Services</li>
       </ol>
     </nav>
-    <div class="section-badge">Service Portfolio</div>
-    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">Our AI <span class="gradient-text">Solutions Portfolio</span></h1>
-    <p class="section-subtitle mx-auto">Five enterprise AI implementations across healthcare, retail, education, logistics, and security — each solving a unique set of real-world challenges.</p>
+    <div class="section-badge">What We Offer</div>
+    <h1 class="section-title mt-2" style="font-size:clamp(2rem,4vw,3rem);">
+      Our AI <span class="gradient-text">Services</span>
+    </h1>
+    <p class="section-subtitle mx-auto">
+      From intelligent chatbots to predictive analytics and computer vision — we deliver end-to-end AI solutions
+      that solve real business problems across every industry.
+    </p>
+
+    <!-- Stats -->
+    <div class="d-flex justify-content-center gap-5 flex-wrap mt-4">
+      <div class="text-center">
+        <div style="font-size:2.5rem;font-weight:900;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">{{ portfolio.count }}</div>
+        <div style="font-size:.8rem;color:var(--text-muted);">Core Services</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size:2.5rem;font-weight:900;color:#89C2FF;">6+</div>
+        <div style="font-size:.8rem;color:var(--text-muted);">Industries Covered</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size:2.5rem;font-weight:900;color:#22c55e;">100%</div>
+        <div style="font-size:.8rem;color:var(--text-muted);">Custom-Built Solutions</div>
+      </div>
+    </div>
   </div>
 </div>
 
-<section>
+<!-- ════ SERVICE CARDS GRID ════ -->
+<section style="padding:4rem 0;">
   <div class="container">
+    <div class="row g-4">
+      {% for service in portfolio %}
+      <div class="col-lg-6 fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <div class="service-offering-card">
 
+<<<<<<< HEAD
     {% for service in portfolio %}
     <div class="row g-5 align-items-center mb-5 {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %}">
 
@@ -65,50 +97,175 @@
             </p>
             {% endif %}
           </div>
+=======
+          <!-- Image -->
+          {% if service.image %}
+          <div style="position:relative;aspect-ratio:16/8;overflow:hidden;">
+            <img src="{{ service.image.url }}" alt="{{ service.title }}"
+                 style="width:100%;height:100%;object-fit:cover;transition:transform .5s;">
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(6,15,28,.85));"></div>
+            <!-- Category badge on image -->
+            <div style="position:absolute;top:.85rem;left:.85rem;background:rgba(6,15,28,.8);border:1px solid rgba(46,134,222,.3);border-radius:20px;padding:.25rem .75rem;backdrop-filter:blur(6px);">
+              <span style="font-size:.68rem;font-weight:700;color:#89C2FF;text-transform:uppercase;letter-spacing:.8px;">{{ service.get_category_display }}</span>
+            </div>
+          </div>
+          {% else %}
+          <div style="height:3px;background:var(--gradient-1);border-radius:var(--radius-lg) var(--radius-lg) 0 0;"></div>
+          {% endif %}
+
+          <div style="padding:1.75rem;">
+            <div style="display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1rem;">
+              <div style="width:46px;height:46px;border-radius:12px;background:rgba(46,134,222,0.1);border:1px solid rgba(46,134,222,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="bi {{ service.icon }}" style="font-size:1.3rem;color:#89C2FF;"></i>
+              </div>
+              <div>
+                <h3 style="font-size:1.1rem;font-weight:800;color:#fff;margin:0 0 .25rem;">{{ service.title }}</h3>
+                <p style="font-size:.88rem;color:#8899aa;line-height:1.75;margin:0;">{{ service.short_description }}</p>
+              </div>
+            </div>
+
+            <!-- Features list -->
+            <ul style="list-style:none;padding:0;margin:0 0 1.4rem;display:flex;flex-direction:column;gap:.45rem;">
+              {% for feature in service.features|slice:":4" %}
+              <li style="display:flex;align-items:flex-start;gap:.55rem;font-size:.83rem;color:#c0d0e0;">
+                <i class="bi bi-check2" style="color:#22c55e;margin-top:2px;flex-shrink:0;font-size:.85rem;"></i>
+                {{ feature }}
+              </li>
+              {% endfor %}
+              {% if service.features|length > 4 %}
+              <li style="font-size:.78rem;color:#445566;padding-left:1.1rem;">+ {{ service.features|length|add:"-4" }} more</li>
+              {% endif %}
+            </ul>
+
+            <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+              <a href="{% url 'service_detail' service.slug %}" class="btn-primary-custom" style="font-size:.8rem;padding:.4rem 1rem;">
+                <i class="bi bi-arrow-right-circle me-1"></i> Learn More
+              </a>
+              <a href="{% url 'contact' %}?subject=Enquiry+about+{{ service.title|urlencode }}" class="btn-outline-custom" style="font-size:.8rem;padding:.4rem 1rem;">
+                <i class="bi bi-chat-dots me-1"></i> Get a Quote
+              </a>
+            </div>
+          </div>
+
+>>>>>>> e63a2c1 (fix bug)
         </div>
       </div>
-
-      <!-- Content Panel -->
-      <div class="col-lg-8 fade-up" style="transition-delay:.1s;">
-        <div class="section-badge">{{ service.get_category_display }}</div>
-        <h2 style="font-size:1.75rem;font-weight:800;color:#fff;margin-bottom:.75rem;">{{ service.title }}</h2>
-        <p style="font-size:.95rem;color:var(--text-muted);line-height:1.85;margin-bottom:1.5rem;">{{ service.description }}</p>
-
-        <h6 style="font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#556677;margin-bottom:.75rem;">Key Features</h6>
-        <ul class="feature-list">
-          {% for feature in service.features %}
-          <li>{{ feature }}</li>
-          {% endfor %}
-        </ul>
-
-        <a href="{% url 'contact' %}" class="btn-primary-custom mt-3" style="display:inline-flex;">
-          <i class="bi bi-envelope"></i> Request This Solution
-        </a>
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-gear" style="font-size:3rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>
+        <p style="color:var(--text-muted);">Services will appear here once added by an admin.</p>
       </div>
-
+      {% endfor %}
     </div>
-
-    {% if not forloop.last %}
-    <hr style="border-color:var(--dark-border);margin:3rem 0;">
-    {% endif %}
-    {% empty %}
-    <div class="text-center py-5">
-      <p style="color:var(--text-muted);">Portfolio projects will appear here once added by an admin.</p>
-    </div>
-    {% endfor %}
-
   </div>
 </section>
 
+<!-- ════ HOW WE WORK ════ -->
+<section style="background:var(--dark-card);border-top:1px solid var(--dark-border);border-bottom:1px solid var(--dark-border);padding:5rem 0;">
+  <div class="container">
+    <div class="text-center mb-5 fade-up">
+      <div class="section-badge">Our Process</div>
+      <h2 class="section-title">How We Deliver</h2>
+      <p class="section-subtitle mx-auto">A proven four-step process from first conversation to live deployment.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for step in steps %}
+      <div class="col-lg-3 col-md-6 text-center fade-up" style="transition-delay:{{ forloop.counter0 }}00ms;">
+        <div style="position:relative;padding:2rem 1.5rem;background:var(--dark-bg);border:1px solid var(--dark-border);border-radius:var(--radius-lg);">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.25rem;color:#fff;font-weight:800;">{{ forloop.counter }}</div>
+          <h5 style="font-weight:700;color:#fff;margin-bottom:.6rem;font-size:1rem;">{{ step.title }}</h5>
+          <p style="font-size:.85rem;color:var(--text-muted);line-height:1.7;margin:0;">{{ step.desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHY CHOOSE US ════ -->
+<section style="padding:5rem 0;">
+  <div class="container">
+    <div class="row align-items-center g-5 fade-up">
+      <div class="col-lg-5">
+        <div class="section-badge">Why AI-Solutions</div>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.5rem);">Built for Business, <span class="gradient-text">Driven by Data</span></h2>
+        <p style="color:var(--text-muted);line-height:1.85;margin-bottom:1.5rem;">
+          We are not a research lab — we are builders. Every AI solution we create is designed to deliver
+          measurable ROI, integrate with your existing systems, and be maintained and improved over time.
+        </p>
+        <ul class="feature-list">
+          <li>Domain experts across healthcare, retail, logistics & more</li>
+          <li>End-to-end delivery — strategy, build, deploy, support</li>
+          <li>Transparent pricing with no vendor lock-in</li>
+          <li>Dedicated post-launch support & model monitoring</li>
+        </ul>
+        <a href="{% url 'contact' %}" class="btn-primary-custom mt-4" style="display:inline-flex;">
+          <i class="bi bi-calendar-check-fill"></i> Book Free Consultation
+        </a>
+      </div>
+      <div class="col-lg-7">
+        <div class="row g-3">
+          {% for stat in why_stats %}
+          <div class="col-6">
+            <div style="background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+              <div style="font-size:2.2rem;font-weight:900;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">{{ stat.value }}</div>
+              <div style="font-size:.83rem;color:var(--text-muted);margin-top:.4rem;">{{ stat.label }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PORTFOLIO CTA ════ -->
+<section style="background:var(--dark-card);border-top:1px solid var(--dark-border);padding:4rem 0;">
+  <div class="container text-center fade-up">
+    <div class="section-badge">See It In Action</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.5rem);">Want to See Real Results?</h2>
+    <p class="section-subtitle mx-auto">Browse our portfolio of past client projects — real AI delivered for real businesses.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+      <a href="{% url 'portfolio' %}" class="btn-primary-custom">
+        <i class="bi bi-grid-3x3-gap-fill me-1"></i> View Portfolio
+      </a>
+      <a href="{% url 'contact' %}" class="btn-outline-custom">
+        <i class="bi bi-chat-dots me-1"></i> Discuss Your Project
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA ════ -->
 <section class="cta-section">
   <div class="container position-relative text-center fade-up">
-    <div class="section-badge">Custom Solutions</div>
-    <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">Don't See Your Industry?</h2>
-    <p class="section-subtitle mx-auto">We build custom AI solutions for any sector. Tell us your challenges and we will design the right solution.</p>
+    <div class="section-badge">Let's Build Together</div>
+    <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">Ready to Transform Your Business with AI?</h2>
+    <p class="section-subtitle mx-auto">Tell us your challenge. We will design and deliver the right solution.</p>
     <a href="{% url 'contact' %}" class="btn-primary-custom mt-2" style="display:inline-flex;">
-      <i class="bi bi-chat-dots-fill"></i> Discuss Your Project
+      <i class="bi bi-chat-dots-fill"></i> Start the Conversation
     </a>
   </div>
 </section>
 
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.service-offering-card {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.service-offering-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(46,134,222,.4);
+  box-shadow: 0 14px 36px rgba(0,0,0,.35);
+}
+</style>
 {% endblock %}

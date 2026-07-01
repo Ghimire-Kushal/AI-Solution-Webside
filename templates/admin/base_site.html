@@ -1,0 +1,19 @@
+{% extends 'admin/base.html' %}
+{% load i18n %}
+
+{% block footer %}
+{{ block.super }}
+<form id="admin-logout-form" method="post" action="{% url 'admin:logout' %}" style="display:none;">
+  {% csrf_token %}
+</form>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a[href*="/admin/logout"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('admin-logout-form').submit();
+    });
+  });
+});
+</script>
+{% endblock %}
